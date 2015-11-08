@@ -94,8 +94,10 @@ void Spacewar::initialize(HWND hwnd)
 //=============================================================================
 void Spacewar::update()
 {
+
 	
 	for(int i = 0; i < GOBLIN_COUNT; i++){
+		goblins[i].senseDistance(tower.getX() + (tower.getWidth() * TOWER_IMAGE_SCALE));
 		goblins[i].update(frameTime);
 	}
 
@@ -134,7 +136,8 @@ void Spacewar::collisions()
 		if(goblins[i].collidesWith(tower, collisionVector)){
 			goblins[i].atTower = true;
 			goblins[i].setX(goblins[i].getX());
-			goblins[i].setFrames(goblinNS::ATTACK_START_FRAME, goblinNS::ATTACK_END_FRAME);			
+			goblins[i].setFrames(goblinNS::ATTACK_START_FRAME, goblinNS::ATTACK_END_FRAME);		
+			goblins[i].setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY);
 		}
 	}
 
