@@ -32,6 +32,9 @@ private:
 	TextureManager bkgTexture;
 	Image bkg;
 
+	TextureManager cannonTexture;
+	Image cannon;
+
 	TextureManager tower100Texture;
 	TextureManager tower80Texture;
 	TextureManager tower60Texture;

@@ -42,7 +42,9 @@ public:
     // constructor
     Goblin();
 	void update(float frameTime);
-	void senseDistance(int wallX);
+	//void senseDistance(int wallX);
+
+	int getDistance(int currentCastleWidth);
 
 	bool atTower;
 private:

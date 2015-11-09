@@ -19,7 +19,7 @@ Goblin::Goblin() : Entity()
     spriteData.rect.right = goblinNS::WIDTH;
     radius          = goblinNS::COLLISION_RADIUS;
     mass            = goblinNS::MASS;
-	velocity.x = goblinNS::SPEED;                           // velocity X 
+	velocity.x = -goblinNS::SPEED;                           // velocity X 
 	velocity.y = 0;
 	active = false;
 	atTower = false;
@@ -27,14 +27,17 @@ Goblin::Goblin() : Entity()
 
 void Goblin::update(float frameTime){
 	Entity::update(frameTime);
-	if(!active || atTower) return;
-
-	spriteData.x -= velocity.x * frameTime;
+	if(!atTower) spriteData.x += velocity.x * frameTime;
 
 	
 	
 }
 
+int Goblin::getDistance(int currentCastleWidth) {
+	return getX() - currentCastleWidth;
+}
+
+/*
 void Goblin::senseDistance(int wallX){
 	float distance = spriteData.x - wallX;
 	float maxDistance = GAME_WIDTH - wallX;
@@ -82,4 +85,5 @@ void Goblin::senseDistance(int wallX){
 	
 	
 }
+*/
 

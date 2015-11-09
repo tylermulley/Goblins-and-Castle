@@ -83,6 +83,14 @@ void Spacewar::initialize(HWND hwnd)
 		goblins[i].setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY);
 	}
 
+	if (!cannonTexture.initialize(graphics, CANNON_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Cannon texture initialization failed"));
+	if (!cannon.initialize(graphics, 0,0,0, &cannonTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error init bkg"));
+	cannon.setX(370);
+	cannon.setY(330);
+	cannon.setScale(CANNON_IMAGE_SCALE);
+
 	if(dxFontMedium->initialize(graphics, 42, true, false, "Arial") == false)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
 
@@ -97,13 +105,14 @@ void Spacewar::update()
 
 	
 	for(int i = 0; i < GOBLIN_COUNT; i++){
-		goblins[i].senseDistance(tower.getX() + (tower.getWidth() * TOWER_IMAGE_SCALE));
+		//goblins[i].senseDistance(tower.getX() + (tower.getWidth() * TOWER_IMAGE_SCALE));
 		goblins[i].update(frameTime);
 	}
 
 	int spawn = rand() % 300;
 
 	if(spawn == 0 && spawnCount < GOBLIN_COUNT){
+		goblins[spawnCount].setX(GAME_WIDTH);
 		goblins[spawnCount].setActive(true);
 		goblins[spawnCount].setVisible(true);
 		spawnCount += 1;
@@ -113,6 +122,9 @@ void Spacewar::update()
 	else if (tower.getHealth() <= 40)tower.setTextureManager(&tower40Texture);
 	else if (tower.getHealth() <= 60)tower.setTextureManager(&tower60Texture);
 	else if (tower.getHealth() <= 80)tower.setTextureManager(&tower80Texture);
+
+	// arctan(cannonHeightFromGround / gobDistToCastle)
+	cannon.setRadians(atan(tower.getHeight() * TOWER_IMAGE_SCALE / goblins[0].getDistance(tower.getWidth() + backTower.getWidth())));
 
 	// test damage
 	// tower.setHealth(tower.getHealth() - .1);
@@ -157,6 +169,8 @@ void Spacewar::render()
 	for(int i = 0; i < GOBLIN_COUNT; i++){
 		goblins[i].draw();
 	}
+
+	cannon.draw();
 
 	graphics->spriteEnd();                  // end drawing sprites
 }

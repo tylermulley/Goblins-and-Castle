@@ -37,6 +37,7 @@ const char TOWER_80_HP_IMAGE[] = "pictures\\Tower_damage1.png";
 const char TOWER_60_HP_IMAGE[] = "pictures\\Tower_damage2.png";
 const char TOWER_40_HP_IMAGE[] = "pictures\\Tower_damage3.png";
 const char TOWER_20_HP_IMAGE[] = "pictures\\Tower_damage4.png";
+const char CANNON_IMAGE[] = "pictures\\cannon.png";
 
    // time between frames of ship animation
 
@@ -78,6 +79,7 @@ const UCHAR ENTER_KEY    = VK_RETURN;   // Enter key
 #define GOBLIN_IMAGE_SCALE 1.5
 #define TOWER_IMAGE_SCALE 1.5
 #define TOWER_BACK_SCALE 1.7
+#define CANNON_IMAGE_SCALE 0.5
 
 
 
