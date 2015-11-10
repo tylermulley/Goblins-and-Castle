@@ -37,7 +37,7 @@ int Goblin::getDistance(int currentCastleWidth) {
 	return getX() - currentCastleWidth;
 }
 
-/*
+
 void Goblin::senseDistance(int wallX){
 	float distance = spriteData.x - wallX;
 	float maxDistance = GAME_WIDTH - wallX;
@@ -46,44 +46,44 @@ void Goblin::senseDistance(int wallX){
 	// if at tower do not execute large if else if
 	if(!atTower){
 		if(distance/maxDistance < .1) {
-			velocity.x = goblinNS::SPEED + 45;
+			velocity.x = -goblinNS::SPEED - 45;
 			setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY_9);
 		}
 		else if(distance/maxDistance < .2) {
-			velocity.x = goblinNS::SPEED + 40;
+			velocity.x = -goblinNS::SPEED - 40;
 			setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY_8);
 		}
 		else if(distance/maxDistance < .3) {
-			velocity.x = goblinNS::SPEED + 35;
+			velocity.x = -goblinNS::SPEED - 35;
 			setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY_7);
 		}
 		else if(distance/maxDistance < .4) {
-			velocity.x = goblinNS::SPEED + 30;
+			velocity.x = -goblinNS::SPEED - 30;
 			setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY_6);
 		}
 		else if(distance/maxDistance < .5){
-			velocity.x = goblinNS::SPEED + 25;
+			velocity.x = -goblinNS::SPEED - 25;
 			setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY_5);
 		}
 		else if(distance/maxDistance < .6) {
-			velocity.x = goblinNS::SPEED + 20;
+			velocity.x = -goblinNS::SPEED - 20;
 			setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY_4);
 		}
 		else if(distance/maxDistance < .7) {
-			velocity.x = goblinNS::SPEED + 15;
+			velocity.x = -goblinNS::SPEED - 15;
 			setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY_3);
 		}
 		else if(distance/maxDistance < .8) {
-			velocity.x = goblinNS::SPEED + 10;
+			velocity.x = -goblinNS::SPEED - 10;
 			setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY_2);
 		}
 		else if(distance/maxDistance < .9){
-			velocity.x = goblinNS::SPEED + 5;
+			velocity.x = -goblinNS::SPEED - 5;
 			setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY_1);
 		}
 	}
 	
 	
 }
-*/
+
 

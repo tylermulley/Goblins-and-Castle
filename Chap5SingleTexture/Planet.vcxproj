@@ -95,6 +95,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="boom.cpp" />
+    <ClCompile Include="menu.cpp" />
     <ClCompile Include="spacewar.cpp" />
     <ClCompile Include="textDX.cpp" />
     <ClCompile Include="textureManager.cpp" />
@@ -111,6 +112,7 @@
     <ClInclude Include="boom.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="menu.h" />
     <ClInclude Include="spacewar.h" />
     <ClInclude Include="textDX.h" />
     <ClInclude Include="textureManager.h" />

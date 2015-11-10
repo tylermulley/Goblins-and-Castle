@@ -34,6 +34,10 @@ void Spacewar::initialize(HWND hwnd)
 	srand(10);
     Game::initialize(hwnd); // throws GameError
 
+	mainMenu = new Menu();
+	mainMenu->initialize(graphics, input);
+	outString = "Selected Item: ";
+
 	//audio->playCue(BKG_MUSIC);
 
 	srand(time(NULL));
@@ -87,8 +91,8 @@ void Spacewar::initialize(HWND hwnd)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Cannon texture initialization failed"));
 	if (!cannon.initialize(graphics, 0,0,0, &cannonTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error init bkg"));
-	cannon.setX(370);
-	cannon.setY(330);
+	cannon.setX(100);
+	cannon.setY(280);
 	cannon.setScale(CANNON_IMAGE_SCALE);
 
 	if(dxFontMedium->initialize(graphics, 42, true, false, "Arial") == false)
@@ -102,10 +106,10 @@ void Spacewar::initialize(HWND hwnd)
 //=============================================================================
 void Spacewar::update()
 {
-
+	mainMenu->update();
 	
 	for(int i = 0; i < GOBLIN_COUNT; i++){
-		//goblins[i].senseDistance(tower.getX() + (tower.getWidth() * TOWER_IMAGE_SCALE));
+		goblins[i].senseDistance(tower.getX() + (tower.getWidth() * TOWER_IMAGE_SCALE));
 		goblins[i].update(frameTime);
 	}
 
@@ -124,7 +128,7 @@ void Spacewar::update()
 	else if (tower.getHealth() <= 80)tower.setTextureManager(&tower80Texture);
 
 	// arctan(cannonHeightFromGround / gobDistToCastle)
-	cannon.setRadians(atan(tower.getHeight() * TOWER_IMAGE_SCALE / goblins[0].getDistance(tower.getWidth() + backTower.getWidth())));
+	//cannon.setRadians(atan(tower.getHeight() * TOWER_IMAGE_SCALE / goblins[0].getDistance(tower.getWidth() + backTower.getWidth())));
 
 	// test damage
 	// tower.setHealth(tower.getHealth() - .1);
@@ -161,8 +165,12 @@ void Spacewar::collisions()
 //=============================================================================
 void Spacewar::render()
 {
-	graphics->spriteBegin();                // begin drawing sprite
-	bkg.draw();
+
+
+	graphics->spriteBegin(); // begin drawing sprite
+	mainMenu -> displayMenu();
+
+	/*bkg.draw();
 
 	tower.draw();
 	backTower.draw();
@@ -170,7 +178,7 @@ void Spacewar::render()
 		goblins[i].draw();
 	}
 
-	cannon.draw();
+	cannon.draw();*/
 
 	graphics->spriteEnd();                  // end drawing sprites
 }

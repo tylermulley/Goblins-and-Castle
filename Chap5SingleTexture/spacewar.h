@@ -15,6 +15,9 @@
 #include "textDX.h"
 #include "goblin.h"
 #include "tower.h"
+#include "menu.h"
+#include <sstream>
+#include <string>
 
 //=============================================================================
 // This class is the core of the game
@@ -26,6 +29,8 @@ private:
 	TextDX  *dxFontMedium;
 	int spawnCount;
 
+	Menu *mainMenu;
+	std::string outString;
 	// My defines
 
 // My vars
