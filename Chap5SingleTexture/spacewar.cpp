@@ -17,6 +17,8 @@ Spacewar::Spacewar() {
 	spawnCount = 0;
 	menuChoice = -1;
 	currentMenu = -1;
+	enterPressedLastFrame = false;
+	play = false;
 }
 
 //=============================================================================
@@ -110,40 +112,45 @@ void Spacewar::initialize(HWND hwnd)
 //=============================================================================
 void Spacewar::update()
 {
-	mainMenu->update();
-
-	if (mainMenu -> getSelectedItem() == 0){
-		menuChoice = 0;
-	}
-	else if (mainMenu -> getSelectedItem() == 1){
-		menuChoice = 1;
-	}
-
-	/*if(currentMenu == 1){
-		if(input->isKeyDown(VK_RETURN)){
-			menuChoice = -1;
+	if(!play){
+		mainMenu->update();
+		if (mainMenu -> getSelectedItem() == 0){
+			menuChoice = 0;
+			play = true;
 		}
-	}*/
-	
-	for(int i = 0; i < GOBLIN_COUNT; i++){
-		goblins[i].senseDistance(tower.getX() + (tower.getWidth() * TOWER_IMAGE_SCALE));
-		goblins[i].update(frameTime);
+		else if (mainMenu -> getSelectedItem() == 1){
+			menuChoice = 1;
+		}
+		else if (mainMenu -> getSelectedItem() == 2){
+			menuChoice = 2;
+		}
+
+		if(currentMenu == 1 || currentMenu == 2){
+			if(input->wasKeyPressed(VK_ESCAPE)){
+				menuChoice = -1;
+			}
+		}
 	}
+	else{
+		for(int i = 0; i < GOBLIN_COUNT; i++){
+			goblins[i].senseDistance(tower.getX() + (tower.getWidth() * TOWER_IMAGE_SCALE));
+			goblins[i].update(frameTime);
+		}
 
-	int spawn = rand() % 300;
+		int spawn = rand() % 300;
 
-	if(spawn == 0 && spawnCount < GOBLIN_COUNT){
-		goblins[spawnCount].setX(GAME_WIDTH);
-		goblins[spawnCount].setActive(true);
-		goblins[spawnCount].setVisible(true);
-		spawnCount += 1;
+		if(spawn == 0 && spawnCount < GOBLIN_COUNT){
+			goblins[spawnCount].setX(GAME_WIDTH);
+			goblins[spawnCount].setActive(true);
+			goblins[spawnCount].setVisible(true);
+			spawnCount += 1;
+		}
+
+		if (tower.getHealth() <= 20) tower.setTextureManager(&tower20Texture);
+		else if (tower.getHealth() <= 40)tower.setTextureManager(&tower40Texture);
+		else if (tower.getHealth() <= 60)tower.setTextureManager(&tower60Texture);
+		else if (tower.getHealth() <= 80)tower.setTextureManager(&tower80Texture);
 	}
-
-	if (tower.getHealth() <= 20) tower.setTextureManager(&tower20Texture);
-	else if (tower.getHealth() <= 40)tower.setTextureManager(&tower40Texture);
-	else if (tower.getHealth() <= 60)tower.setTextureManager(&tower60Texture);
-	else if (tower.getHealth() <= 80)tower.setTextureManager(&tower80Texture);
-
 	// arctan(cannonHeightFromGround / gobDistToCastle)
 	//cannon.setRadians(atan(tower.getHeight() * TOWER_IMAGE_SCALE / goblins[0].getDistance(tower.getWidth() + backTower.getWidth())));
 
@@ -192,8 +199,13 @@ void Spacewar::render()
 	}
 	else if (menuChoice == 1) {
 		headingFont->print("Directions:", 360, 50);
-		highlightFont->print("Press Enter to Return to Main Menu", 360, 480);
+		highlightFont->print("Press ESC to Return to Main Menu", 360, 480);
 		currentMenu = 1;
+	}
+	else if (menuChoice == 2) {
+		headingFont->print("Credits:", 360, 50);
+		highlightFont->print("Press ESC to Return to Main Menu", 360, 480);
+		currentMenu = 2;
 	}
 	else{
 		tower.draw();

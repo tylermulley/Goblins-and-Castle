@@ -55,6 +55,9 @@ private:
 	int score;
 	int menuChoice;
 	int currentMenu;
+
+	bool enterPressedLastFrame;
+	bool play;
 	
 
 public:
