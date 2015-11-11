@@ -12,9 +12,11 @@
 // Constructor
 //=============================================================================
 Spacewar::Spacewar() {
-	dxFontMedium = new TextDX();
+	headingFont = new TextDX();
+	highlightFont = new TextDX();
 	spawnCount = 0;
-	
+	menuChoice = -1;
+	currentMenu = -1;
 }
 
 //=============================================================================
@@ -36,7 +38,6 @@ void Spacewar::initialize(HWND hwnd)
 
 	mainMenu = new Menu();
 	mainMenu->initialize(graphics, input);
-	outString = "Selected Item: ";
 
 	//audio->playCue(BKG_MUSIC);
 
@@ -95,8 +96,11 @@ void Spacewar::initialize(HWND hwnd)
 	cannon.setY(280);
 	cannon.setScale(CANNON_IMAGE_SCALE);
 
-	if(dxFontMedium->initialize(graphics, 42, true, false, "Arial") == false)
+	if(headingFont->initialize(graphics, 100, true, false, "Calibri") == false)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
+	if(highlightFont->initialize(graphics, 70, true, false, "Calibri") == false)
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
+	highlightFont -> setFontColor(graphicsNS::RED);
 
     return;
 }
@@ -107,6 +111,19 @@ void Spacewar::initialize(HWND hwnd)
 void Spacewar::update()
 {
 	mainMenu->update();
+
+	if (mainMenu -> getSelectedItem() == 0){
+		menuChoice = 0;
+	}
+	else if (mainMenu -> getSelectedItem() == 1){
+		menuChoice = 1;
+	}
+
+	/*if(currentMenu == 1){
+		if(input->isKeyDown(VK_RETURN)){
+			menuChoice = -1;
+		}
+	}*/
 	
 	for(int i = 0; i < GOBLIN_COUNT; i++){
 		goblins[i].senseDistance(tower.getX() + (tower.getWidth() * TOWER_IMAGE_SCALE));
@@ -166,19 +183,29 @@ void Spacewar::collisions()
 void Spacewar::render()
 {
 
-
 	graphics->spriteBegin(); // begin drawing sprite
-	mainMenu -> displayMenu();
+	bkg.draw();
 
-	/*bkg.draw();
+	if (menuChoice < 0) {
+		mainMenu -> displayMenu();
+		currentMenu = -1;
+	}
+	else if (menuChoice == 1) {
+		headingFont->print("Directions:", 360, 50);
+		highlightFont->print("Press Enter to Return to Main Menu", 360, 480);
+		currentMenu = 1;
+	}
+	else{
+		tower.draw();
+		backTower.draw();
+		for(int i = 0; i < GOBLIN_COUNT; i++){
+			goblins[i].draw();
+		}
 
-	tower.draw();
-	backTower.draw();
-	for(int i = 0; i < GOBLIN_COUNT; i++){
-		goblins[i].draw();
+		cannon.draw();
 	}
 
-	cannon.draw();*/
+	
 
 	graphics->spriteEnd();                  // end drawing sprites
 }

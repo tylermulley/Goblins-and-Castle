@@ -26,7 +26,8 @@ class Spacewar : public Game
 {
 private:
 
-	TextDX  *dxFontMedium;
+	TextDX  *headingFont;
+	TextDX  *highlightFont;
 	int spawnCount;
 
 	Menu *mainMenu;
@@ -52,6 +53,8 @@ private:
 	Goblin goblins[GOBLIN_COUNT];
 
 	int score;
+	int menuChoice;
+	int currentMenu;
 	
 
 public:

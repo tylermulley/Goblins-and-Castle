@@ -93,3 +93,4 @@ void Menu::displayMenu()
 	else
 		menuItemFont->print(menuItem3, itemsMid, menuAnchor.y+foo);
 }
+
