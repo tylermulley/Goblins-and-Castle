@@ -18,6 +18,7 @@
 #include "menu.h"
 #include <sstream>
 #include <string>
+#include "endMenu.h"
 
 //=============================================================================
 // This class is the core of the game
@@ -31,6 +32,7 @@ private:
 	int spawnCount;
 
 	Menu *mainMenu;
+	endMenu *lastMenu;
 	std::string outString;
 	// My defines
 
@@ -53,11 +55,10 @@ private:
 	Goblin goblins[GOBLIN_COUNT];
 
 	int score;
-	int menuChoice;
 	int currentMenu;
 
-	bool enterPressedLastFrame;
-	bool play;
+	bool gameOver;
+
 
 	GameStates gameStates;
 	

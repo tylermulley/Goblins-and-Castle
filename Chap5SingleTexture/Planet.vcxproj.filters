@@ -57,6 +57,9 @@
     <ClCompile Include="menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="endMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h">
@@ -99,6 +102,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="endMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

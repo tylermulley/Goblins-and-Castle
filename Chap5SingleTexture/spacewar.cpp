@@ -15,10 +15,8 @@ Spacewar::Spacewar() {
 	headingFont = new TextDX();
 	highlightFont = new TextDX();
 	spawnCount = 0;
-	menuChoice = -1;
 	currentMenu = -1;
-	enterPressedLastFrame = false;
-	play = false;
+	gameOver = false;
 }
 
 //=============================================================================
@@ -40,6 +38,9 @@ void Spacewar::initialize(HWND hwnd)
 
 	mainMenu = new Menu();
 	mainMenu->initialize(graphics, input);
+
+	lastMenu = new endMenu();
+	lastMenu->initialize(graphics, input);
 
 	//audio->playCue(BKG_MUSIC);
 
@@ -111,8 +112,10 @@ void Spacewar::initialize(HWND hwnd)
 void Spacewar::gameStateUpdate()
 {
 	if (mainMenu -> getSelectedItem() == 0){
-		menuChoice = 0;
 		gameStates = gamePlay;
+	}
+	if (gameOver){
+		gameStates = end;
 	}
 	
 	/*if (gameStates==intro && timeInState > 2.5)
@@ -135,24 +138,20 @@ void Spacewar::gameStateUpdate()
 //=============================================================================
 void Spacewar::update()
 {
+	int spawn;
+
 	gameStateUpdate();
 	switch (gameStates)
 	{
 	case startMenu:
 		mainMenu->update();
-		if (mainMenu -> getSelectedItem() == 0){
-			menuChoice = 0;
-		}
-		else if (mainMenu -> getSelectedItem() == 1){
-			menuChoice = 1;
-		}
-		else if (mainMenu -> getSelectedItem() == 2){
-			menuChoice = 2;
-		}
+		if (mainMenu -> getSelectedItem() == 0) currentMenu = 0;
+		else if (mainMenu -> getSelectedItem() == 1) currentMenu = 1;
+		else if (mainMenu -> getSelectedItem() == 2) currentMenu = 2;
 
 		if(currentMenu == 1 || currentMenu == 2){
 			if(input->wasKeyPressed(VK_ESCAPE)){
-				menuChoice = -1;
+				currentMenu = -1;
 			}
 		}
 		break;
@@ -162,7 +161,7 @@ void Spacewar::update()
 			goblins[i].update(frameTime);
 		}
 
-		int spawn = rand() % 300;
+		spawn = rand() % 300;
 
 		if(spawn == 0 && spawnCount < GOBLIN_COUNT){
 			goblins[spawnCount].setX(GAME_WIDTH);
@@ -170,16 +169,33 @@ void Spacewar::update()
 			goblins[spawnCount].setVisible(true);
 			spawnCount += 1;
 		}
+		// test damage
+		// tower.setHealth(tower.getHealth() - .1);
 
 		if (tower.getHealth() <= 20) tower.setTextureManager(&tower20Texture);
 		else if (tower.getHealth() <= 40)tower.setTextureManager(&tower40Texture);
 		else if (tower.getHealth() <= 60)tower.setTextureManager(&tower60Texture);
 		else if (tower.getHealth() <= 80)tower.setTextureManager(&tower80Texture);
+
+		if(input -> isKeyDown(VK_TAB)){
+			gameOver = true;
+			currentMenu = -1;
+		}
+
 		// arctan(cannonHeightFromGround / gobDistToCastle)
 		//cannon.setRadians(atan(tower.getHeight() * TOWER_IMAGE_SCALE / goblins[0].getDistance(tower.getWidth() + backTower.getWidth())));
+		break;
+	case end:
+		lastMenu -> update();
+		if (lastMenu -> getSelectedItem() == 0) currentMenu = 0;
+		else if (lastMenu -> getSelectedItem() == 1) currentMenu = 1;
+		else if (lastMenu -> getSelectedItem() == 2) currentMenu = 2;
 
-		// test damage
-		// tower.setHealth(tower.getHealth() - .1);
+		if(currentMenu == 2){
+			if(input->wasKeyPressed(VK_ESCAPE)){
+				currentMenu = -1;
+			}
+		}
 		break;
 	}
 	
@@ -219,16 +235,14 @@ void Spacewar::render()
 
 	switch(gameStates){
 	case startMenu:
-		if (menuChoice < 0) mainMenu -> displayMenu();
-		else if (menuChoice == 1) {
+		if (currentMenu < 0) mainMenu -> displayMenu();
+		else if (currentMenu == 1) {
 			headingFont->print("Directions:", 360, 50);
 			highlightFont->print("Press ESC to Return to Main Menu", 360, 480);
-			currentMenu = 1;
 		}
-		else if (menuChoice == 2) {
+		else if (currentMenu == 2) {
 			headingFont->print("Credits:", 360, 50);
-			highlightFont->print("Press ESC to Return to Main Menu", 360, 480);
-			currentMenu = 2;
+			highlightFont->print("Press ESC to Return to Main Menu", 360, 480);	
 		}
 		break;
 	case gamePlay:
@@ -240,7 +254,28 @@ void Spacewar::render()
 
 		cannon.draw();
 		break;
+	case end:
+		if (currentMenu < 0) lastMenu -> displayMenu();
+		else if (currentMenu == 0){
+			gameStates = gamePlay;
+			for(int i = 0; i < GOBLIN_COUNT; i++){
+				goblins[i].setActive(false);
+				goblins[i].setVisible(false);	
+			}
+			spawnCount = 0;
+			currentMenu = -1;
+			gameOver = false;
+		}
+		else if (currentMenu == 2) {
+			PostQuitMessage(0);
+		}
+		else if (currentMenu == 1) {
+			headingFont->print("Credits:", 360, 50);
+			highlightFont->print("Press ESC to Return to Main Menu", 360, 480);
+		}
+		break;
 	}
+
 
 	graphics->spriteEnd();                  // end drawing sprites
 }
