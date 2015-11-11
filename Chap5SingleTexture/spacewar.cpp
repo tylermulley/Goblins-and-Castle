@@ -104,19 +104,44 @@ void Spacewar::initialize(HWND hwnd)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
 	highlightFont -> setFontColor(graphicsNS::RED);
 
+	gameStates = startMenu;
+
     return;
 }
-
+void Spacewar::gameStateUpdate()
+{
+	if (mainMenu -> getSelectedItem() == 0){
+		menuChoice = 0;
+		gameStates = gamePlay;
+	}
+	
+	/*if (gameStates==intro && timeInState > 2.5)
+	{
+		gameStates = gamePlay;
+		timeInState = 0;
+	}
+	if (gameStates==gamePlay && timeInState > 3)
+	{
+		gameStates= end;
+		timeInState = 0;
+	}
+	if (gameStates==end && timeInState > 3)
+	{
+		PostQuitMessage(0);
+	}*/
+}
 //=============================================================================
 // Update all game items
 //=============================================================================
 void Spacewar::update()
 {
-	if(!play){
+	gameStateUpdate();
+	switch (gameStates)
+	{
+	case startMenu:
 		mainMenu->update();
 		if (mainMenu -> getSelectedItem() == 0){
 			menuChoice = 0;
-			play = true;
 		}
 		else if (mainMenu -> getSelectedItem() == 1){
 			menuChoice = 1;
@@ -130,8 +155,8 @@ void Spacewar::update()
 				menuChoice = -1;
 			}
 		}
-	}
-	else{
+		break;
+	case gamePlay:
 		for(int i = 0; i < GOBLIN_COUNT; i++){
 			goblins[i].senseDistance(tower.getX() + (tower.getWidth() * TOWER_IMAGE_SCALE));
 			goblins[i].update(frameTime);
@@ -150,14 +175,14 @@ void Spacewar::update()
 		else if (tower.getHealth() <= 40)tower.setTextureManager(&tower40Texture);
 		else if (tower.getHealth() <= 60)tower.setTextureManager(&tower60Texture);
 		else if (tower.getHealth() <= 80)tower.setTextureManager(&tower80Texture);
+		// arctan(cannonHeightFromGround / gobDistToCastle)
+		//cannon.setRadians(atan(tower.getHeight() * TOWER_IMAGE_SCALE / goblins[0].getDistance(tower.getWidth() + backTower.getWidth())));
+
+		// test damage
+		// tower.setHealth(tower.getHealth() - .1);
+		break;
 	}
-	// arctan(cannonHeightFromGround / gobDistToCastle)
-	//cannon.setRadians(atan(tower.getHeight() * TOWER_IMAGE_SCALE / goblins[0].getDistance(tower.getWidth() + backTower.getWidth())));
-
-	// test damage
-	// tower.setHealth(tower.getHealth() - .1);
-
-
+	
 }
 
 //=============================================================================
@@ -189,25 +214,24 @@ void Spacewar::collisions()
 //=============================================================================
 void Spacewar::render()
 {
-
-	graphics->spriteBegin(); // begin drawing sprite
+	graphics->spriteBegin(); 
 	bkg.draw();
 
-	if (menuChoice < 0) {
-		mainMenu -> displayMenu();
-		currentMenu = -1;
-	}
-	else if (menuChoice == 1) {
-		headingFont->print("Directions:", 360, 50);
-		highlightFont->print("Press ESC to Return to Main Menu", 360, 480);
-		currentMenu = 1;
-	}
-	else if (menuChoice == 2) {
-		headingFont->print("Credits:", 360, 50);
-		highlightFont->print("Press ESC to Return to Main Menu", 360, 480);
-		currentMenu = 2;
-	}
-	else{
+	switch(gameStates){
+	case startMenu:
+		if (menuChoice < 0) mainMenu -> displayMenu();
+		else if (menuChoice == 1) {
+			headingFont->print("Directions:", 360, 50);
+			highlightFont->print("Press ESC to Return to Main Menu", 360, 480);
+			currentMenu = 1;
+		}
+		else if (menuChoice == 2) {
+			headingFont->print("Credits:", 360, 50);
+			highlightFont->print("Press ESC to Return to Main Menu", 360, 480);
+			currentMenu = 2;
+		}
+		break;
+	case gamePlay:
 		tower.draw();
 		backTower.draw();
 		for(int i = 0; i < GOBLIN_COUNT; i++){
@@ -215,9 +239,8 @@ void Spacewar::render()
 		}
 
 		cannon.draw();
+		break;
 	}
-
-	
 
 	graphics->spriteEnd();                  // end drawing sprites
 }

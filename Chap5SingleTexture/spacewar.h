@@ -58,6 +58,8 @@ private:
 
 	bool enterPressedLastFrame;
 	bool play;
+
+	GameStates gameStates;
 	
 
 public:
@@ -77,6 +79,7 @@ public:
     void resetAll();
 	void lose();
 	void win();
+	void gameStateUpdate();
 };
 
 //Stuff for physics

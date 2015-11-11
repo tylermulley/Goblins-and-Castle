@@ -81,6 +81,9 @@ const UCHAR ENTER_KEY    = VK_RETURN;   // Enter key
 #define TOWER_BACK_SCALE 1.7
 #define CANNON_IMAGE_SCALE 0.5
 
+//states
+enum GameStates {startMenu, dirMenu, credMenu, gamePlay, end};
+
 
 
 #endif
