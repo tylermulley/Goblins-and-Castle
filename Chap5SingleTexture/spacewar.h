@@ -63,6 +63,12 @@ private:
 
 	int score;
 	int currentMenu;
+	int ballsShot;
+
+	int currentShotX;
+	int currentShotY;
+	int cannonRadius;
+	D3DXVECTOR3 cannonVector;
 
 	bool gameOver;
 
@@ -88,6 +94,7 @@ public:
 	void lose();
 	void win();
 	void gameStateUpdate();
+
 };
 
 //Stuff for physics

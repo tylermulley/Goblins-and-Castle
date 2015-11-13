@@ -19,17 +19,31 @@ cannonBall::cannonBall() : Entity()
     spriteData.rect.right = cannonBallNS::WIDTH;
     radius          = cannonBallNS::COLLISION_RADIUS;
     mass            = cannonBallNS::MASS;
-	velocity.x = -cannonBallNS::SPEED;                           // velocity X 
-	velocity.y = 0;
+	velocity.x = cannonBallNS::SPEED;                           // velocity X 
+	velocity.y = -cannonBallNS::SPEED;
 	active = false;
+	firstShot = true;
 }
 
 void cannonBall::update(float frameTime){
 	Entity::update(frameTime);
-
-	setActive(true);
-	setVisible(true);
+	
 }
 
+void cannonBall::setBallMovement(D3DXVECTOR3 vec, float frameTime){
+  	if(active){
+		
+		if(firstShot){
+			velocity.x = velocity.x * vec.x;
+			velocity.y = velocity.y * vec.y;
+			firstShot = false;
+		}
 
+		// number is gravity
+		velocity.y = (velocity.y + (800 * frameTime));
 
+		spriteData.x += velocity.x * frameTime;
+		spriteData.y += velocity.y * frameTime;
+	}
+
+}

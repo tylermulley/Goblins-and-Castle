@@ -17,6 +17,11 @@ Spacewar::Spacewar() {
 	spawnCount = 0;
 	currentMenu = -1;
 	gameOver = false;
+	ballsShot = 0;
+	currentShotX = 0;
+	currentShotY = 0;
+	cannonRadius = 0;
+
 }
 
 //=============================================================================
@@ -112,6 +117,7 @@ void Spacewar::initialize(HWND hwnd)
 	cannon.setX(100);
 	cannon.setY(240);
 	cannon.setScale(CANNON_IMAGE_SCALE);
+	cannonRadius = cannon.getCenterX() - cannon.getX();
 
 	if (!poleTexture.initialize(graphics, POLE_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Cannon texture initialization failed"));
@@ -165,7 +171,7 @@ void Spacewar::update()
 		break;
 	case gamePlay:
 
-		//aim cannon
+		//aim cannon 
 		if(input->isKeyDown(VK_UP)){
 			cannon.setRadians(cannon.getRadians() - ROATATION_SPEED);
 		}
@@ -173,18 +179,38 @@ void Spacewar::update()
 			cannon.setRadians(cannon.getRadians() + ROATATION_SPEED);
 		}
 
+		//set radian restraints on cannon
 		if(cannon.getRadians() > 1){
 			cannon.setRadians(1);
 		}
-		
 		if(cannon.getRadians() < -1){
 			cannon.setRadians(-1);
 		}
 
+		currentShotX = cannon.getCenterX() + cannonRadius * cos(cannon.getRadians()) - (balls[0].getWidth()*BALL_IMAGE_SCALE)/2;
+		currentShotY = cannon.getCenterY() + cannonRadius * sin(cannon.getRadians()) - (balls[0].getWidth()*BALL_IMAGE_SCALE)/2;
+
+		cannonVector.x = currentShotX - cannon.getCenterX();
+		cannonVector.y = cannon.getCenterY() - currentShotY;
+		D3DXVec3Normalize(&cannonVector , &cannonVector);
+
+		//shoot 
+		if(ballsShot < GOBLIN_COUNT && input -> wasKeyPressed(VK_SPACE)){
+			balls[ballsShot].setActive(true);
+			balls[ballsShot].setVisible(true);
+			balls[ballsShot].setX(currentShotX);
+			balls[ballsShot].setY(currentShotY);
+			ballsShot++;
+		}
+
+		//update balls position
+		//v = v-initial + g * t 
+
+		// update projectiles and goblins
 		for(int i = 0; i < GOBLIN_COUNT; i++){
 			goblins[i].senseDistance(tower.getX() + (tower.getWidth() * TOWER_IMAGE_SCALE));
 			goblins[i].update(frameTime);
-			balls[i].update(frameTime);
+			balls[i].setBallMovement(cannonVector, frameTime);
 		}
 
 		spawn = rand() % 300;
