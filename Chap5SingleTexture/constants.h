@@ -28,6 +28,7 @@
 //-----------------------------------------------
 //gameplay
 const int GOBLIN_COUNT = 1;
+const float ROATATION_SPEED = .004;
 
 // graphic images
 const char BKG_IMAGE[] = "pictures\\background.png";
@@ -38,6 +39,8 @@ const char TOWER_60_HP_IMAGE[] = "pictures\\Tower_damage2.png";
 const char TOWER_40_HP_IMAGE[] = "pictures\\Tower_damage3.png";
 const char TOWER_20_HP_IMAGE[] = "pictures\\Tower_damage4.png";
 const char CANNON_IMAGE[] = "pictures\\cannon.png";
+const char POLE_IMAGE[] = "pictures\\pole.png";
+const char CANNONBALL_SHEET[] = "pictures\\cannonball.png";
 
    // time between frames of ship animation
 
@@ -79,7 +82,8 @@ const UCHAR ENTER_KEY    = VK_RETURN;   // Enter key
 #define GOBLIN_IMAGE_SCALE 1.5
 #define TOWER_IMAGE_SCALE 1.5
 #define TOWER_BACK_SCALE 1.7
-#define CANNON_IMAGE_SCALE 0.5
+#define CANNON_IMAGE_SCALE 0.6
+#define BALL_IMAGE_SCALE .2
 
 //states
 enum GameStates {startMenu, dirMenu, credMenu, gamePlay, end};

@@ -19,6 +19,7 @@
 #include <sstream>
 #include <string>
 #include "endMenu.h"
+#include "cannonBall.h"
 
 //=============================================================================
 // This class is the core of the game
@@ -40,6 +41,9 @@ private:
 	TextureManager bkgTexture;
 	Image bkg;
 
+	TextureManager poleTexture;
+	Image pole;
+
 	TextureManager cannonTexture;
 	Image cannon;
 
@@ -53,6 +57,9 @@ private:
 
 	TextureManager goblinTexture;
 	Goblin goblins[GOBLIN_COUNT];
+
+	TextureManager cannonBallTexture;
+	cannonBall balls[GOBLIN_COUNT];
 
 	int score;
 	int currentMenu;

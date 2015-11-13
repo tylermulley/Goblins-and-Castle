@@ -91,13 +91,35 @@ void Spacewar::initialize(HWND hwnd)
 		goblins[i].setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY);
 	}
 
+	if (!cannonBallTexture.initialize(graphics,CANNONBALL_SHEET))
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing jpo texture"));
+
+	for(int i = 0; i < GOBLIN_COUNT; i++){
+		if (!balls[i].initialize(this, cannonBallNS::WIDTH, cannonBallNS::HEIGHT, cannonBallNS::TEXTURE_COLS, &cannonBallTexture))
+			throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing jpo"));
+		balls[i].setScale(BALL_IMAGE_SCALE);
+		balls[i].setActive(false);
+		balls[i].setVisible(false);
+		balls[i].setFrames(cannonBallNS::START_FRAME, cannonBallNS::END_FRAME);
+		balls[i].setCurrentFrame(cannonBallNS::START_FRAME);
+		balls[i].setFrameDelay(cannonBallNS::BALL_ANIMATION_DELAY);
+	}
+
 	if (!cannonTexture.initialize(graphics, CANNON_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Cannon texture initialization failed"));
 	if (!cannon.initialize(graphics, 0,0,0, &cannonTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error init bkg"));
 	cannon.setX(100);
-	cannon.setY(280);
+	cannon.setY(240);
 	cannon.setScale(CANNON_IMAGE_SCALE);
+
+	if (!poleTexture.initialize(graphics, POLE_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Cannon texture initialization failed"));
+	if (!pole.initialize(graphics, 0,0,0, &poleTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error init bkg"));
+	pole.setX(167);
+	pole.setY(260);
+	pole.setScale(CANNON_IMAGE_SCALE);
 
 	if(headingFont->initialize(graphics, 100, true, false, "Calibri") == false)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
@@ -118,20 +140,6 @@ void Spacewar::gameStateUpdate()
 		gameStates = end;
 	}
 	
-	/*if (gameStates==intro && timeInState > 2.5)
-	{
-		gameStates = gamePlay;
-		timeInState = 0;
-	}
-	if (gameStates==gamePlay && timeInState > 3)
-	{
-		gameStates= end;
-		timeInState = 0;
-	}
-	if (gameStates==end && timeInState > 3)
-	{
-		PostQuitMessage(0);
-	}*/
 }
 //=============================================================================
 // Update all game items
@@ -156,9 +164,27 @@ void Spacewar::update()
 		}
 		break;
 	case gamePlay:
+
+		//aim cannon
+		if(input->isKeyDown(VK_UP)){
+			cannon.setRadians(cannon.getRadians() - ROATATION_SPEED);
+		}
+		else if(input->isKeyDown(VK_DOWN)){
+			cannon.setRadians(cannon.getRadians() + ROATATION_SPEED);
+		}
+
+		if(cannon.getRadians() > 1){
+			cannon.setRadians(1);
+		}
+		
+		if(cannon.getRadians() < -1){
+			cannon.setRadians(-1);
+		}
+
 		for(int i = 0; i < GOBLIN_COUNT; i++){
 			goblins[i].senseDistance(tower.getX() + (tower.getWidth() * TOWER_IMAGE_SCALE));
 			goblins[i].update(frameTime);
+			balls[i].update(frameTime);
 		}
 
 		spawn = rand() % 300;
@@ -191,7 +217,7 @@ void Spacewar::update()
 		else if (lastMenu -> getSelectedItem() == 1) currentMenu = 1;
 		else if (lastMenu -> getSelectedItem() == 2) currentMenu = 2;
 
-		if(currentMenu == 2){
+		if(currentMenu == 1){
 			if(input->wasKeyPressed(VK_ESCAPE)){
 				currentMenu = -1;
 			}
@@ -247,12 +273,16 @@ void Spacewar::render()
 		break;
 	case gamePlay:
 		tower.draw();
+		pole.draw();
 		backTower.draw();
+		for(int i = 0; i < GOBLIN_COUNT; i++){
+			balls[i].draw();
+		}
+		cannon.draw();
 		for(int i = 0; i < GOBLIN_COUNT; i++){
 			goblins[i].draw();
 		}
 
-		cannon.draw();
 		break;
 	case end:
 		if (currentMenu < 0) lastMenu -> displayMenu();
@@ -293,7 +323,7 @@ void Spacewar::releaseAll()
 	tower60Texture.onLostDevice();
 	tower40Texture.onLostDevice();
 	tower20Texture.onLostDevice();
-
+	poleTexture.onLostDevice();
     Game::releaseAll();
     return;
 }
@@ -312,7 +342,7 @@ void Spacewar::resetAll()
 	tower60Texture.onResetDevice();
 	tower40Texture.onResetDevice();
 	tower20Texture.onResetDevice();
-
+	poleTexture.onResetDevice();
     Game::resetAll();
     return;
 }
