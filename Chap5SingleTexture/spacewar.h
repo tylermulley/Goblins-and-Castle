@@ -59,18 +59,20 @@ private:
 	Goblin goblins[GOBLIN_COUNT];
 
 	TextureManager cannonBallTexture;
-	cannonBall balls[GOBLIN_COUNT];
+	cannonBall balls[BALL_COUNT];
 
 	TextureManager boomTexture;
-	Boom booms[GOBLIN_COUNT];
+	Boom booms[BALL_COUNT];
 
 	int score;
 	int currentMenu;
 	int ballsShot;
+	int boomsUsed;
 
 	int currentShotX;
 	int currentShotY;
 	int cannonRadius;
+	
 	D3DXVECTOR3 cannonVector;
 
 	bool gameOver;
@@ -97,6 +99,7 @@ public:
 	void lose();
 	void win();
 	void gameStateUpdate();
+	void displayBoom(int x, int y);
 
 };
 

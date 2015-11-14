@@ -15,21 +15,24 @@ Goblin::Goblin() : Entity()
     spriteData.y    = goblinNS::Y;
 	spriteData.width = goblinNS::WIDTH;           // size of boat1
     spriteData.height = goblinNS::HEIGHT;
-	spriteData.rect.bottom = goblinNS::HEIGHT;    // rectangle to select parts of an image
-    spriteData.rect.right = goblinNS::WIDTH;
     radius          = goblinNS::COLLISION_RADIUS;
     mass            = goblinNS::MASS;
 	velocity.x = -goblinNS::SPEED;                           // velocity X 
 	velocity.y = 0;
 	active = false;
-	atTower = false;
+	atTower = false;  
+	collisionType = entityNS::BOX;
 }
 
 void Goblin::update(float frameTime){
 	Entity::update(frameTime);
 	if(!atTower) spriteData.x += velocity.x * frameTime;
 
-	
+	// confusing but leave them
+	edge.bottom = spriteData.y + (spriteData.height * GOBLIN_IMAGE_SCALE) - 19;
+	edge.top = spriteData.y + 19;
+	edge.right = spriteData.x + (spriteData.width * GOBLIN_IMAGE_SCALE) - (spriteData.width * GOBLIN_IMAGE_SCALE) / 2 - 5;
+	edge.left = spriteData.x + (spriteData.width * GOBLIN_IMAGE_SCALE) / 2 + 5;
 	
 }
 

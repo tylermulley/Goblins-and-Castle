@@ -23,6 +23,8 @@ cannonBall::cannonBall() : Entity()
 	velocity.y = -cannonBallNS::SPEED;
 	active = false;
 	firstShot = true;
+	collisionType = entityNS::BOX;
+
 }
 
 void cannonBall::update(float frameTime){
@@ -30,8 +32,13 @@ void cannonBall::update(float frameTime){
 	
 }
 
-void cannonBall::setBallMovement(D3DXVECTOR3 vec, float frameTime){
+bool cannonBall::setBallMovement(D3DXVECTOR3 vec, float frameTime){
 	Entity::update(frameTime);
+
+	edge.bottom = spriteData.y + (spriteData.height * BALL_IMAGE_SCALE);
+	edge.top = spriteData.y;
+	edge.right = spriteData.x + (spriteData.width * BALL_IMAGE_SCALE);
+	edge.left = spriteData.x;
 
 	if(active){
 		
@@ -44,15 +51,21 @@ void cannonBall::setBallMovement(D3DXVECTOR3 vec, float frameTime){
 		// number is gravity
 		velocity.y = (velocity.y + (1000 * frameTime));
 
-		if(spriteData.y + getHeight() * BALL_IMAGE_SCALE <= 600){
+		if(spriteData.y + getHeight() * BALL_IMAGE_SCALE <= 610){
 			spriteData.x += velocity.x * frameTime;
 			spriteData.y += velocity.y * frameTime;
+			
 		}
 		else{
 			setActive(false);
 			setVisible(false);
+			firstShot = true;
+			velocity.x = cannonBallNS::SPEED;                           // velocity X 
+			velocity.y = -cannonBallNS::SPEED;
+			return 1;
 		}
 		
 	}
+	return 0;
 
 }

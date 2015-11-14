@@ -14,7 +14,7 @@ namespace goblinNS
 {
     const int   WIDTH = 65;                // image width
     const int   HEIGHT = 65;               // image height
-    const int   COLLISION_RADIUS = 64/2.5;   // for circular collision
+    const int   COLLISION_RADIUS = 64/2;   // for circular collision
     const int   X = GAME_WIDTH; // location on screen
     const int   Y = 495;
     const float MASS = 1.0e14f;         // mass

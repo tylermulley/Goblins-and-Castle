@@ -21,7 +21,7 @@ Spacewar::Spacewar() {
 	currentShotX = 0;
 	currentShotY = 0;
 	cannonRadius = 0;
-
+	boomsUsed = 0;
 }
 
 //=============================================================================
@@ -99,7 +99,7 @@ void Spacewar::initialize(HWND hwnd)
 	if (!cannonBallTexture.initialize(graphics,CANNONBALL_SHEET))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing jpo texture"));
 
-	for(int i = 0; i < GOBLIN_COUNT; i++){
+	for(int i = 0; i < BALL_COUNT; i++){
 		if (!balls[i].initialize(this, cannonBallNS::WIDTH, cannonBallNS::HEIGHT, cannonBallNS::TEXTURE_COLS, &cannonBallTexture))
 			throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing jpo"));
 		balls[i].setScale(BALL_IMAGE_SCALE);
@@ -111,16 +111,19 @@ void Spacewar::initialize(HWND hwnd)
 	}
 
 	//booms
-	/*for(int i = 0; i < GOBLIN_COUNT; i++){
-		if (!balls[i].initialize(this, cannonBallNS::WIDTH, cannonBallNS::HEIGHT, cannonBallNS::TEXTURE_COLS, &cannonBallTexture))
+	if (!boomTexture.initialize(graphics,BOOM_SHEET))
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing jpo texture"));
+
+	for(int i = 0; i < BALL_COUNT; i++){
+		if (!booms[i].initialize(this, boomNS::WIDTH, boomNS::HEIGHT, boomNS::TEXTURE_COLS, &boomTexture))
 			throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing jpo"));
-		balls[i].setScale(BALL_IMAGE_SCALE);
-		balls[i].setActive(false);
-		balls[i].setVisible(false);
-		balls[i].setFrames(cannonBallNS::START_FRAME, cannonBallNS::END_FRAME);
-		balls[i].setCurrentFrame(cannonBallNS::START_FRAME);
-		balls[i].setFrameDelay(cannonBallNS::BALL_ANIMATION_DELAY);
-	}*/
+		booms[i].setScale(BOOM_IMAGE_SCALE);
+		booms[i].setActive(false);
+		booms[i].setVisible(false);
+		booms[i].setFrames(boomNS::START_FRAME, boomNS::END_FRAME);
+		booms[i].setCurrentFrame(boomNS::START_FRAME);
+		booms[i].setFrameDelay(boomNS::BOOM_ANIMATION_DELAY);
+	}
 
 	if (!cannonTexture.initialize(graphics, CANNON_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Cannon texture initialization failed"));
@@ -207,23 +210,33 @@ void Spacewar::update()
 		D3DXVec3Normalize(&cannonVector , &cannonVector);
 
 		//shoot 
-		if(ballsShot < GOBLIN_COUNT && input -> wasKeyPressed(VK_SPACE)){
+		if(ballsShot < BALL_COUNT && input -> wasKeyPressed(VK_SPACE)){
 			balls[ballsShot].setActive(true);
 			balls[ballsShot].setVisible(true);
 			balls[ballsShot].setX(currentShotX);
 			balls[ballsShot].setY(currentShotY);
 			ballsShot++;
+			if (ballsShot == BALL_COUNT){
+				ballsShot = 0;
+			}
 		}
 
 		//update balls position
 		//v = v-initial + g * t 
 
 		// update projectiles and goblins
+		for(int i = 0; i < BALL_COUNT; i++){
+			if (balls[i].setBallMovement(cannonVector, frameTime)){
+				displayBoom(balls[i].getX() - 40, balls[i].getY() - 60);
+			}	
+			booms[i].update(frameTime);
+		}
 		for(int i = 0; i < GOBLIN_COUNT; i++){
 			goblins[i].senseDistance(tower.getX() + (tower.getWidth() * TOWER_IMAGE_SCALE));
 			goblins[i].update(frameTime);
-			balls[i].setBallMovement(cannonVector, frameTime);
 		}
+
+		
 
 		spawn = rand() % 300;
 
@@ -286,11 +299,11 @@ void Spacewar::collisions()
 		}
 	}
 
-	for(int i = 0; i < GOBLIN_COUNT; i++){
+	for(int i = 0; i < BALL_COUNT; i++){
 		for(int j = 0; j < GOBLIN_COUNT; j++){
-			if(balls[i].collidesWith(goblins[j], collisionVector)){
-				goblins[j].setActive(false);
-				goblins[j].setVisible(false);
+ 			if(balls[i].collidesWith(goblins[j], collisionVector)){
+ 				goblins[j].setActive(false);
+ 				goblins[j].setVisible(false);
 			}
 		}
 	}
@@ -322,14 +335,16 @@ void Spacewar::render()
 		tower.draw();
 		pole.draw();
 		backTower.draw();
-		for(int i = 0; i < GOBLIN_COUNT; i++){
-			balls[i].draw();
-		}
+		
 		cannon.draw();
 		for(int i = 0; i < GOBLIN_COUNT; i++){
 			goblins[i].draw();
 		}
-
+		for(int i = 0; i < BALL_COUNT; i++){
+			balls[i].draw();
+			booms[i].draw();
+		}
+			
 		break;
 	case end:
 		if (currentMenu < 0) lastMenu -> displayMenu();
@@ -394,7 +409,15 @@ void Spacewar::resetAll()
     return;
 }
 
+void Spacewar::displayBoom(int x, int y){
+	booms[boomsUsed].setX(x);
+	booms[boomsUsed].setY(y);
+	booms[boomsUsed].setActive(true);
+	booms[boomsUsed].setVisible(true);
+	boomsUsed++;
+ 	if (boomsUsed == BALL_COUNT) boomsUsed = 0;
 
+}
 //void Spacewar::lose() {
 //	if (!gameOverTexture.initialize(graphics, GAME_OVER_IMAGE))
 //		throw(GameError(gameErrorNS::FATAL_ERROR, "Game over texture initialization failed"));

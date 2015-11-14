@@ -14,7 +14,7 @@ namespace cannonBallNS
 {
     const int   WIDTH = 250;                // image width
     const int   HEIGHT = 276;               // image height
-	const int   COLLISION_RADIUS = (250/2.5);   // for circular collision
+	const int   COLLISION_RADIUS = (250/15);   // for circular collision
     const int   X = 300; // location on screen
     const int   Y = 300;
     const float MASS = 1.0e14f;         // mass
@@ -32,7 +32,7 @@ public:
     // constructor
     cannonBall();
 	void update(float frameTime);
-	void setBallMovement(D3DXVECTOR3 vec, float frameTime);
+	bool setBallMovement(D3DXVECTOR3 vec, float frameTime);
 	bool firstShot;
 	
 private:

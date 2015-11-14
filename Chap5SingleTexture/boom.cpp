@@ -29,8 +29,12 @@ void Boom::update(float frameTime)
 {
 	Entity::update(frameTime);
 
-	if (spriteData.y > GAME_HEIGHT){
-		active = false;
+	if(active) timeOnScreen += frameTime;
+
+	if (timeOnScreen > .75){
+		setActive(false);
+		setVisible(false);
+		timeOnScreen = 0;
 	}
 
 }

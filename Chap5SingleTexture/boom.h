@@ -13,15 +13,16 @@
 namespace boomNS
 {
     const int   WIDTH = 512;                // image width
-    const int   HEIGHT = 1024;               // image height
-    const int   COLLISION_RADIUS = 1024;   // for circular collision
+    const int   HEIGHT = 512;               // image height
+    const int   COLLISION_RADIUS = 512/2;   // for circular collision
     const int   X = GAME_WIDTH/2 - WIDTH/2; // location on screen
     const int   Y = GAME_HEIGHT/2 - HEIGHT/2;
     const float MASS = 1.0e14f;         // mass
 	const float SPEED = 0;	
-    const int   TEXTURE_COLS = 2;       // texture has 2 columns
+    const int   TEXTURE_COLS = 3;       // texture has 2 columns
     const int   START_FRAME = 0;        // starts at frame 1
-    const int   END_FRAME = 2;          // no animation
+    const int   END_FRAME = 2;     
+	const float BOOM_ANIMATION_DELAY = .1f;
 	
 }
 

@@ -28,6 +28,7 @@
 //-----------------------------------------------
 //gameplay
 const int GOBLIN_COUNT = 50;
+const int BALL_COUNT = 50;
 const float ROATATION_SPEED = .004;
 
 // graphic images
@@ -85,6 +86,7 @@ const UCHAR ENTER_KEY    = VK_RETURN;   // Enter key
 #define TOWER_BACK_SCALE 1.7
 #define CANNON_IMAGE_SCALE 0.6
 #define BALL_IMAGE_SCALE .15
+#define BOOM_IMAGE_SCALE .25
 
 //states
 enum GameStates {startMenu, dirMenu, credMenu, gamePlay, end};
