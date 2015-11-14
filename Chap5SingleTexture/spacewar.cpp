@@ -110,6 +110,18 @@ void Spacewar::initialize(HWND hwnd)
 		balls[i].setFrameDelay(cannonBallNS::BALL_ANIMATION_DELAY);
 	}
 
+	//booms
+	/*for(int i = 0; i < GOBLIN_COUNT; i++){
+		if (!balls[i].initialize(this, cannonBallNS::WIDTH, cannonBallNS::HEIGHT, cannonBallNS::TEXTURE_COLS, &cannonBallTexture))
+			throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing jpo"));
+		balls[i].setScale(BALL_IMAGE_SCALE);
+		balls[i].setActive(false);
+		balls[i].setVisible(false);
+		balls[i].setFrames(cannonBallNS::START_FRAME, cannonBallNS::END_FRAME);
+		balls[i].setCurrentFrame(cannonBallNS::START_FRAME);
+		balls[i].setFrameDelay(cannonBallNS::BALL_ANIMATION_DELAY);
+	}*/
+
 	if (!cannonTexture.initialize(graphics, CANNON_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Cannon texture initialization failed"));
 	if (!cannon.initialize(graphics, 0,0,0, &cannonTexture))
@@ -271,6 +283,15 @@ void Spacewar::collisions()
 			goblins[i].setX(goblins[i].getX());
 			goblins[i].setFrames(goblinNS::ATTACK_START_FRAME, goblinNS::ATTACK_END_FRAME);		
 			goblins[i].setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY);
+		}
+	}
+
+	for(int i = 0; i < GOBLIN_COUNT; i++){
+		for(int j = 0; j < GOBLIN_COUNT; j++){
+			if(balls[i].collidesWith(goblins[j], collisionVector)){
+				goblins[j].setActive(false);
+				goblins[j].setVisible(false);
+			}
 		}
 	}
 

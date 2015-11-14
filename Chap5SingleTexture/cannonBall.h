@@ -14,13 +14,13 @@ namespace cannonBallNS
 {
     const int   WIDTH = 250;                // image width
     const int   HEIGHT = 276;               // image height
-    const int   COLLISION_RADIUS = 250/2.5;   // for circular collision
+	const int   COLLISION_RADIUS = (250/2.5);   // for circular collision
     const int   X = 300; // location on screen
     const int   Y = 300;
     const float MASS = 1.0e14f;         // mass
-	const float SPEED = 700;	
+	const float SPEED = 875;	
     const int   TEXTURE_COLS = 2;       // texture has 2 columns
-	const float BALL_ANIMATION_DELAY = 0.1f;
+	const float BALL_ANIMATION_DELAY = 0.075f;
 	const int   START_FRAME = 0;        // starts at frame 1
     const int   END_FRAME = 1;
 

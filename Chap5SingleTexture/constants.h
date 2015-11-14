@@ -41,6 +41,7 @@ const char TOWER_20_HP_IMAGE[] = "pictures\\Tower_damage4.png";
 const char CANNON_IMAGE[] = "pictures\\cannon.png";
 const char POLE_IMAGE[] = "pictures\\pole.png";
 const char CANNONBALL_SHEET[] = "pictures\\cannonball.png";
+const char BOOM_SHEET[] = "pictures\\boom_sheet.png";
 
    // time between frames of ship animation
 

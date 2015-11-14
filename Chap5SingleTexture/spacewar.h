@@ -61,6 +61,9 @@ private:
 	TextureManager cannonBallTexture;
 	cannonBall balls[GOBLIN_COUNT];
 
+	TextureManager boomTexture;
+	Boom booms[GOBLIN_COUNT];
+
 	int score;
 	int currentMenu;
 	int ballsShot;

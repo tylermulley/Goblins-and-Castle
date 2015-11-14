@@ -31,7 +31,9 @@ void cannonBall::update(float frameTime){
 }
 
 void cannonBall::setBallMovement(D3DXVECTOR3 vec, float frameTime){
-  	if(active){
+	Entity::update(frameTime);
+
+	if(active){
 		
 		if(firstShot){
 			velocity.x = velocity.x * vec.x;
@@ -40,10 +42,17 @@ void cannonBall::setBallMovement(D3DXVECTOR3 vec, float frameTime){
 		}
 
 		// number is gravity
-		velocity.y = (velocity.y + (800 * frameTime));
+		velocity.y = (velocity.y + (1000 * frameTime));
 
-		spriteData.x += velocity.x * frameTime;
-		spriteData.y += velocity.y * frameTime;
+		if(spriteData.y + getHeight() * BALL_IMAGE_SCALE <= 600){
+			spriteData.x += velocity.x * frameTime;
+			spriteData.y += velocity.y * frameTime;
+		}
+		else{
+			setActive(false);
+			setVisible(false);
+		}
+		
 	}
 
 }
