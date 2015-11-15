@@ -43,7 +43,7 @@ int Goblin::getDistance(int currentCastleWidth) {
 void Goblin::senseDistance(int wallX){
 	// +50 lets it overlap castle a bit, for some depth
 	float distance = spriteData.x + 50 - wallX;
-	float maxDistance = GAME_WIDTH - wallX;
+	float maxDistance = GAME_WIDTH - wallX + 50;
 
 	// change speed based on distance from wall and framedelay
 	// if at tower do not execute large if else if
@@ -80,7 +80,7 @@ void Goblin::senseDistance(int wallX){
 			velocity.x = -goblinNS::SPEED - 10;
 			setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY_2);
 		}
-		else if(distance/maxDistance < .9){
+		else {
 			velocity.x = -goblinNS::SPEED - 5;
 			setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY_1);
 		}

@@ -25,6 +25,8 @@ Spacewar::Spacewar() {
 	currentShotY = 0;
 	cannonRadius = 0;
 	boomsUsed = 0;
+	reloadTimer = RELOAD_TIME;
+	goblinTimer = MIN_GOBLIN_TIME;
 }
 
 //=============================================================================
@@ -213,7 +215,8 @@ void Spacewar::update()
 		D3DXVec3Normalize(&cannonVector , &cannonVector);
 
 		//shoot 
-		if(ballsShot < BALL_COUNT && input -> wasKeyPressed(VK_SPACE)){
+		reloadTimer += frameTime;
+		if(input -> wasKeyPressed(VK_SPACE) && reloadTimer >= RELOAD_TIME && ballsShot < BALL_COUNT){
 			audio->playCue(FIRE);
 			balls[ballsShot].setActive(true);
 			balls[ballsShot].setVisible(true);
@@ -223,6 +226,7 @@ void Spacewar::update()
 			if (ballsShot == BALL_COUNT){
 				ballsShot = 0;
 			}
+			reloadTimer = 0;
 		}
 
 		//update balls position
@@ -236,19 +240,23 @@ void Spacewar::update()
 			booms[i].update(frameTime);
 		}
 		for(int i = 0; i < GOBLIN_COUNT; i++){
-			goblins[i].senseDistance(tower.getX() + (tower.getWidth() * TOWER_IMAGE_SCALE));
-			goblins[i].update(frameTime);
+			if (goblins[i].getActive()) {
+				goblins[i].senseDistance(tower.getX() + (tower.getWidth() * TOWER_IMAGE_SCALE));
+				goblins[i].update(frameTime);
+			}
 		}
 
 		
 
 		spawn = rand() % 300;
 
-		if(spawn == 0 && spawnCount < GOBLIN_COUNT){
+		goblinTimer += frameTime;
+		if(spawn == 0 && goblinTimer >= MIN_GOBLIN_TIME && spawnCount < GOBLIN_COUNT){
 			goblins[spawnCount].setX(GAME_WIDTH);
 			goblins[spawnCount].setActive(true);
 			goblins[spawnCount].setVisible(true);
 			spawnCount += 1;
+			goblinTimer = 0;
 		}
 		// test damage
 		// tower.setHealth(tower.getHealth() - .1);

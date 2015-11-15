@@ -68,6 +68,8 @@ private:
 	int currentMenu;
 	int ballsShot;
 	int boomsUsed;
+	float reloadTimer;
+	float goblinTimer;
 
 	int currentShotX;
 	int currentShotY;
