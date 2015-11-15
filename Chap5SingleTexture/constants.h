@@ -28,12 +28,14 @@
 //-----------------------------------------------
 
 //gameplay
-const int GOBLIN_COUNT = 20;
+const int GOBLIN_COUNT = 40;
 const int BALL_COUNT = 50;
+const float BOOM_TIME = 0.4;
 const float ROATATION_SPEED = .004;
-const float RELOAD_TIME = 1.0;
-const float MIN_GOBLIN_TIME = 1.0;
+const float RELOAD_TIME = 1.5;
+const float MIN_GOBLIN_TIME = 0.2;
 const float SCORE_POPUP_TIME = 1.0;
+const int SCORE_DIVIDER = 20;
 
 // graphic images
 const char BKG_IMAGE[] = "pictures\\background.png";
@@ -43,7 +45,7 @@ const char TOWER_80_HP_IMAGE[] = "pictures\\Tower_damage1.png";
 const char TOWER_60_HP_IMAGE[] = "pictures\\Tower_damage2.png";
 const char TOWER_40_HP_IMAGE[] = "pictures\\Tower_damage3.png";
 const char TOWER_20_HP_IMAGE[] = "pictures\\Tower_damage4.png";
-const char CANNON_IMAGE[] = "pictures\\cannon.png";
+const char CANNON_IMAGE[] = "pictures\\launcher.png";
 const char POLE_IMAGE[] = "pictures\\pole.png";
 const char CANNONBALL_SHEET[] = "pictures\\cannonball.png";
 const char BOOM_SHEET[] = "pictures\\boom_sheet.png";
@@ -91,7 +93,8 @@ const UCHAR ENTER_KEY    = VK_RETURN;   // Enter key
 #define GOBLIN_IMAGE_SCALE 1.5
 #define TOWER_IMAGE_SCALE 1.5
 #define TOWER_BACK_SCALE 1.7
-#define CANNON_IMAGE_SCALE 0.6
+#define CANNON_IMAGE_SCALE 0.33
+#define POLE_IMAGE_SCALE 0.6
 #define BALL_IMAGE_SCALE .15
 #define BOOM_IMAGE_SCALE .25
 

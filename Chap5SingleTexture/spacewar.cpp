@@ -1,4 +1,4 @@
-// Programming 2D Games
+﻿// Programming 2D Games
 // Copyright (c) 2011 by: 
 // Charles Kelly
 // Draw planet with transparency
@@ -28,6 +28,7 @@ Spacewar::Spacewar() {
 	boomsUsed = 0;
 	reloadTimer = RELOAD_TIME;
 	goblinTimer = MIN_GOBLIN_TIME;
+	score = 0;
 
 	for (int i = 0; i < GOBLIN_COUNT; i++) {
 		scorePopups[i].x = 0;
@@ -140,8 +141,8 @@ void Spacewar::initialize(HWND hwnd)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Cannon texture initialization failed"));
 	if (!cannon.initialize(graphics, 0,0,0, &cannonTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error init bkg"));
-	cannon.setX(100);
-	cannon.setY(240);
+	cannon.setX(90);
+	cannon.setY(230);
 	cannon.setScale(CANNON_IMAGE_SCALE);
 	cannonRadius = cannon.getCenterX() - cannon.getX();
 
@@ -151,7 +152,7 @@ void Spacewar::initialize(HWND hwnd)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error init bkg"));
 	pole.setX(167);
 	pole.setY(260);
-	pole.setScale(CANNON_IMAGE_SCALE);
+	pole.setScale(POLE_IMAGE_SCALE);
 
 	if(headingFont->initialize(graphics, 100, true, false, "Calibri") == false)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
@@ -161,7 +162,7 @@ void Spacewar::initialize(HWND hwnd)
 
 	if(scorePopupFont->initialize(graphics, 28, true, false, "Calibri") == false)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
-	scorePopupFont -> setFontColor(graphicsNS::RED);
+	scorePopupFont -> setFontColor(graphicsNS::GREEN);
 
 	gameStates = startMenu;
 
@@ -258,7 +259,7 @@ void Spacewar::update()
 
 		
 
-		spawn = rand() % 300;
+		spawn = rand() % 150;
 
 		goblinTimer += frameTime;
 		if(spawn == 0 && goblinTimer >= MIN_GOBLIN_TIME && spawnCount < GOBLIN_COUNT){
@@ -334,7 +335,7 @@ void Spacewar::collisions()
  				goblins[j].setVisible(false);
 				scorePopups[j].x = goblins[j].getX();
 				scorePopups[j].timer = frameTime;
-				score += goblins[j].getX();
+				score += goblins[j].getX() / SCORE_DIVIDER;
 			}
 		}
 	}
@@ -342,12 +343,12 @@ void Spacewar::collisions()
 	// boom collisions for area damage
 	for(int i = 0; i < BALL_COUNT; i++){
  		for(int j = 0; j < GOBLIN_COUNT; j++){
-  			if(booms[i].collidesWith(goblins[j], collisionVector)){
+			if(booms[i].timeOnScreen < BOOM_TIME / 2 && booms[i].collidesWith(goblins[j], collisionVector)){
  				goblins[j].setActive(false);
  				goblins[j].setVisible(false);
 				scorePopups[j].x = goblins[j].getX();
 				scorePopups[j].timer = frameTime;
-				score += goblins[j].getX();
+				score += goblins[j].getX() / SCORE_DIVIDER;
 			}
 		}
 	}
@@ -381,18 +382,23 @@ void Spacewar::render()
 		pole.draw();
 		backTower.draw();
 		cannon.draw();
+		
 		for(int i = 0; i < GOBLIN_COUNT; i++){
 			goblins[i].draw();
 
 			if(scorePopups[i].timer > 0 && scorePopups[i].timer < SCORE_POPUP_TIME) {
-				scorePopupFont->print("+" + std::to_string(int(scorePopups[i].x)), scorePopups[i].x + 20, 500 - scorePopups[i].timer * 100);
+				scorePopupFont->print("$" + std::to_string(scorePopups[i].x / SCORE_DIVIDER), scorePopups[i].x + 20, 500 - scorePopups[i].timer * 100);
 				scorePopups[i].timer += frameTime;
 			}
 		}
+		
 		for(int i = 0; i < BALL_COUNT; i++){
 			balls[i].draw();
 			booms[i].draw();
 		}
+
+		scorePopupFont->print("$" + std::to_string(score), 10, 10);
+
 		break;
 	case end:
 		if (currentMenu < 0) lastMenu -> displayMenu();

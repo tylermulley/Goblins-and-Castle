@@ -32,7 +32,7 @@ void Boom::update(float frameTime)
 
 	if(active) timeOnScreen += frameTime;
 
-	if (timeOnScreen > .75){
+	if (timeOnScreen > BOOM_TIME){
 		setActive(false);
 		setVisible(false);
 		timeOnScreen = 0;
