@@ -46,9 +46,10 @@ public:
 
 	int getDistance(int currentCastleWidth);
 
-	bool atTower;
+	bool wasAttackedThisLoop() { return attackedThisLoop; }
+	void setAttackedThisLoop(bool b) { attackedThisLoop = b; }
 private:
-
+	bool attackedThisLoop;
 	
 };
 #endif

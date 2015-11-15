@@ -24,7 +24,5 @@ Tower::Tower() : Entity()
 
 void Tower::update(float frameTime){
 	Entity::update(frameTime);
-	
-	
 }
 

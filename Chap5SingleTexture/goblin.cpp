@@ -19,21 +19,20 @@ Goblin::Goblin() : Entity()
     mass            = goblinNS::MASS;
 	velocity.x = -goblinNS::SPEED;                           // velocity X 
 	velocity.y = 0;
-	active = false;
-	atTower = false;  
+	active = false;  
 	collisionType = entityNS::BOX;
+	attackedThisLoop = false;
 }
 
 void Goblin::update(float frameTime){
 	Entity::update(frameTime);
-	if(!atTower) spriteData.x += velocity.x * frameTime;
+	spriteData.x += velocity.x * frameTime;
 
 	// confusing but leave them
 	edge.bottom = spriteData.y + (spriteData.height * GOBLIN_IMAGE_SCALE) - 19;
 	edge.top = spriteData.y + 19;
 	edge.right = spriteData.x + (spriteData.width * GOBLIN_IMAGE_SCALE) - (spriteData.width * GOBLIN_IMAGE_SCALE) / 2 - 5;
-	edge.left = spriteData.x + (spriteData.width * GOBLIN_IMAGE_SCALE) / 2 + 5;
-	
+	edge.left = spriteData.x + (spriteData.width * GOBLIN_IMAGE_SCALE) / 2 + 5;	
 }
 
 int Goblin::getDistance(int currentCastleWidth) {
@@ -42,12 +41,13 @@ int Goblin::getDistance(int currentCastleWidth) {
 
 
 void Goblin::senseDistance(int wallX){
-	float distance = spriteData.x - wallX;
+	// +50 lets it overlap castle a bit, for some depth
+	float distance = spriteData.x + 50 - wallX;
 	float maxDistance = GAME_WIDTH - wallX;
 
 	// change speed based on distance from wall and framedelay
 	// if at tower do not execute large if else if
-	if(!atTower){
+	if(distance > 0){
 		if(distance/maxDistance < .1) {
 			velocity.x = -goblinNS::SPEED - 45;
 			setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY_9);
@@ -85,8 +85,11 @@ void Goblin::senseDistance(int wallX){
 			setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY_1);
 		}
 	}
-	
-	
+	else {
+		velocity.x = 0;
+		setFrames(goblinNS::ATTACK_START_FRAME, goblinNS::ATTACK_END_FRAME);		
+		setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY);
+	}
 }
 
 

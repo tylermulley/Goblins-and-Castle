@@ -7,6 +7,9 @@
 
 #include "spaceWar.h"
 #include "time.h"
+#include <string>
+
+using std::string;
 
 //=============================================================================
 // Constructor
@@ -293,11 +296,17 @@ void Spacewar::collisions()
 	VECTOR2 collisionVector;
 	for(int i = 0; i < GOBLIN_COUNT; i++){
 		if(goblins[i].collidesWith(tower, collisionVector)){
-			goblins[i].atTower = true;
-			goblins[i].setX(goblins[i].getX());
-			goblins[i].setFrames(goblinNS::ATTACK_START_FRAME, goblinNS::ATTACK_END_FRAME);		
-			goblins[i].setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY);
+			goblins[i].setX(goblins[i].getX()); // isn't this pointless?
 		}
+
+		// not technically a collision, but remove castle health once per goblin attack loop
+		if(goblins[i].getActive() && goblins[i].getX() < GAME_WIDTH && goblins[i].getCurrentFrame() == 64) {
+			if (!goblins[i].wasAttackedThisLoop()) {
+ 				tower.setHealth(tower.getHealth() - 5);
+				goblins[i].setAttackedThisLoop(true);
+			}
+		}
+		else goblins[i].setAttackedThisLoop(false);
 	}
 
 	for(int i = 0; i < BALL_COUNT; i++){
@@ -335,9 +344,9 @@ void Spacewar::render()
 		break;
 	case gamePlay:
 		tower.draw();
+		headingFont->print("Health: " + std::to_string(int(tower.getHealth())), 360, 50);
 		pole.draw();
 		backTower.draw();
-		
 		cannon.draw();
 		for(int i = 0; i < GOBLIN_COUNT; i++){
 			goblins[i].draw();
@@ -346,7 +355,6 @@ void Spacewar::render()
 			balls[i].draw();
 			booms[i].draw();
 		}
-			
 		break;
 	case end:
 		if (currentMenu < 0) lastMenu -> displayMenu();
