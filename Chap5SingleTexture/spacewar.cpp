@@ -312,7 +312,16 @@ void Spacewar::collisions()
 	for(int i = 0; i < BALL_COUNT; i++){
 		for(int j = 0; j < GOBLIN_COUNT; j++){
  			if(balls[i].collidesWith(goblins[j], collisionVector)){
-				audio->playCue(BOOM);
+ 				goblins[j].setActive(false);
+ 				goblins[j].setVisible(false);
+			}
+		}
+	}
+
+	// boom collisions for area damage
+	for(int i = 0; i < BALL_COUNT; i++){
+ 		for(int j = 0; j < GOBLIN_COUNT; j++){
+  			if(booms[i].collidesWith(goblins[j], collisionVector)){
  				goblins[j].setActive(false);
  				goblins[j].setVisible(false);
 			}

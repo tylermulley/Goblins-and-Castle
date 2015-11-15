@@ -22,7 +22,8 @@ Boom::Boom() : Entity()
     velocity.x = 0;                           // velocity X 
 	velocity.y = 0;
 	timeOnScreen = 0;
-	active = false;
+	active = false;  
+	collisionType = entityNS::BOX;
 }
 
 void Boom::update(float frameTime)
@@ -36,6 +37,11 @@ void Boom::update(float frameTime)
 		setVisible(false);
 		timeOnScreen = 0;
 	}
+
+	edge.bottom = spriteData.y + (spriteData.height * BOOM_IMAGE_SCALE) - 15;
+	edge.top = spriteData.y + 15;
+	edge.right = spriteData.x + (spriteData.width * BOOM_IMAGE_SCALE) - 15;
+	edge.left = spriteData.x + 15;
 
 }
 
