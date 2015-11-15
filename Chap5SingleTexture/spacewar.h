@@ -36,6 +36,7 @@ private:
 	TextDX  *headingFont;
 	TextDX  *highlightFont;
 	TextDX	*scorePopupFont;
+	TextDX	*negPointsFont;
 	int spawnCount;
 
 	Menu *mainMenu;
@@ -77,6 +78,10 @@ private:
 	float reloadTimer;
 	float goblinTimer;
 	ScorePopup scorePopups[GOBLIN_COUNT];
+
+	int pointsToLose;
+	int pointsJustLost;
+	float negPointsTimer;
 
 	int currentShotX;
 	int currentShotY;

@@ -18,6 +18,8 @@ Spacewar::Spacewar() {
 	headingFont = new TextDX();
 	highlightFont = new TextDX();
 	scorePopupFont = new TextDX();
+	negPointsFont = new TextDX();
+
 	spawnCount = 0;
 	currentMenu = -1;
 	gameOver = false;
@@ -29,6 +31,9 @@ Spacewar::Spacewar() {
 	reloadTimer = RELOAD_TIME;
 	goblinTimer = MIN_GOBLIN_TIME;
 	score = 0;
+	pointsToLose = 0;
+	pointsJustLost = 0;
+	negPointsTimer = SCORE_POPUP_TIME;
 
 	for (int i = 0; i < GOBLIN_COUNT; i++) {
 		scorePopups[i].x = 0;
@@ -164,6 +169,10 @@ void Spacewar::initialize(HWND hwnd)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
 	scorePopupFont -> setFontColor(graphicsNS::GREEN);
 
+	if(negPointsFont->initialize(graphics, 34, true, false, "Calibri") == false)
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
+	negPointsFont -> setFontColor(graphicsNS::RED);
+
 	gameStates = startMenu;
 
     return;
@@ -282,6 +291,14 @@ void Spacewar::update()
 			currentMenu = -1;
 		}
 
+		if(pointsToLose > 0 && negPointsTimer >= SCORE_POPUP_TIME) {
+			score -= pointsToLose;
+			pointsJustLost = pointsToLose;
+			pointsToLose = 0;
+			negPointsTimer = 0;
+		}	
+		negPointsTimer += frameTime;
+
 		// arctan(cannonHeightFromGround / gobDistToCastle)
 		//cannon.setRadians(atan(tower.getHeight() * TOWER_IMAGE_SCALE / goblins[0].getDistance(tower.getWidth() + backTower.getWidth())));
 		break;
@@ -322,6 +339,7 @@ void Spacewar::collisions()
 		if(goblins[i].getActive() && goblins[i].getX() < GAME_WIDTH && goblins[i].getCurrentFrame() == 64) {
 			if (!goblins[i].wasAttackedThisLoop()) {
  				tower.setHealth(tower.getHealth() - 5);
+				pointsToLose += 10;
 				goblins[i].setAttackedThisLoop(true);
 			}
 		}
@@ -391,6 +409,8 @@ void Spacewar::render()
 				scorePopups[i].timer += frameTime;
 			}
 		}
+
+		if(negPointsTimer < SCORE_POPUP_TIME) negPointsFont->print("-$" + std::to_string(pointsJustLost), 410, 500 - negPointsTimer * 100);
 		
 		for(int i = 0; i < BALL_COUNT; i++){
 			balls[i].draw();
