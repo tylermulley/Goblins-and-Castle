@@ -17,6 +17,7 @@ using std::string;
 Spacewar::Spacewar() {
 	headingFont = new TextDX();
 	highlightFont = new TextDX();
+	scorePopupFont = new TextDX();
 	spawnCount = 0;
 	currentMenu = -1;
 	gameOver = false;
@@ -27,6 +28,11 @@ Spacewar::Spacewar() {
 	boomsUsed = 0;
 	reloadTimer = RELOAD_TIME;
 	goblinTimer = MIN_GOBLIN_TIME;
+
+	for (int i = 0; i < GOBLIN_COUNT; i++) {
+		scorePopups[i].x = 0;
+		scorePopups[i].timer = 0;
+	}
 }
 
 //=============================================================================
@@ -152,6 +158,10 @@ void Spacewar::initialize(HWND hwnd)
 	if(highlightFont->initialize(graphics, 70, true, false, "Calibri") == false)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
 	highlightFont -> setFontColor(graphicsNS::RED);
+
+	if(scorePopupFont->initialize(graphics, 28, true, false, "Calibri") == false)
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
+	scorePopupFont -> setFontColor(graphicsNS::RED);
 
 	gameStates = startMenu;
 
@@ -322,6 +332,9 @@ void Spacewar::collisions()
  			if(balls[i].collidesWith(goblins[j], collisionVector)){
  				goblins[j].setActive(false);
  				goblins[j].setVisible(false);
+				scorePopups[j].x = goblins[j].getX();
+				scorePopups[j].timer = frameTime;
+				score += goblins[j].getX();
 			}
 		}
 	}
@@ -332,6 +345,9 @@ void Spacewar::collisions()
   			if(booms[i].collidesWith(goblins[j], collisionVector)){
  				goblins[j].setActive(false);
  				goblins[j].setVisible(false);
+				scorePopups[j].x = goblins[j].getX();
+				scorePopups[j].timer = frameTime;
+				score += goblins[j].getX();
 			}
 		}
 	}
@@ -367,6 +383,11 @@ void Spacewar::render()
 		cannon.draw();
 		for(int i = 0; i < GOBLIN_COUNT; i++){
 			goblins[i].draw();
+
+			if(scorePopups[i].timer > 0 && scorePopups[i].timer < SCORE_POPUP_TIME) {
+				scorePopupFont->print("+" + std::to_string(int(scorePopups[i].x)), scorePopups[i].x + 20, 500 - scorePopups[i].timer * 100);
+				scorePopups[i].timer += frameTime;
+			}
 		}
 		for(int i = 0; i < BALL_COUNT; i++){
 			balls[i].draw();
@@ -445,6 +466,7 @@ void Spacewar::displayBoom(int x, int y){
  	if (boomsUsed == BALL_COUNT) boomsUsed = 0;
 
 }
+
 //void Spacewar::lose() {
 //	if (!gameOverTexture.initialize(graphics, GAME_OVER_IMAGE))
 //		throw(GameError(gameErrorNS::FATAL_ERROR, "Game over texture initialization failed"));

@@ -33,6 +33,7 @@ const int BALL_COUNT = 50;
 const float ROATATION_SPEED = .004;
 const float RELOAD_TIME = 1.0;
 const float MIN_GOBLIN_TIME = 1.0;
+const float SCORE_POPUP_TIME = 1.0;
 
 // graphic images
 const char BKG_IMAGE[] = "pictures\\background.png";

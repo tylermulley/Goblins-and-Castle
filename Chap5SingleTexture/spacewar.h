@@ -21,6 +21,11 @@
 #include "endMenu.h"
 #include "cannonBall.h"
 
+struct ScorePopup {
+	int x;
+	float timer;
+};
+
 //=============================================================================
 // This class is the core of the game
 //=============================================================================
@@ -30,6 +35,7 @@ private:
 
 	TextDX  *headingFont;
 	TextDX  *highlightFont;
+	TextDX	*scorePopupFont;
 	int spawnCount;
 
 	Menu *mainMenu;
@@ -70,6 +76,7 @@ private:
 	int boomsUsed;
 	float reloadTimer;
 	float goblinTimer;
+	ScorePopup scorePopups[GOBLIN_COUNT];
 
 	int currentShotX;
 	int currentShotY;
