@@ -12,12 +12,13 @@ class Menu;
 #include <string>
 #include <sstream>
 #include "input.h"
+#include "entity.h"
 
 namespace menuNS
 { }
 
 // inherits from Entity class
-class Menu 
+class Menu : Entity
 {
 private:
    TextDX *menuItemFont;
@@ -44,7 +45,7 @@ private:
 public:
     // constructor
     Menu();
-	void initialize(Graphics *g, Input *i);
+	void initialize(Game *gamePtr, Graphics *g, Input *i);
 	void update();
 	int getSelectedItem() {return selectedItem;}
 	void setSelectedItem(int s) {selectedItem = s;}

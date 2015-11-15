@@ -42,7 +42,7 @@ void Spacewar::initialize(HWND hwnd)
     Game::initialize(hwnd); // throws GameError
 
 	mainMenu = new Menu();
-	mainMenu->initialize(graphics, input);
+	mainMenu->initialize(this, graphics, input);
 
 	lastMenu = new endMenu();
 	lastMenu->initialize(graphics, input);
@@ -211,6 +211,7 @@ void Spacewar::update()
 
 		//shoot 
 		if(ballsShot < BALL_COUNT && input -> wasKeyPressed(VK_SPACE)){
+			audio->playCue(FIRE);
 			balls[ballsShot].setActive(true);
 			balls[ballsShot].setVisible(true);
 			balls[ballsShot].setX(currentShotX);
@@ -302,6 +303,7 @@ void Spacewar::collisions()
 	for(int i = 0; i < BALL_COUNT; i++){
 		for(int j = 0; j < GOBLIN_COUNT; j++){
  			if(balls[i].collidesWith(goblins[j], collisionVector)){
+				audio->playCue(BOOM);
  				goblins[j].setActive(false);
  				goblins[j].setVisible(false);
 			}

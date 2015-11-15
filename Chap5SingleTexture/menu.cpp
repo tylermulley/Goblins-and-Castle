@@ -10,14 +10,16 @@ Menu::Menu()
 	downDepressedLastFrame = false;
 }
 
-void Menu::initialize(Graphics *g, Input *i)
+void Menu::initialize(Game *gamePtr, Graphics *g, Input *i)
 {
 	menuHeading ="Goblins and Castle";
 	menuItem1 = "Play";
 	menuItem2 = "Directions";
 	menuItem3 = "Credits";
+
 	highlightColor = graphicsNS::RED;
 	normalColor = graphicsNS::WHITE;
+
 	menuAnchor = D3DXVECTOR2(360,50);
 	itemsMid = 580;
 	input = i;
@@ -39,6 +41,8 @@ void Menu::initialize(Graphics *g, Input *i)
 	menuItemFontHighlight->setFontColor(highlightColor);
 	upDepressedLastFrame = false;
 	downDepressedLastFrame = false;
+
+	audio = gamePtr->getAudio();
 }
 
 void Menu::update()
@@ -54,6 +58,7 @@ void Menu::update()
 		if (input->wasKeyPressed(VK_UP))
 		{
 			upDepressedLastFrame = true;
+			audio->playCue(BEEP);
 			linePtr--;
 		}
 	}
@@ -61,14 +66,17 @@ void Menu::update()
 		if (input->wasKeyPressed(VK_DOWN))
 		{
 			downDepressedLastFrame = true;
+			audio->playCue(BEEP);
 			linePtr++;
 		}
 	}
 	if (linePtr > 2) linePtr = 0;
 	if (linePtr < 0) linePtr = 2;
 
-	if (input->isKeyDown(VK_RETURN))
+	if (input->isKeyDown(VK_RETURN)) {
+		audio->playCue(BEEP);
 		selectedItem = linePtr;
+	}
 	else selectedItem = -1;
 }
 

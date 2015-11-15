@@ -1,19 +1,38 @@
-﻿Build started 11/14/2015 1:39:11 PM.
-     1>Project "C:\Users\MulleyTG1\Documents\GitHub\Goblins-and-Castle\Chap5SingleTexture\Planet.vcxproj" on node 2 (Build target(s)).
-     1>InitializeBuildStatus:
-         Creating "Debug\Planet.unsuccessfulbuild" because "AlwaysCreate" was specified.
-       ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\Include" /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt goblin.cpp
-         goblin.cpp
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\constants.h(32): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\goblin.cpp(32): warning C4244: '=' : conversion from 'double' to 'LONG', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\goblin.cpp(33): warning C4244: '=' : conversion from 'float' to 'LONG', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\goblin.cpp(34): warning C4244: '=' : conversion from 'double' to 'LONG', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\goblin.cpp(35): warning C4244: '=' : conversion from 'double' to 'LONG', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\goblin.cpp(40): warning C4244: 'return' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\goblin.cpp(46): warning C4244: 'initializing' : conversion from 'const UINT' to 'float', possible loss of data
+﻿Build started 11/14/2015 9:20:08 PM.
+     1>Project "C:\Users\brownde1\Documents\Games 1\Goblins and Castle\Goblins-and-Castle\Chap5SingleTexture\Planet.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\Include" /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt menu.cpp spacewar.cpp winmain.cpp
+         spacewar.cpp
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\constants.h(32): warning C4305: 'initializing' : truncation from 'double' to 'const float'
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(52): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(83): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(105): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(134): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(135): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(143): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(205): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(206): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(217): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(218): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(231): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(236): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(245): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(415): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(416): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         menu.cpp
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\constants.h(32): warning C4305: 'initializing' : truncation from 'double' to 'const float'
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\menu.cpp(85): warning C4244: 'argument' : conversion from 'FLOAT' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\menu.cpp(89): warning C4244: 'argument' : conversion from 'FLOAT' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\menu.cpp(91): warning C4244: 'argument' : conversion from 'FLOAT' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\menu.cpp(94): warning C4244: 'argument' : conversion from 'FLOAT' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\menu.cpp(96): warning C4244: 'argument' : conversion from 'FLOAT' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\menu.cpp(100): warning C4244: 'argument' : conversion from 'FLOAT' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\menu.cpp(102): warning C4244: 'argument' : conversion from 'FLOAT' to 'int', possible loss of data
+         Generating Code...
+         Skipping... (no relevant changes detected)
+         winmain.cpp
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\MulleyTG1\Documents\GitHub\Goblins-and-Castle\Chap5SingleTexture\Debug\Planet.exe" /NOLOGO /LIBPATH:"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\Lib\x86" d3d9.lib d3dx9.lib winmm.lib xinput.lib xinput.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\MulleyTG1\Documents\GitHub\Goblins-and-Castle\Chap5SingleTexture\Debug\Planet.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\MulleyTG1\Documents\GitHub\Goblins-and-Castle\Chap5SingleTexture\Debug\Planet.lib" /MACHINE:X86 /SAFESEH Debug\audio.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\brownde1\Documents\Games 1\Goblins and Castle\Goblins-and-Castle\Chap5SingleTexture\Debug\Planet.exe" /NOLOGO /LIBPATH:"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\Lib\x86" d3d9.lib d3dx9.lib winmm.lib xinput.lib xinput.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\brownde1\Documents\Games 1\Goblins and Castle\Goblins-and-Castle\Chap5SingleTexture\Debug\Planet.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\brownde1\Documents\Games 1\Goblins and Castle\Goblins-and-Castle\Chap5SingleTexture\Debug\Planet.lib" /MACHINE:X86 /SAFESEH Debug\audio.obj
          Debug\cannonBall.obj
          Debug\endMenu.obj
          Debug\game.obj
@@ -29,12 +48,9 @@
          Debug\textureManager.obj
          Debug\tower.obj
          Debug\winmain.obj
-         Planet.vcxproj -> C:\Users\MulleyTG1\Documents\GitHub\Goblins-and-Castle\Chap5SingleTexture\Debug\Planet.exe
-       FinalizeBuildStatus:
-         Deleting file "Debug\Planet.unsuccessfulbuild".
-         Touching "Debug\Planet.lastbuildstate".
-     1>Done Building Project "C:\Users\MulleyTG1\Documents\GitHub\Goblins-and-Castle\Chap5SingleTexture\Planet.vcxproj" (Build target(s)).
+         Planet.vcxproj -> C:\Users\brownde1\Documents\Games 1\Goblins and Castle\Goblins-and-Castle\Chap5SingleTexture\Debug\Planet.exe
+     1>Done Building Project "C:\Users\brownde1\Documents\Games 1\Goblins and Castle\Goblins-and-Castle\Chap5SingleTexture\Planet.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.77
+Time Elapsed 00:00:03.01
