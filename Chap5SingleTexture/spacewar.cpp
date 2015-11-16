@@ -391,14 +391,14 @@ void Spacewar::update()
 		switch (storeMenu->getSelectedItem()) {
 
 		case 0:
-			if(score > PRICE) {
+			if(score >= PRICE) {
 				score -= PRICE;
 				RELOAD_TIME -= RELOAD_UPGRADE;
 			}
 			break;
 	
 		case 1:
-			if(score > PRICE) {
+			if(score >= PRICE) {
 				score -= PRICE;
 				FULL_HEALTH += 10;
 				tower.setHealth(FULL_HEALTH);
@@ -406,7 +406,7 @@ void Spacewar::update()
 			break;
 	
 		case 2:
-			if(score > PRICE) {
+			if(score >= PRICE) {
 				score -= PRICE;
 				for(int i = 0; i < GOBLIN_COUNT; i++) booms[i].setBoomRadiusOffset(booms[i].getBoomRadiusOffset() - 10);
 			}
@@ -576,6 +576,8 @@ void Spacewar::render()
 			gameStates = gamePlay;
 			score = 0;  // reset this late so we can show score on end screen
 			tower.setHealth(FULL_HEALTH); // same ^^
+			RELOAD_TIME = 1.4; // same
+			FULL_HEALTH = 100; // same
 			currentMenu = -1;
 		}
 		else if (lastMenu->getSelectedItem() == 1) {

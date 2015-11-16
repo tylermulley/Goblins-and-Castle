@@ -15,7 +15,7 @@ void StoreMenu::initialize(Game *gamePtr, Graphics *g, Input *i)
 	menuHeading = "Upgrades $" + std::to_string(PRICE) + " Each";
 	menuItem1 = "Increase Fire Rate";
 	menuItem2 = "Increase Tower Armor";
-	menuItem3 = "Increase Explosion Radius";
+	//menuItem3 = "Increase Explosion Radius";
 
 	highlightColor = graphicsNS::RED;
 	normalColor = graphicsNS::WHITE;
@@ -77,8 +77,8 @@ void StoreMenu::update()
 			linePtr++;
 		}
 	}
-	if (linePtr > 2) linePtr = 0;
-	if (linePtr < 0) linePtr = 2;
+	if (linePtr > 1) linePtr = 0;
+	if (linePtr < 0) linePtr = 1;
 
 	if(!returnDepressedLastFrame) {
 		if (input->isKeyDown(VK_RETURN)) {
@@ -106,9 +106,9 @@ void StoreMenu::displayMenu()
 		menuItemFont->print(menuItem2, itemsMid - 130, menuAnchor.y+foo);
 	foo = 4*verticalOffset;
 
-	if (linePtr==2)
+	/*if (linePtr==2)
 		menuItemFontHighlight->print(menuItem3, itemsMid - 130, menuAnchor.y+foo);
 	else
-		menuItemFont->print(menuItem3, itemsMid - 130, menuAnchor.y+foo);
+		menuItemFont->print(menuItem3, itemsMid - 130, menuAnchor.y+foo);*/
 }
 
