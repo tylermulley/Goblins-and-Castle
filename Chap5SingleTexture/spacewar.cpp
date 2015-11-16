@@ -19,6 +19,7 @@ Spacewar::Spacewar() {
 	highlightFont = new TextDX();
 	scorePopupFont = new TextDX();
 	negPointsFont = new TextDX();
+	smallFont = new TextDX();
 
 	RELOAD_TIME = 1.4;
 	FULL_HEALTH = 100;
@@ -187,6 +188,10 @@ void Spacewar::initialize(HWND hwnd)
 	if(negPointsFont->initialize(graphics, 34, true, false, "Calibri") == false)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
 	negPointsFont -> setFontColor(graphicsNS::RED);
+
+	if(smallFont->initialize(graphics, 50, true, false, "Calibri") == false)
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
+	smallFont -> setFontColor(graphicsNS::WHITE);
 
 	gameStates = startMenu;
 
@@ -463,10 +468,21 @@ void Spacewar::render()
 		if (currentMenu < 0) mainMenu -> displayMenu();
 		else if (currentMenu == 1) {
 			headingFont->print("Directions:", 360, 50);
+			smallFont->print("Use up and down arrows to aim your gun.", 360, 150);
+			smallFont->print("Click the space bar to shoot your gun.", 360, 200);
+			smallFont->print("Keep goblins from reaching and destroying your castle.", 360, 250);
+			smallFont->print("Earn money by killing goblins.", 360, 300);
+			smallFont->print("Kill goblins farther away from the castle for more money.", 360, 350);
+			smallFont->print("Spend the least money and win for the highest score.", 360, 400);
 			highlightFont->print("Press ESC to Return to Main Menu", 360, 480);
 		}
 		else if (currentMenu == 2) {
 			headingFont->print("Credits:", 360, 50);
+			smallFont -> setFontColor(graphicsNS::RED);
+			smallFont->print("Designers/Coders/Artists/All Around Good Kids", 360, 200);
+			smallFont -> setFontColor(graphicsNS::WHITE);
+			smallFont->print("Dan Brown", 360, 250);
+			smallFont->print("Tyler Mulley", 360, 300);
 			highlightFont->print("Press ESC to Return to Main Menu", 360, 480);	
 		}
 		break;
@@ -518,7 +534,12 @@ void Spacewar::render()
 		}
 		else if (currentMenu == 1) {
 			headingFont->print("Credits:", 360, 50);
-			highlightFont->print("Press ESC to Return to Main Menu", 360, 480);
+			smallFont -> setFontColor(graphicsNS::RED);
+			smallFont->print("Designers/Coders/Artists/All Around Good Kids", 360, 200);
+			smallFont -> setFontColor(graphicsNS::WHITE);
+			smallFont->print("Dan Brown", 360, 250);
+			smallFont->print("Tyler Mulley", 360, 300);
+			highlightFont->print("Press ESC to Return to Main Menu", 360, 480);	
 		}
 		break;
 	}

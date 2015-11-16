@@ -36,6 +36,7 @@ private:
 
 	TextDX  *headingFont;
 	TextDX  *highlightFont;
+	TextDX  *smallFont;
 	TextDX	*scorePopupFont;
 	TextDX	*negPointsFont;
 
