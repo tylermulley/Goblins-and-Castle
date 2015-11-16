@@ -157,6 +157,8 @@ void Spacewar::initialize(HWND hwnd)
 		booms[i].setFrames(boomNS::START_FRAME, boomNS::END_FRAME);
 		booms[i].setCurrentFrame(boomNS::START_FRAME);
 		booms[i].setFrameDelay(boomNS::BOOM_ANIMATION_DELAY);
+		booms[i].setX(-2 * GAME_WIDTH);
+		booms[i].setY(-2 * GAME_HEIGHT);
 	}
 
 	if (!cannonTexture.initialize(graphics, CANNON_IMAGE))
@@ -300,7 +302,7 @@ void Spacewar::update()
 			balls[ballsShot].setX(currentShotX);
 			balls[ballsShot].setY(currentShotY);
 			ballsShot++;
-			if (ballsShot == BALL_COUNT){
+			if (ballsShot >= BALL_COUNT){
 				ballsShot = 0;
 			}
 			reloadTimer = 0;
@@ -481,7 +483,7 @@ void Spacewar::collisions()
 	for(int i = 0; i < BALL_COUNT; i++){
  		for(int j = 0; j < GOBLIN_COUNT; j++){
 			if(booms[i].timeOnScreen < BOOM_TIME / 2 && booms[i].collidesWith(goblins[j], collisionVector)){
- 				goblins[j].setActive(false);
+      			goblins[j].setActive(false);
  				goblins[j].setVisible(false);
 				killCount++;
 				scorePopups[j].x = goblins[j].getX();
@@ -646,6 +648,7 @@ void Spacewar::displayBoom(int x, int y){
 }
 
 void Spacewar::resetGame() {
+
 	for(int i = 0; i < GOBLIN_COUNT; i++) {
 		goblins[i].setFrames(goblinNS::WALK_START_FRAME, goblinNS::WALK_END_FRAME);
 		goblins[i].setCurrentFrame(goblinNS::WALK_START_FRAME);
@@ -660,6 +663,9 @@ void Spacewar::resetGame() {
 	for(int i = 0; i < BALL_COUNT; i++) {
 		booms[i].setVisible(false);
 		booms[i].setActive(false);
+		booms[i].setX(-2*GAME_WIDTH);
+		booms[i].setY(-2*GAME_HEIGHT);
+
 		balls[i].setVisible(false);
 		balls[i].setActive(false);
 	}
@@ -671,6 +677,8 @@ void Spacewar::resetGame() {
 	spawnCount = 0;
 	killCount = 0;
 	cannon.setDegrees(0);
+
+	negPointsTimer = SCORE_POPUP_TIME;
 }
 
 //void Spacewar::lose() {

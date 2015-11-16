@@ -29,7 +29,7 @@
 
 //gameplay
 const int GOBLIN_COUNT = 20;
-const int BALL_COUNT = 50;
+const int BALL_COUNT = 10;
 const float BOOM_TIME = 0.4;
 const float ROATATION_SPEED = .0075;
 const float MIN_GOBLIN_TIME = 0.2;

@@ -181,7 +181,7 @@ HRESULT Graphics::showBackbuffer()
 {
     result = E_FAIL;    // default to fail, replace on success
     // Display backbuffer to screen
-    result = device3d->Present(NULL, NULL, NULL, NULL);
+      result = device3d->Present(NULL, NULL, NULL, NULL);
     return result;
 }
 
