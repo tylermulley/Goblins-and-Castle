@@ -74,7 +74,7 @@ void Menu::update()
 	if (linePtr < 0) linePtr = 2;
 
 	if (input->isKeyDown(VK_RETURN)) {
-		audio->playCue(BEEP);
+		
 		selectedItem = linePtr;
 	}
 	else selectedItem = -1;

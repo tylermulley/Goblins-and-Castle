@@ -40,7 +40,7 @@ int Goblin::getDistance(int currentCastleWidth) {
 }
 
 
-void Goblin::senseDistance(int wallX){
+void Goblin::senseDistance(int wallX, int level){
 	// +50 lets it overlap castle a bit, for some depth
 	float distance = spriteData.x + 50 - wallX;
 	float maxDistance = GAME_WIDTH - wallX + 50;
@@ -90,6 +90,8 @@ void Goblin::senseDistance(int wallX){
 		setFrames(goblinNS::ATTACK_START_FRAME, goblinNS::ATTACK_END_FRAME);		
 		setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY);
 	}
+	velocity.x *= level;
+	setFrameDelay(getFrameDelay() / level);
 }
 
 

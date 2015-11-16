@@ -12,7 +12,7 @@ StoreMenu::StoreMenu()
 
 void StoreMenu::initialize(Game *gamePtr, Graphics *g, Input *i)
 {
-	menuHeading = "Buy Upgrades";
+	menuHeading = "Upgrades $" + std::to_string(PRICE) + " Each";
 	menuItem1 = "Increase Fire Rate";
 	menuItem2 = "Increase Tower Armor";
 	menuItem3 = "Increase Explosion Radius";
@@ -20,10 +20,10 @@ void StoreMenu::initialize(Game *gamePtr, Graphics *g, Input *i)
 	highlightColor = graphicsNS::RED;
 	normalColor = graphicsNS::WHITE;
 
-	menuAnchor = D3DXVECTOR2(400,50);
+	menuAnchor = D3DXVECTOR2(400,10);
 	itemsMid = 580;
 	input = i;
-	verticalOffset = 100;
+	verticalOffset = 90;
 	linePtr = 0;
 	selectedItem = -1;
 	graphics = g;
@@ -92,7 +92,7 @@ void StoreMenu::update()
 
 void StoreMenu::displayMenu()
 {
-	menuHeadingFont->print(menuHeading, menuAnchor.x, menuAnchor.y);
+	menuHeadingFont->print(menuHeading, menuAnchor.x - 50, menuAnchor.y);
 	int foo = 2*verticalOffset;
 
 	if (linePtr==0)

@@ -28,17 +28,17 @@
 //-----------------------------------------------
 
 //gameplay
-const int GOBLIN_COUNT = 10;
+const int GOBLIN_COUNT = 20;
 const int BALL_COUNT = 50;
 const float BOOM_TIME = 0.4;
 const float ROATATION_SPEED = .0075;
 const float MIN_GOBLIN_TIME = 0.2;
 const float SCORE_POPUP_TIME = 1.0;
 const int SCORE_DIVIDER = 20;
-const int PRICE = 100;
-const float RELOAD_UPGRADE = 0.05;
-const int ARMOR_UPGRADE = 10;
-const int BLAST_UPGRADE = 1;
+const int PRICE = 150;
+const float RELOAD_UPGRADE = 0.065;
+const int ARMOR_UPGRADE = 20;
+const int BLAST_UPGRADE = 2;
 const int RELOADING_IMAGE_COUNT = 50;
 
 // graphic images
@@ -49,11 +49,12 @@ const char TOWER_80_HP_IMAGE[] = "pictures\\Tower_damage1.png";
 const char TOWER_60_HP_IMAGE[] = "pictures\\Tower_damage2.png";
 const char TOWER_40_HP_IMAGE[] = "pictures\\Tower_damage3.png";
 const char TOWER_20_HP_IMAGE[] = "pictures\\Tower_damage4.png";
-const char CANNON_IMAGE[] = "pictures\\launcher.png";
+const char CANNON_IMAGE[] = "pictures\\launcher2.png";
 const char POLE_IMAGE[] = "pictures\\pole.png";
 const char CANNONBALL_SHEET[] = "pictures\\cannonball.png";
 const char BOOM_SHEET[] = "pictures\\boom_sheet.png";
 const char RELOADING_IMAGE[] = "pictures\\health.png";
+const char NUKE_IMAGE[] = "pictures\\bomb_2.png";
 
    // time between frames of ship animation
 
@@ -103,6 +104,8 @@ const UCHAR ENTER_KEY    = VK_RETURN;   // Enter key
 #define POLE_IMAGE_SCALE 0.6
 #define BALL_IMAGE_SCALE .15
 #define BOOM_IMAGE_SCALE .25
+#define NUKE_IMAGE_SCALE 0.5
+#define NUKE_BOOM_IMAGE_SCALE 1.9
 
 //states
 enum GameStates {startMenu, dirMenu, credMenu, gamePlay, store, end};

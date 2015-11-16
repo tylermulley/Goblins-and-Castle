@@ -41,6 +41,8 @@ Spacewar::Spacewar() {
 	pointsJustLost = 0;
 	negPointsTimer = SCORE_POPUP_TIME;
 	killCount = 0;
+
+	nuking = false;
 }
 
 //=============================================================================
@@ -175,6 +177,15 @@ void Spacewar::initialize(HWND hwnd)
 	pole.setY(260);
 	pole.setScale(POLE_IMAGE_SCALE);
 
+	if (!nukeTexture.initialize(graphics, NUKE_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Nuke texture initialization failed"));
+	if (!nuke.initialize(graphics, 0,0,0, &nukeTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error init nuke"));
+	nuke.setX(GAME_WIDTH / 2 - nuke.getWidth() * NUKE_IMAGE_SCALE / 2);
+	nuke.setY(-nuke.getHeight() * NUKE_IMAGE_SCALE);
+	nuke.setScale(NUKE_IMAGE_SCALE);
+	nuke.setVisible(false);
+
 	if(headingFont->initialize(graphics, 100, true, false, "Calibri") == false)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
 	if(highlightFont->initialize(graphics, 70, true, false, "Calibri") == false)
@@ -200,43 +211,26 @@ void Spacewar::initialize(HWND hwnd)
 void Spacewar::gameStateUpdate()
 {
 	if (gameStates == startMenu && mainMenu -> getSelectedItem() == 0){
+		resetGame();
 		gameStates = gamePlay;
 	}
-	if (killCount == GOBLIN_COUNT) { // reset everything
-		for(int i = 0; i < GOBLIN_COUNT; i++) {
-			goblins[i].setFrames(goblinNS::WALK_START_FRAME, goblinNS::WALK_END_FRAME);
-			goblins[i].setCurrentFrame(goblinNS::WALK_START_FRAME);
-			goblins[i].setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY);
-
-			scorePopups[i].timer = SCORE_POPUP_TIME;
-
-			booms[i].setVisible(false);
-			booms[i].setActive(false);
-		}
-
-		for(int i = 0; i < BALL_COUNT; i++) {
-			booms[i].setVisible(false);
-			booms[i].setActive(false);
-			balls[i].setVisible(false);
-			balls[i].setActive(false);
-		}
-
-		reloadTimer = RELOAD_TIME;
-		pointsToLose = 0;
-		pointsJustLost = 0;
-
-		spawnCount = 0;
-		killCount = 0;
-		tower.setHealth(FULL_HEALTH);
-
+	if (killCount >= GOBLIN_COUNT) { // reset everything
+		resetGame();
 		if (level == 3) {
-			gameStates = end;
 			level = 1;
+			gameStates = end;
 		}
 		else {
 			gameStates = store;
+			killCount = 0;
 			level++;
 		}
+	}
+	if(gameStates == gamePlay && tower.getHealth() <= 0) {
+		resetGame();
+		level = 1;
+		currentMenu = -1;
+		gameStates = end;
 	}
 	
 }
@@ -314,7 +308,7 @@ void Spacewar::update()
 		}
 		for(int i = 0; i < GOBLIN_COUNT; i++){
 			if (goblins[i].getActive()) {
-				goblins[i].senseDistance(tower.getX() + (tower.getWidth() * TOWER_IMAGE_SCALE));
+				goblins[i].senseDistance(tower.getX() + (tower.getWidth() * TOWER_IMAGE_SCALE), level);
 				goblins[i].update(frameTime);
 			}
 		}
@@ -341,8 +335,40 @@ void Spacewar::update()
 			pointsJustLost = pointsToLose;
 			pointsToLose = 0;
 			negPointsTimer = 0;
-		}	
+		}
 		negPointsTimer += frameTime;
+
+		// NUKE
+		if(input->isKeyDown(0x4E) && input->isKeyDown(0x55) && input->isKeyDown(0x4B) && input->isKeyDown(0x45)){
+			nuke.setVisible(true);
+			nuking = true;
+		}
+
+		if(nuking) {
+			nuke.setY(nuke.getY() + 200 * frameTime);
+			if(nuke.getY() + nuke.getHeight() * NUKE_IMAGE_SCALE > 600) {
+				booms[0].setX(GAME_WIDTH / 2 - booms[0].getWidth() * NUKE_BOOM_IMAGE_SCALE / 2);
+				booms[0].setY(0);
+				booms[0].setActive(true);
+				booms[0].setVisible(true);
+				booms[0].setScale(NUKE_BOOM_IMAGE_SCALE);
+				audio->playCue(BOOM);
+			}
+			if(nuke.getY() + nuke.getHeight() * NUKE_IMAGE_SCALE > 800) {
+				for(int i = 0; i < GOBLIN_COUNT; i++) {
+					goblins[i].setActive(false);
+ 					goblins[i].setVisible(false);
+					killCount++;
+					audio->playCue(BOOM);
+				}
+				nuking = false;
+				nuke.setX(GAME_WIDTH / 2 - nuke.getWidth() * NUKE_IMAGE_SCALE / 2);
+				nuke.setY(-nuke.getHeight() * NUKE_IMAGE_SCALE);
+				booms[0].setActive(false);
+				booms[0].setVisible(false);
+				booms[0].setScale(BOOM_IMAGE_SCALE);
+			}
+		}
 
 		// arctan(cannonHeightFromGround / gobDistToCastle)
 		//cannon.setRadians(atan(tower.getHeight() * TOWER_IMAGE_SCALE / goblins[0].getDistance(tower.getWidth() + backTower.getWidth())));
@@ -380,7 +406,7 @@ void Spacewar::update()
 
 		currentMenu = -1;
 		
-		if(input->wasKeyPressed(VK_ESCAPE)) gameStates = gamePlay;
+		if(input->wasKeyPressed(VK_SPACE)) gameStates = gamePlay;
 		
 		break;
 
@@ -488,7 +514,7 @@ void Spacewar::render()
 		break;
 	case gamePlay:
 		tower.draw();
-		headingFont->print("Health: " + std::to_string(int(tower.getHealth())), 360, 50);
+		smallFont->print("Level: "  + std::to_string(level), 1200, 10);
 		pole.draw();
 		backTower.draw();
 		cannon.draw();
@@ -504,12 +530,15 @@ void Spacewar::render()
 
 		if(negPointsTimer < SCORE_POPUP_TIME) negPointsFont->print("-$" + std::to_string(pointsJustLost), 410, 500 - negPointsTimer * 100);
 		
+		nuke.draw();
 		for(int i = 0; i < BALL_COUNT; i++){
 			balls[i].draw();
 			booms[i].draw();
 		}
 
-		scorePopupFont->print("$" + std::to_string(score), 10, 10);
+		smallFont->setFontColor(graphicsNS::GREEN);
+		smallFont->print("$" + std::to_string(score), 10, 10);
+		smallFont->setFontColor(graphicsNS::WHITE);
 
 		for(int i = 0; i < reloadTimer / RELOAD_TIME * RELOADING_IMAGE_COUNT && i < RELOADING_IMAGE_COUNT; i++) {
 			reloading[i].draw();
@@ -519,28 +548,30 @@ void Spacewar::render()
 
 	case store:
 		storeMenu->displayMenu();
-		scorePopupFont->print("$" + std::to_string(score), 10, 10);
+		resetGame();
+		smallFont->setFontColor(graphicsNS::GREEN);
+		smallFont->print("$" + std::to_string(score), 10, 10);
+		smallFont->setFontColor(graphicsNS::WHITE);
+		highlightFont->print("Press SPACE to Return to the Game", 340, 480);
+		
 		break;
 
 	case end:
-		if (currentMenu < 0) lastMenu -> displayMenu();
-		else if (currentMenu == 0){
+		if (lastMenu->getSelectedItem() < 0) lastMenu -> displayMenu();
+		else if (lastMenu->getSelectedItem() == 0){
+			resetGame();
 			gameStates = gamePlay;
 			score = 0;  // reset this late so we can show score on end screen
+			tower.setHealth(FULL_HEALTH); // same ^^
 			currentMenu = -1;
 		}
-		else if (currentMenu == 2) {
+		else if (lastMenu->getSelectedItem() == 1) {
 			PostQuitMessage(0);
 		}
-		else if (currentMenu == 1) {
-			headingFont->print("Credits:", 360, 50);
-			smallFont -> setFontColor(graphicsNS::RED);
-			smallFont->print("Designers/Coders/Artists/All Around Good Kids", 360, 200);
-			smallFont -> setFontColor(graphicsNS::WHITE);
-			smallFont->print("Dan Brown", 360, 250);
-			smallFont->print("Tyler Mulley", 360, 300);
-			highlightFont->print("Press ESC to Return to Main Menu", 360, 480);	
-		}
+
+		if(tower.getHealth() <= 0) headingFont->print("You Died", 470, 450);
+		else headingFont->print("Score: " + std::to_string(score), 470, 450);
+		
 		break;
 	}
 
@@ -593,6 +624,34 @@ void Spacewar::displayBoom(int x, int y){
 	boomsUsed++;
  	if (boomsUsed == BALL_COUNT) boomsUsed = 0;
 
+}
+
+void Spacewar::resetGame() {
+	for(int i = 0; i < GOBLIN_COUNT; i++) {
+		goblins[i].setFrames(goblinNS::WALK_START_FRAME, goblinNS::WALK_END_FRAME);
+		goblins[i].setCurrentFrame(goblinNS::WALK_START_FRAME);
+		goblins[i].setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY);
+
+		goblins[i].setVisible(false);
+		goblins[i].setActive(false);
+
+		scorePopups[i].timer = SCORE_POPUP_TIME;
+	}
+
+	for(int i = 0; i < BALL_COUNT; i++) {
+		booms[i].setVisible(false);
+		booms[i].setActive(false);
+		balls[i].setVisible(false);
+		balls[i].setActive(false);
+	}
+
+	reloadTimer = RELOAD_TIME;
+	pointsToLose = 0;
+	pointsJustLost = 0;
+
+	spawnCount = 0;
+	killCount = 0;
+	cannon.setDegrees(0);
 }
 
 //void Spacewar::lose() {

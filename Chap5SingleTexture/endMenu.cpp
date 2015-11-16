@@ -14,8 +14,7 @@ void endMenu::initialize(Graphics *g, Input *i)
 {
 	menuHeading ="GAME OVER";
 	menuItem1 = "Play Again";
-	menuItem2 = "Credits";
-	menuItem3 = "Quit";
+	menuItem2 = "Quit";
 	highlightColor = graphicsNS::RED;
 	normalColor = graphicsNS::WHITE;
 	menuAnchor = D3DXVECTOR2(360,50);
@@ -64,8 +63,8 @@ void endMenu::update()
 			linePtr++;
 		}
 	}
-	if (linePtr > 2) linePtr = 0;
-	if (linePtr < 0) linePtr = 2;
+	if (linePtr > 1) linePtr = 0;
+	if (linePtr < 0) linePtr = 1;
 
 	if (input->isKeyDown(VK_RETURN))
 		selectedItem = linePtr;
@@ -74,7 +73,7 @@ void endMenu::update()
 
 void endMenu::displayMenu()
 {
-	menuHeadingFont->print(menuHeading, menuAnchor.x, menuAnchor.y);
+	menuHeadingFont->print(menuHeading, menuAnchor.x + 100, menuAnchor.y);
 	int foo = 2*verticalOffset;
 
 	if (linePtr==0)
@@ -86,11 +85,6 @@ void endMenu::displayMenu()
 		menuItemFontHighlight->print(menuItem2, itemsMid, menuAnchor.y+foo);
 	else
 		menuItemFont->print(menuItem2, itemsMid, menuAnchor.y+foo);
-	foo = 4*verticalOffset;
-
-	if (linePtr==2)
-		menuItemFontHighlight->print(menuItem3, itemsMid, menuAnchor.y+foo);
-	else
-		menuItemFont->print(menuItem3, itemsMid, menuAnchor.y+foo);
+	
 }
 

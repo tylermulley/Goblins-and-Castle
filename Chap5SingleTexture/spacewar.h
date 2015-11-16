@@ -34,6 +34,8 @@ class Spacewar : public Game
 {
 private:
 
+	void resetGame();
+
 	TextDX  *headingFont;
 	TextDX  *highlightFont;
 	TextDX  *smallFont;
@@ -76,6 +78,9 @@ private:
 	TextureManager boomTexture;
 	Boom booms[BALL_COUNT];
 
+	TextureManager nukeTexture;
+	Image nuke;
+
 	int score;
 	int level;
 
@@ -99,6 +104,8 @@ private:
 
 	int spawnCount;
 	int killCount;
+
+	bool nuking;
 
 	float RELOAD_TIME;
 	int FULL_HEALTH;
