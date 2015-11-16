@@ -24,6 +24,7 @@ Boom::Boom() : Entity()
 	timeOnScreen = 0;
 	active = false;  
 	collisionType = entityNS::BOX;
+	BOOM_RADIUS_OFFSET = 15;
 }
 
 void Boom::update(float frameTime)

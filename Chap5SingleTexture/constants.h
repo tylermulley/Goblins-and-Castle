@@ -39,6 +39,7 @@ const int PRICE = 100;
 const float RELOAD_UPGRADE = 0.05;
 const int ARMOR_UPGRADE = 10;
 const int BLAST_UPGRADE = 1;
+const int RELOADING_IMAGE_COUNT = 50;
 
 // graphic images
 const char BKG_IMAGE[] = "pictures\\background.png";
@@ -52,6 +53,7 @@ const char CANNON_IMAGE[] = "pictures\\launcher.png";
 const char POLE_IMAGE[] = "pictures\\pole.png";
 const char CANNONBALL_SHEET[] = "pictures\\cannonball.png";
 const char BOOM_SHEET[] = "pictures\\boom_sheet.png";
+const char RELOADING_IMAGE[] = "pictures\\health.png";
 
    // time between frames of ship animation
 
@@ -97,6 +99,7 @@ const UCHAR ENTER_KEY    = VK_RETURN;   // Enter key
 #define TOWER_IMAGE_SCALE 1.5
 #define TOWER_BACK_SCALE 1.7
 #define CANNON_IMAGE_SCALE 0.33
+#define RELOADING_IMAGE_SCALE 0.33
 #define POLE_IMAGE_SCALE 0.6
 #define BALL_IMAGE_SCALE .15
 #define BOOM_IMAGE_SCALE .25

@@ -40,6 +40,7 @@ private:
    COLOR_ARGB normalColor;
    bool upDepressedLastFrame;
    bool downDepressedLastFrame;
+   bool returnDepressedLastFrame;
   
 
 public:

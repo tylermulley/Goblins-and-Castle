@@ -25,7 +25,6 @@ Spacewar::Spacewar() {
 
 	spawnCount = 0;
 	currentMenu = -1;
-	gameOver = false;
 	ballsShot = 0;
 	currentShotX = 0;
 	currentShotY = 0;
@@ -33,17 +32,14 @@ Spacewar::Spacewar() {
 	boomsUsed = 0;
 	reloadTimer = RELOAD_TIME;
 	goblinTimer = MIN_GOBLIN_TIME;
+
 	score = 0;
+	level = 1;
+
 	pointsToLose = 0;
 	pointsJustLost = 0;
 	negPointsTimer = SCORE_POPUP_TIME;
 	killCount = 0;
-
-	for (int i = 0; i < GOBLIN_COUNT; i++) {
-		scorePopups[i].x = 0;
-		scorePopups[i].timer = 0;
-		booms[i].setBoomRadiusOffset(15);
-	}
 }
 
 //=============================================================================
@@ -159,6 +155,17 @@ void Spacewar::initialize(HWND hwnd)
 	cannon.setScale(CANNON_IMAGE_SCALE);
 	cannonRadius = cannon.getCenterX() - cannon.getX();
 
+	if (!reloadingTexture.initialize(graphics, RELOADING_IMAGE))
+        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing game textures"));
+
+	for (int i = 0; i < RELOADING_IMAGE_COUNT; i++) {
+		if (!reloading[i].initialize(graphics, 0, 0, 0, &reloadingTexture))
+			throw(GameError(gameErrorNS::FATAL_ERROR, "Health texture initialization failed"));
+		reloading[i].setX(110 + i);
+		reloading[i].setY(290);
+		reloading[i].setScale(RELOADING_IMAGE_SCALE);
+	}
+
 	if (!poleTexture.initialize(graphics, POLE_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Cannon texture initialization failed"));
 	if (!pole.initialize(graphics, 0,0,0, &poleTexture))
@@ -190,15 +197,41 @@ void Spacewar::gameStateUpdate()
 	if (gameStates == startMenu && mainMenu -> getSelectedItem() == 0){
 		gameStates = gamePlay;
 	}
-	if (killCount == GOBLIN_COUNT) {
+	if (killCount == GOBLIN_COUNT) { // reset everything
+		for(int i = 0; i < GOBLIN_COUNT; i++) {
+			goblins[i].setFrames(goblinNS::WALK_START_FRAME, goblinNS::WALK_END_FRAME);
+			goblins[i].setCurrentFrame(goblinNS::WALK_START_FRAME);
+			goblins[i].setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY);
+
+			scorePopups[i].timer = SCORE_POPUP_TIME;
+
+			booms[i].setVisible(false);
+			booms[i].setActive(false);
+		}
+
+		for(int i = 0; i < BALL_COUNT; i++) {
+			booms[i].setVisible(false);
+			booms[i].setActive(false);
+			balls[i].setVisible(false);
+			balls[i].setActive(false);
+		}
+
+		reloadTimer = RELOAD_TIME;
+		pointsToLose = 0;
+		pointsJustLost = 0;
+
 		spawnCount = 0;
-		gameOver = false;
 		killCount = 0;
 		tower.setHealth(FULL_HEALTH);
-		gameStates = store;
-	}
-	if (gameOver){
-		gameStates = end;
+
+		if (level == 3) {
+			gameStates = end;
+			level = 1;
+		}
+		else {
+			gameStates = store;
+			level++;
+		}
 	}
 	
 }
@@ -281,8 +314,6 @@ void Spacewar::update()
 			}
 		}
 
-		
-
 		spawn = rand() % 150;
 
 		goblinTimer += frameTime;
@@ -293,18 +324,12 @@ void Spacewar::update()
 			spawnCount += 1;
 			goblinTimer = 0;
 		}
-		// test damage
-		// tower.setHealth(tower.getHealth() - .1);
 
-		if (tower.getHealth() <= 20) tower.setTextureManager(&tower20Texture);
-		else if (tower.getHealth() <= 40)tower.setTextureManager(&tower40Texture);
-		else if (tower.getHealth() <= 60)tower.setTextureManager(&tower60Texture);
-		else if (tower.getHealth() <= 80)tower.setTextureManager(&tower80Texture);
-
-		if(input -> isKeyDown(VK_TAB)){
-			gameOver = true;
-			currentMenu = -1;
-		}
+		if(tower.getHealth() <= FULL_HEALTH * 0.2) tower.setTextureManager(&tower20Texture);
+		else if(tower.getHealth() <= FULL_HEALTH * 0.4) tower.setTextureManager(&tower40Texture);
+		else if(tower.getHealth() <= FULL_HEALTH * 0.6) tower.setTextureManager(&tower60Texture);
+		else if(tower.getHealth() <= FULL_HEALTH * 0.8) tower.setTextureManager(&tower80Texture);
+		else tower.setTextureManager(&tower100Texture);
 
 		if(pointsToLose > 0 && negPointsTimer >= SCORE_POPUP_TIME) {
 			score -= pointsToLose;
@@ -347,6 +372,8 @@ void Spacewar::update()
 			break;
 
 		}
+
+		currentMenu = -1;
 		
 		if(input->wasKeyPressed(VK_ESCAPE)) gameStates = gamePlay;
 		
@@ -381,9 +408,6 @@ void Spacewar::collisions()
 {
 	VECTOR2 collisionVector;
 	for(int i = 0; i < GOBLIN_COUNT; i++){
-		if(goblins[i].collidesWith(tower, collisionVector)){
-			goblins[i].setX(goblins[i].getX()); // isn't this pointless?
-		}
 
 		// not technically a collision, but remove castle health once per goblin attack loop
 		if(goblins[i].getActive() && goblins[i].getX() < GAME_WIDTH && goblins[i].getCurrentFrame() == 64) {
@@ -471,6 +495,10 @@ void Spacewar::render()
 
 		scorePopupFont->print("$" + std::to_string(score), 10, 10);
 
+		for(int i = 0; i < reloadTimer / RELOAD_TIME * RELOADING_IMAGE_COUNT && i < RELOADING_IMAGE_COUNT; i++) {
+			reloading[i].draw();
+		}
+
 		break;
 
 	case store:
@@ -482,6 +510,7 @@ void Spacewar::render()
 		if (currentMenu < 0) lastMenu -> displayMenu();
 		else if (currentMenu == 0){
 			gameStates = gamePlay;
+			score = 0;  // reset this late so we can show score on end screen
 			currentMenu = -1;
 		}
 		else if (currentMenu == 2) {

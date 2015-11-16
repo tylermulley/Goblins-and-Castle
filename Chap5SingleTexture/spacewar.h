@@ -55,6 +55,9 @@ private:
 	TextureManager cannonTexture;
 	Image cannon;
 
+	TextureManager reloadingTexture;
+	Image reloading[50];
+
 	TextureManager tower100Texture;
 	TextureManager tower80Texture;
 	TextureManager tower60Texture;
@@ -73,11 +76,16 @@ private:
 	Boom booms[BALL_COUNT];
 
 	int score;
+	int level;
+
 	int currentMenu;
+
 	int ballsShot;
 	int boomsUsed;
+
 	float reloadTimer;
 	float goblinTimer;
+
 	ScorePopup scorePopups[GOBLIN_COUNT];
 
 	int pointsToLose;
@@ -95,9 +103,6 @@ private:
 	int FULL_HEALTH;
 	
 	D3DXVECTOR3 cannonVector;
-
-	bool gameOver;
-
 
 	GameStates gameStates;
 	

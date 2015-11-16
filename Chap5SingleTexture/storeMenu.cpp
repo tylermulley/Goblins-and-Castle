@@ -39,8 +39,10 @@ void StoreMenu::initialize(Game *gamePtr, Graphics *g, Input *i)
 	menuHeadingFont->setFontColor(normalColor);
 	menuItemFont->setFontColor(normalColor);
 	menuItemFontHighlight->setFontColor(highlightColor);
+
 	upDepressedLastFrame = false;
 	downDepressedLastFrame = false;
+	returnDepressedLastFrame = false;
 
 	audio = gamePtr->getAudio();
 }
@@ -54,6 +56,9 @@ void StoreMenu::update()
 	}
 	if(!(input->isKeyDown(VK_DOWN))){
 		downDepressedLastFrame = false;
+	}
+	if(!(input->isKeyDown(VK_RETURN))){
+		returnDepressedLastFrame = false;
 	}
 
 	if(!upDepressedLastFrame){
@@ -75,9 +80,12 @@ void StoreMenu::update()
 	if (linePtr > 2) linePtr = 0;
 	if (linePtr < 0) linePtr = 2;
 
-	if (input->isKeyDown(VK_RETURN)) {
-		audio->playCue(BEEP);
-		selectedItem = linePtr;
+	if(!returnDepressedLastFrame) {
+		if (input->isKeyDown(VK_RETURN)) {
+			returnDepressedLastFrame = true;
+			audio->playCue(BEEP);
+			selectedItem = linePtr;
+		}
 	}
 	else selectedItem = -1;
 }
