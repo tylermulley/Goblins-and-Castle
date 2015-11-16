@@ -663,9 +663,7 @@ void Spacewar::resetGame() {
 	for(int i = 0; i < BALL_COUNT; i++) {
 		booms[i].setVisible(false);
 		booms[i].setActive(false);
-		booms[i].setX(-2*GAME_WIDTH);
-		booms[i].setY(-2*GAME_HEIGHT);
-
+	
 		balls[i].setVisible(false);
 		balls[i].setActive(false);
 	}

@@ -60,6 +60,7 @@ bool cannonBall::setBallMovement(D3DXVECTOR3 vec, float frameTime){
 			audio->playCue(BOOM);
 			setActive(false);
 			setVisible(false);
+			
 			firstShot = true;
 			velocity.x = cannonBallNS::SPEED;                           // velocity X 
 			velocity.y = -cannonBallNS::SPEED;

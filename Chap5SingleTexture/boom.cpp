@@ -36,6 +36,9 @@ void Boom::update(float frameTime)
 	if (timeOnScreen > BOOM_TIME){
 		setActive(false);
 		setVisible(false);
+		setX(-2*GAME_WIDTH);
+		setY(-2*GAME_HEIGHT);
+
 		timeOnScreen = 0;
 	}
 
