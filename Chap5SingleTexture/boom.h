@@ -33,5 +33,9 @@ public:
     Boom();
 	void update(float frameTime);
 	float timeOnScreen;
+	int getBoomRadiusOffset() { return BOOM_RADIUS_OFFSET; }
+	void setBoomRadiusOffset(int os) { BOOM_RADIUS_OFFSET = os; }
+private:
+	int BOOM_RADIUS_OFFSET;
 };
 #endif

@@ -16,6 +16,7 @@
 #include "goblin.h"
 #include "tower.h"
 #include "menu.h"
+#include "storeMenu.h"
 #include <sstream>
 #include <string>
 #include "endMenu.h"
@@ -37,9 +38,9 @@ private:
 	TextDX  *highlightFont;
 	TextDX	*scorePopupFont;
 	TextDX	*negPointsFont;
-	int spawnCount;
 
 	Menu *mainMenu;
+	StoreMenu *storeMenu;
 	endMenu *lastMenu;
 	std::string outString;
 	// My defines
@@ -86,6 +87,12 @@ private:
 	int currentShotX;
 	int currentShotY;
 	int cannonRadius;
+
+	int spawnCount;
+	int killCount;
+
+	float RELOAD_TIME;
+	int FULL_HEALTH;
 	
 	D3DXVECTOR3 cannonVector;
 

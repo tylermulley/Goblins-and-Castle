@@ -38,10 +38,10 @@ void Boom::update(float frameTime)
 		timeOnScreen = 0;
 	}
 
-	edge.bottom = spriteData.y + (spriteData.height * BOOM_IMAGE_SCALE) - 15;
-	edge.top = spriteData.y + 15;
-	edge.right = spriteData.x + (spriteData.width * BOOM_IMAGE_SCALE) - 15;
-	edge.left = spriteData.x + 15;
+	edge.bottom = spriteData.y + (spriteData.height * BOOM_IMAGE_SCALE) - BOOM_RADIUS_OFFSET;
+	edge.top = spriteData.y + BOOM_RADIUS_OFFSET;
+	edge.right = spriteData.x + (spriteData.width * BOOM_IMAGE_SCALE) - BOOM_RADIUS_OFFSET;
+	edge.left = spriteData.x + BOOM_RADIUS_OFFSET;
 
 }
 

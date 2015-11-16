@@ -20,6 +20,9 @@ Spacewar::Spacewar() {
 	scorePopupFont = new TextDX();
 	negPointsFont = new TextDX();
 
+	RELOAD_TIME = 1.4;
+	FULL_HEALTH = 100;
+
 	spawnCount = 0;
 	currentMenu = -1;
 	gameOver = false;
@@ -34,10 +37,12 @@ Spacewar::Spacewar() {
 	pointsToLose = 0;
 	pointsJustLost = 0;
 	negPointsTimer = SCORE_POPUP_TIME;
+	killCount = 0;
 
 	for (int i = 0; i < GOBLIN_COUNT; i++) {
 		scorePopups[i].x = 0;
 		scorePopups[i].timer = 0;
+		booms[i].setBoomRadiusOffset(15);
 	}
 }
 
@@ -60,6 +65,9 @@ void Spacewar::initialize(HWND hwnd)
 
 	mainMenu = new Menu();
 	mainMenu->initialize(this, graphics, input);
+
+	storeMenu = new StoreMenu();
+	storeMenu->initialize(this, graphics, input);
 
 	lastMenu = new endMenu();
 	lastMenu->initialize(graphics, input);
@@ -179,8 +187,15 @@ void Spacewar::initialize(HWND hwnd)
 }
 void Spacewar::gameStateUpdate()
 {
-	if (mainMenu -> getSelectedItem() == 0){
+	if (gameStates == startMenu && mainMenu -> getSelectedItem() == 0){
 		gameStates = gamePlay;
+	}
+	if (killCount == GOBLIN_COUNT) {
+		spawnCount = 0;
+		gameOver = false;
+		killCount = 0;
+		tower.setHealth(FULL_HEALTH);
+		gameStates = store;
 	}
 	if (gameOver){
 		gameStates = end;
@@ -302,6 +317,41 @@ void Spacewar::update()
 		// arctan(cannonHeightFromGround / gobDistToCastle)
 		//cannon.setRadians(atan(tower.getHeight() * TOWER_IMAGE_SCALE / goblins[0].getDistance(tower.getWidth() + backTower.getWidth())));
 		break;
+
+	case store:
+
+		storeMenu -> update();
+
+		switch (storeMenu->getSelectedItem()) {
+
+		case 0:
+			if(score > PRICE) {
+				score -= PRICE;
+				RELOAD_TIME -= RELOAD_UPGRADE;
+			}
+			break;
+	
+		case 1:
+			if(score > PRICE) {
+				score -= PRICE;
+				FULL_HEALTH += 10;
+				tower.setHealth(FULL_HEALTH);
+			}
+			break;
+	
+		case 2:
+			if(score > PRICE) {
+				score -= PRICE;
+				for(int i = 0; i < GOBLIN_COUNT; i++) booms[i].setBoomRadiusOffset(booms[i].getBoomRadiusOffset() - 10);
+			}
+			break;
+
+		}
+		
+		if(input->wasKeyPressed(VK_ESCAPE)) gameStates = gamePlay;
+		
+		break;
+
 	case end:
 		lastMenu -> update();
 		if (lastMenu -> getSelectedItem() == 0) currentMenu = 0;
@@ -351,6 +401,7 @@ void Spacewar::collisions()
  			if(balls[i].collidesWith(goblins[j], collisionVector)){
  				goblins[j].setActive(false);
  				goblins[j].setVisible(false);
+				killCount++;
 				scorePopups[j].x = goblins[j].getX();
 				scorePopups[j].timer = frameTime;
 				score += goblins[j].getX() / SCORE_DIVIDER;
@@ -364,6 +415,7 @@ void Spacewar::collisions()
 			if(booms[i].timeOnScreen < BOOM_TIME / 2 && booms[i].collidesWith(goblins[j], collisionVector)){
  				goblins[j].setActive(false);
  				goblins[j].setVisible(false);
+				killCount++;
 				scorePopups[j].x = goblins[j].getX();
 				scorePopups[j].timer = frameTime;
 				score += goblins[j].getX() / SCORE_DIVIDER;
@@ -420,17 +472,17 @@ void Spacewar::render()
 		scorePopupFont->print("$" + std::to_string(score), 10, 10);
 
 		break;
+
+	case store:
+		storeMenu->displayMenu();
+		scorePopupFont->print("$" + std::to_string(score), 10, 10);
+		break;
+
 	case end:
 		if (currentMenu < 0) lastMenu -> displayMenu();
 		else if (currentMenu == 0){
 			gameStates = gamePlay;
-			for(int i = 0; i < GOBLIN_COUNT; i++){
-				goblins[i].setActive(false);
-				goblins[i].setVisible(false);	
-			}
-			spawnCount = 0;
 			currentMenu = -1;
-			gameOver = false;
 		}
 		else if (currentMenu == 2) {
 			PostQuitMessage(0);

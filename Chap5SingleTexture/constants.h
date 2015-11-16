@@ -28,14 +28,17 @@
 //-----------------------------------------------
 
 //gameplay
-const int GOBLIN_COUNT = 40;
+const int GOBLIN_COUNT = 10;
 const int BALL_COUNT = 50;
 const float BOOM_TIME = 0.4;
-const float ROATATION_SPEED = .004;
-const float RELOAD_TIME = 1.5;
+const float ROATATION_SPEED = .0075;
 const float MIN_GOBLIN_TIME = 0.2;
 const float SCORE_POPUP_TIME = 1.0;
 const int SCORE_DIVIDER = 20;
+const int PRICE = 100;
+const float RELOAD_UPGRADE = 0.05;
+const int ARMOR_UPGRADE = 10;
+const int BLAST_UPGRADE = 1;
 
 // graphic images
 const char BKG_IMAGE[] = "pictures\\background.png";
@@ -99,7 +102,7 @@ const UCHAR ENTER_KEY    = VK_RETURN;   // Enter key
 #define BOOM_IMAGE_SCALE .25
 
 //states
-enum GameStates {startMenu, dirMenu, credMenu, gamePlay, end};
+enum GameStates {startMenu, dirMenu, credMenu, gamePlay, store, end};
 
 
 

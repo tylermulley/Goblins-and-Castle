@@ -63,6 +63,9 @@
     <ClCompile Include="cannonBall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="storeMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h">
@@ -111,6 +114,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cannonBall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="storeMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
