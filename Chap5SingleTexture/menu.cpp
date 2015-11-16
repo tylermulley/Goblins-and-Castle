@@ -12,7 +12,7 @@ Menu::Menu()
 
 void Menu::initialize(Game *gamePtr, Graphics *g, Input *i)
 {
-	menuHeading ="Goblins and Castle";
+	menuHeading ="Bombin' Goblins";
 	menuItem1 = "Play";
 	menuItem2 = "Directions";
 	menuItem3 = "Credits";

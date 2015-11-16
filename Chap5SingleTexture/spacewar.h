@@ -52,6 +52,9 @@ private:
 	TextureManager bkgTexture;
 	Image bkg;
 
+	TextureManager splashTexture;
+	Image splash;
+
 	TextureManager poleTexture;
 	Image pole;
 
@@ -80,6 +83,8 @@ private:
 
 	TextureManager nukeTexture;
 	Image nuke;
+
+	float splashTimer;
 
 	int score;
 	int level;

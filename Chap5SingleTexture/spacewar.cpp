@@ -21,6 +21,8 @@ Spacewar::Spacewar() {
 	negPointsFont = new TextDX();
 	smallFont = new TextDX();
 
+	splashTimer = 0;
+
 	RELOAD_TIME = 1.4;
 	FULL_HEALTH = 100;
 
@@ -71,7 +73,7 @@ void Spacewar::initialize(HWND hwnd)
 	lastMenu = new endMenu();
 	lastMenu->initialize(graphics, input);
 
-	//audio->playCue(BKG_MUSIC);
+	audio->playCue(BKG_MUSIC);
 
 	srand(time(NULL));
 
@@ -82,6 +84,14 @@ void Spacewar::initialize(HWND hwnd)
 	bkg.setX(0);
 	bkg.setY(0);
 	bkg.setScale(BKG_IMAGE_SCALE);
+
+	if (!splashTexture.initialize(graphics, SPLASH_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Splash texture initialization failed"));
+	if (!splash.initialize(graphics, 0,0,0, &splashTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error init splash"));
+	splash.setX(0);
+	splash.setY(0);
+	splash.setScale(SPLASH_IMAGE_SCALE);
 
 	if (!tower100Texture.initialize(graphics, TOWER_100_HP_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Bkg texture initialization failed"));
@@ -406,7 +416,10 @@ void Spacewar::update()
 
 		currentMenu = -1;
 		
-		if(input->wasKeyPressed(VK_SPACE)) gameStates = gamePlay;
+		if(input->wasKeyPressed(VK_ESCAPE)) {
+			tower.setHealth(FULL_HEALTH); // late because we don't want it in resetGame. I forget why.
+			gameStates = gamePlay;
+		}
 		
 		break;
 
@@ -552,7 +565,7 @@ void Spacewar::render()
 		smallFont->setFontColor(graphicsNS::GREEN);
 		smallFont->print("$" + std::to_string(score), 10, 10);
 		smallFont->setFontColor(graphicsNS::WHITE);
-		highlightFont->print("Press SPACE to Return to the Game", 340, 480);
+		highlightFont->print("Press ENTER to buy, ESCAPE to continue.", 240, 480);
 		
 		break;
 
@@ -575,6 +588,10 @@ void Spacewar::render()
 		break;
 	}
 
+	if(splashTimer < 3) {
+		splash.draw();
+		splashTimer += frameTime;
+	}
 
 	graphics->spriteEnd();                  // end drawing sprites
 }

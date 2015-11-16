@@ -36,8 +36,8 @@ const float MIN_GOBLIN_TIME = 0.2;
 const float SCORE_POPUP_TIME = 1.0;
 const int SCORE_DIVIDER = 20;
 const int PRICE = 150;
-const float RELOAD_UPGRADE = 0.065;
-const int ARMOR_UPGRADE = 20;
+const float RELOAD_UPGRADE = 0.06;
+const int ARMOR_UPGRADE = 30;
 const int BLAST_UPGRADE = 2;
 const int RELOADING_IMAGE_COUNT = 50;
 
@@ -55,6 +55,7 @@ const char CANNONBALL_SHEET[] = "pictures\\cannonball.png";
 const char BOOM_SHEET[] = "pictures\\boom_sheet.png";
 const char RELOADING_IMAGE[] = "pictures\\health.png";
 const char NUKE_IMAGE[] = "pictures\\bomb_2.png";
+const char SPLASH_IMAGE[] = "pictures\\poster.png";
 
    // time between frames of ship animation
 
@@ -70,6 +71,7 @@ const char SOUND_BANK[] = "audio\\Win\\Sound Bank.xsb";
 const char BOOM[] = "boom";
 const char FIRE[] = "Tank";
 const char BEEP[] = "beep1";
+const char BKG_MUSIC[] = "bkg";
 
 // window
 const char CLASS_NAME[] = "Spacewar";
@@ -106,6 +108,7 @@ const UCHAR ENTER_KEY    = VK_RETURN;   // Enter key
 #define BOOM_IMAGE_SCALE .25
 #define NUKE_IMAGE_SCALE 0.5
 #define NUKE_BOOM_IMAGE_SCALE 1.9
+#define SPLASH_IMAGE_SCALE 0.75
 
 //states
 enum GameStates {startMenu, dirMenu, credMenu, gamePlay, store, end};

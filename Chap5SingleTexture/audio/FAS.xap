@@ -16,8 +16,8 @@ Global Settings
     Header File = FAS.h;
     Exclude Category Names = 0;
     Exclude Variable Names = 0;
-    Last Modified Low = 654231282;
-    Last Modified High = 30482249;
+    Last Modified Low = 1027414089;
+    Last Modified High = 30482476;
 
     Category
     {
@@ -227,10 +227,10 @@ Wave Bank
     Compression Preset Name = <none>;
     Xbox Bank Last Modified Low = 0;
     Xbox Bank Last Modified High = 0;
-    PC Bank Last Modified Low = 1061598691;
-    PC Bank Last Modified High = 30482250;
-    Bank Last Revised Low = 1002010998;
-    Bank Last Revised High = 30482250;
+    PC Bank Last Modified Low = 1027484136;
+    PC Bank Last Modified High = 30482476;
+    Bank Last Revised Low = 794201039;
+    Bank Last Revised High = 30482476;
 
     Wave
     {
@@ -369,6 +369,29 @@ Wave Bank
             Last Modified High = 30482250;
         }
     }
+
+    Wave
+    {
+        Name = bkg;
+        File = bkg.wav;
+        Build Settings Last Modified Low = 761387127;
+        Build Settings Last Modified High = 30482476;
+
+        Cache
+        {
+            Format Tag = 0;
+            Channels = 2;
+            Sampling Rate = 44100;
+            Bits Per Sample = 1;
+            Play Region Offset = 736;
+            Play Region Length = 5556600;
+            Loop Region Offset = 0;
+            Loop Region Length = 0;
+            File Type = 1;
+            Last Modified Low = 177497589;
+            Last Modified High = 30482476;
+        }
+    }
 }
 
 Sound Bank
@@ -378,8 +401,8 @@ Sound Bank
     Windows File = Win\Sound Bank.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
-    Bank Last Modified Low = 1061808739;
-    Bank Last Modified High = 30482250;
+    Bank Last Modified Low = 2861106071;
+    Bank Last Modified High = 30482476;
     Header Last Modified High = 0;
     Header Last Modified Low = 0;
 
@@ -666,6 +689,54 @@ Sound Bank
         }
     }
 
+    Sound
+    {
+        Name = bkg;
+        Volume = -1200;
+        Pitch = 0;
+        Priority = 0;
+
+        Category Entry
+        {
+            Name = Default;
+        }
+
+        Track
+        {
+            Volume = 0;
+            Use Filter = 0;
+
+            Play Wave Event
+            {
+                Loop Count = 255;
+                Break Loop = 0;
+                Use Speaker Position = 0;
+                Use Center Speaker = 1;
+                New Speaker Position On Loop = 1;
+                Speaker Position Angle = 0.000000;
+                Speaker Position Arc = 0.000000;
+
+                Event Header
+                {
+                    Timestamp = 0;
+                    Relative = 0;
+                    Random Recurrence = 0;
+                    Random Offset = 0;
+                }
+
+                Wave Entry
+                {
+                    Bank Name = Wave Bank;
+                    Bank Index = 0;
+                    Entry Name = bkg;
+                    Entry Index = 6;
+                    Weight = 255;
+                    Weight Min = 0;
+                }
+            }
+        }
+    }
+
     Cue
     {
         Name = sea shanty;
@@ -781,6 +852,26 @@ Sound Bank
         {
             Name = beep1;
             Index = 5;
+            Weight Min = 0;
+            Weight Max = 255;
+        }
+    }
+
+    Cue
+    {
+        Name = bkg;
+
+        Variation
+        {
+            Variation Type = 3;
+            Variation Table Type = 1;
+            New Variation on Loop = 0;
+        }
+
+        Sound Entry
+        {
+            Name = bkg;
+            Index = 6;
             Weight Min = 0;
             Weight Max = 255;
         }
