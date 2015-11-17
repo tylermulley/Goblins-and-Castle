@@ -24,6 +24,7 @@ Spacewar::Spacewar() {
 	splashTimer = 0;
 
 	RELOAD_TIME = 1.4;
+	//RELOAD_TIME = .05;
 	FULL_HEALTH = 100;
 
 	spawnCount = 0;
@@ -267,6 +268,7 @@ void Spacewar::update()
 				currentMenu = -1;
 			}
 		}
+
 		break;
 	case gamePlay:
 
@@ -294,17 +296,17 @@ void Spacewar::update()
 		D3DXVec3Normalize(&cannonVector , &cannonVector);
 
 		//shoot 
+		if (ballsShot >= BALL_COUNT){
+				ballsShot = 0;
+		}
 		reloadTimer += frameTime;
 		if(input -> wasKeyPressed(VK_SPACE) && reloadTimer >= RELOAD_TIME && ballsShot < BALL_COUNT){
-			audio->playCue(FIRE);
+			audio->playCue(FIRE);  
 			balls[ballsShot].setActive(true);
 			balls[ballsShot].setVisible(true);
 			balls[ballsShot].setX(currentShotX);
 			balls[ballsShot].setY(currentShotY);
 			ballsShot++;
-			if (ballsShot >= BALL_COUNT){
-				ballsShot = 0;
-			}
 			reloadTimer = 0;
 		}
 
@@ -318,6 +320,8 @@ void Spacewar::update()
 			}	
 			booms[i].update(frameTime);
 		}
+		
+
 		for(int i = 0; i < GOBLIN_COUNT; i++){
 			if (goblins[i].getActive()) {
 				goblins[i].senseDistance(tower.getX() + (tower.getWidth() * TOWER_IMAGE_SCALE), level);
@@ -389,7 +393,7 @@ void Spacewar::update()
 	case store:
 
 		storeMenu -> update();
-
+		ballsShot = 0;
 		switch (storeMenu->getSelectedItem()) {
 
 		case 0:
@@ -593,7 +597,7 @@ void Spacewar::render()
 	}
 
 	if(splashTimer < 3) {
-		splash.draw();
+		//splash.draw();
 		splashTimer += frameTime;
 	}
 

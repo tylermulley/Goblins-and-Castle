@@ -37,7 +37,7 @@ const float SCORE_POPUP_TIME = 1.0;
 const int SCORE_DIVIDER = 20;
 const int PRICE = 150;
 const float RELOAD_UPGRADE = 0.06;
-const int ARMOR_UPGRADE = 30;
+const int ARMOR_UPGRADE = 40;
 const int BLAST_UPGRADE = 2;
 const int RELOADING_IMAGE_COUNT = 50;
 
