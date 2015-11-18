@@ -204,21 +204,21 @@ void Spacewar::initialize(HWND hwnd)
 	nuke.setScale(NUKE_IMAGE_SCALE);
 	nuke.setVisible(false);
 
-	if(headingFont->initialize(graphics, 100, true, false, "Calibri") == false)
+	if(headingFont->initialize(graphics, 100, true, false, "Segoe Marker") == false)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
-	if(highlightFont->initialize(graphics, 70, true, false, "Calibri") == false)
+	if(highlightFont->initialize(graphics, 70, true, false, "Segoe Marker") == false)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
 	highlightFont -> setFontColor(graphicsNS::RED);
 
-	if(scorePopupFont->initialize(graphics, 28, true, false, "Calibri") == false)
+	if(scorePopupFont->initialize(graphics, 28, true, false, "Segoe Marker") == false)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
 	scorePopupFont -> setFontColor(graphicsNS::GREEN);
 
-	if(negPointsFont->initialize(graphics, 34, true, false, "Calibri") == false)
+	if(negPointsFont->initialize(graphics, 34, true, false, "Segoe Marker") == false)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
 	negPointsFont -> setFontColor(graphicsNS::RED);
 
-	if(smallFont->initialize(graphics, 50, true, false, "Calibri") == false)
+	if(smallFont->initialize(graphics, 50, true, false, "Segoe Marker") == false)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
 	smallFont -> setFontColor(graphicsNS::WHITE);
 
@@ -598,7 +598,7 @@ void Spacewar::render()
 		smallFont->setFontColor(graphicsNS::GREEN);
 		smallFont->print("$" + std::to_string(score), 10, 10);
 		smallFont->setFontColor(graphicsNS::WHITE);
-		highlightFont->print("Press ENTER to buy, ESCAPE to continue.", 240, 480);
+		highlightFont->print("Press ENTER to buy, ESCAPE to continue.", 230, 485);
 		
 		break;
 
@@ -617,8 +617,8 @@ void Spacewar::render()
 			PostQuitMessage(0);
 		}
 
-		if(tower.getHealth() <= 0) headingFont->print("You Died", 470, 450);
-		else headingFont->print("Score: " + std::to_string(score), 470, 450);
+		if(tower.getHealth() <= 0) headingFont->print("You Died", 560, 450);
+		else headingFont->print("Score: " + std::to_string(score), 525, 450);
 		
 		break;
 	}

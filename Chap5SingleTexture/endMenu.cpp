@@ -27,11 +27,11 @@ void endMenu::initialize(Graphics *g, Input *i)
 	menuItemFont = new TextDX();
 	menuHeadingFont = new TextDX();
 	menuItemFontHighlight = new TextDX();
-	if(menuItemFont->initialize(graphics, 50, true, false, "Calibri") == false)
+	if(menuItemFont->initialize(graphics, 50, true, false, "Segoe Marker") == false)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing menuItem font"));
-	if(menuItemFontHighlight->initialize(graphics, 70, true, false, "Calibri") == false)
+	if(menuItemFontHighlight->initialize(graphics, 70, true, false, "Segoe Marker") == false)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing menuItem font"));
-	if(menuHeadingFont->initialize(graphics, 100, true, false, "Calibri") == false)
+	if(menuHeadingFont->initialize(graphics, 125, true, false, "Segoe Marker") == false)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing menuHeading font"));
 	menuHeadingFont->setFontColor(normalColor);
 	menuItemFont->setFontColor(normalColor);
@@ -77,14 +77,14 @@ void endMenu::displayMenu()
 	int foo = 2*verticalOffset;
 
 	if (linePtr==0)
-		menuItemFontHighlight->print(menuItem1, itemsMid, menuAnchor.y + foo);
+		menuItemFontHighlight->print(menuItem1, itemsMid + 10, menuAnchor.y + foo - 10);
 	else
-		menuItemFont->print(menuItem1, itemsMid, menuAnchor.y+foo);
+		menuItemFont->print(menuItem1, itemsMid + 40, menuAnchor.y+foo);
 	foo = 3*verticalOffset;
 	if (linePtr==1)
-		menuItemFontHighlight->print(menuItem2, itemsMid, menuAnchor.y+foo);
+		menuItemFontHighlight->print(menuItem2, itemsMid + 70, menuAnchor.y+foo - 15);
 	else
-		menuItemFont->print(menuItem2, itemsMid, menuAnchor.y+foo);
+		menuItemFont->print(menuItem2, itemsMid + 80, menuAnchor.y+foo);
 	
 }
 

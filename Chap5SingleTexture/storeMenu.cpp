@@ -15,7 +15,7 @@ void StoreMenu::initialize(Game *gamePtr, Graphics *g, Input *i)
 	menuHeading = "Upgrades $" + std::to_string(PRICE) + " Each";
 	menuItem1 = "Increase Fire Rate";
 	menuItem2 = "Increase Tower Armor";
-	//menuItem3 = "Increase Explosion Radius";
+	menuItem3 = "Increase Explosion Radius";
 
 	highlightColor = graphicsNS::RED;
 	normalColor = graphicsNS::WHITE;
@@ -30,11 +30,11 @@ void StoreMenu::initialize(Game *gamePtr, Graphics *g, Input *i)
 	menuItemFont = new TextDX();
 	menuHeadingFont = new TextDX();
 	menuItemFontHighlight = new TextDX();
-	if(menuItemFont->initialize(graphics, 50, true, false, "Calibri") == false)
+	if(menuItemFont->initialize(graphics, 50, true, false, "Segoe Marker") == false)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing menuItem font"));
-	if(menuItemFontHighlight->initialize(graphics, 70, true, false, "Calibri") == false)
+	if(menuItemFontHighlight->initialize(graphics, 70, true, false, "Segoe Marker") == false)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing menuItem font"));
-	if(menuHeadingFont->initialize(graphics, 100, true, false, "Calibri") == false)
+	if(menuHeadingFont->initialize(graphics, 125, true, false, "Segoe Marker") == false)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing menuHeading font"));
 	menuHeadingFont->setFontColor(normalColor);
 	menuItemFont->setFontColor(normalColor);
@@ -77,8 +77,8 @@ void StoreMenu::update()
 			linePtr++;
 		}
 	}
-	if (linePtr > 1) linePtr = 0;
-	if (linePtr < 0) linePtr = 1;
+	if (linePtr > 2) linePtr = 0;
+	if (linePtr < 0) linePtr = 2;
 
 	if(!returnDepressedLastFrame) {
 		if (input->isKeyDown(VK_RETURN)) {
@@ -92,23 +92,23 @@ void StoreMenu::update()
 
 void StoreMenu::displayMenu()
 {
-	menuHeadingFont->print(menuHeading, menuAnchor.x - 50, menuAnchor.y);
+	menuHeadingFont->print(menuHeading, menuAnchor.x - 95, menuAnchor.y);
 	int foo = 2*verticalOffset;
 
 	if (linePtr==0)
-		menuItemFontHighlight->print(menuItem1, itemsMid - 130, menuAnchor.y + foo);
+		menuItemFontHighlight->print(menuItem1, itemsMid - 85, menuAnchor.y + foo - 10);
 	else
-		menuItemFont->print(menuItem1, itemsMid - 130, menuAnchor.y+foo);
+		menuItemFont->print(menuItem1, itemsMid - 40, menuAnchor.y+foo);
 	foo = 3*verticalOffset;
 	if (linePtr==1)
-		menuItemFontHighlight->print(menuItem2, itemsMid - 130, menuAnchor.y+foo);
+		menuItemFontHighlight->print(menuItem2, itemsMid - 125, menuAnchor.y+foo - 10);
 	else
-		menuItemFont->print(menuItem2, itemsMid - 130, menuAnchor.y+foo);
+		menuItemFont->print(menuItem2, itemsMid - 70, menuAnchor.y+foo);
 	foo = 4*verticalOffset;
 
-	/*if (linePtr==2)
-		menuItemFontHighlight->print(menuItem3, itemsMid - 130, menuAnchor.y+foo);
+	if (linePtr==2)
+		menuItemFontHighlight->print(menuItem3, itemsMid - 160, menuAnchor.y+foo - 10);
 	else
-		menuItemFont->print(menuItem3, itemsMid - 130, menuAnchor.y+foo);*/
+		menuItemFont->print(menuItem3, itemsMid - 100, menuAnchor.y+foo);
 }
 
