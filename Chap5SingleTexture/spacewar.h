@@ -116,6 +116,8 @@ private:
 	int FULL_HEALTH;
 	
 	D3DXVECTOR3 cannonVector;
+	VECTOR2 particleVector;
+	VECTOR2 particleSpeed;
 
 	GameStates gameStates;
 	

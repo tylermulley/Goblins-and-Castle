@@ -8,6 +8,9 @@
 #include "spaceWar.h"
 #include "time.h"
 #include <string>
+#include "particleManager.h"
+
+ParticleManager pm;
 
 using std::string;
 
@@ -77,6 +80,8 @@ void Spacewar::initialize(HWND hwnd)
 	audio->playCue(BKG_MUSIC);
 
 	srand(time(NULL));
+
+	pm.initialize(graphics);
 
 	if (!bkgTexture.initialize(graphics, BKG_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Bkg texture initialization failed"));
@@ -221,6 +226,13 @@ void Spacewar::initialize(HWND hwnd)
 
     return;
 }
+void createParticleEffect(VECTOR2 pos, VECTOR2 vel, int numParticles){
+
+	pm.setPosition(pos);
+	pm.setVelocity(vel);
+	pm.setVisibleNParticles(numParticles);
+
+}
 void Spacewar::gameStateUpdate()
 {
 	if (gameStates == startMenu && mainMenu -> getSelectedItem() == 0){
@@ -293,6 +305,12 @@ void Spacewar::update()
 
 		cannonVector.x = currentShotX - cannon.getCenterX();
 		cannonVector.y = cannon.getCenterY() - currentShotY;
+
+		// particle stuff
+		particleVector.x = currentShotX + 10;
+		particleVector.y = currentShotY + 5;
+		particleSpeed = VECTOR2(cannonVector.x,-cannonVector.y);
+
 		D3DXVec3Normalize(&cannonVector , &cannonVector);
 
 		//shoot 
@@ -301,11 +319,13 @@ void Spacewar::update()
 		}
 		reloadTimer += frameTime;
 		if(input -> wasKeyPressed(VK_SPACE) && reloadTimer >= RELOAD_TIME && ballsShot < BALL_COUNT){
-			audio->playCue(FIRE);  
+			audio->playCue(FIRE); 
+			pm.rotateImage(cannon.getRadians());
 			balls[ballsShot].setActive(true);
 			balls[ballsShot].setVisible(true);
 			balls[ballsShot].setX(currentShotX);
 			balls[ballsShot].setY(currentShotY);
+			createParticleEffect(particleVector, particleSpeed, 50);
 			ballsShot++;
 			reloadTimer = 0;
 		}
@@ -328,6 +348,9 @@ void Spacewar::update()
 				goblins[i].update(frameTime);
 			}
 		}
+
+		//particle update
+		pm.update(frameTime);
 
 		spawn = rand() % 150;
 
@@ -557,6 +580,7 @@ void Spacewar::render()
 			balls[i].draw();
 			booms[i].draw();
 		}
+		pm.draw();
 
 		smallFont->setFontColor(graphicsNS::GREEN);
 		smallFont->print("$" + std::to_string(score), 10, 10);

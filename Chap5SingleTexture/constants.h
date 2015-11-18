@@ -41,6 +41,11 @@ const int ARMOR_UPGRADE = 40;
 const int BLAST_UPGRADE = 2;
 const int RELOADING_IMAGE_COUNT = 50;
 
+//particle stuff
+const float MAX_PARTICLE_LIFETIME = .25f;
+const int MAX_NUMBER_PARTICLES = 500;
+
+
 // graphic images
 const char BKG_IMAGE[] = "pictures\\background.png";
 const char GOBLIN_SHEET[] = "pictures\\goblin_sheet.png";
@@ -56,6 +61,7 @@ const char BOOM_SHEET[] = "pictures\\boom_sheet.png";
 const char RELOADING_IMAGE[] = "pictures\\health.png";
 const char NUKE_IMAGE[] = "pictures\\bomb_2.png";
 const char SPLASH_IMAGE[] = "pictures\\poster.png";
+const char FLAMES_IMAGE[] = "pictures\\gunfire.png";
 
    // time between frames of ship animation
 

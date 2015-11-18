@@ -98,6 +98,8 @@
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="boom.cpp" />
     <ClCompile Include="menu.cpp" />
+    <ClCompile Include="particle.cpp" />
+    <ClCompile Include="particleManager.cpp" />
     <ClCompile Include="spacewar.cpp" />
     <ClCompile Include="storeMenu.cpp" />
     <ClCompile Include="textDX.cpp" />
@@ -118,6 +120,8 @@
     <ClInclude Include="image.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="menu.h" />
+    <ClInclude Include="particle.h" />
+    <ClInclude Include="particleManager.h" />
     <ClInclude Include="spacewar.h" />
     <ClInclude Include="storeMenu.h" />
     <ClInclude Include="textDX.h" />
