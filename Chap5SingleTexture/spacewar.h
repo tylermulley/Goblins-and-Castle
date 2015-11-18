@@ -74,6 +74,7 @@ private:
 
 	TextureManager goblinTexture;
 	Goblin goblins[GOBLIN_COUNT];
+	Goblin boss;
 
 	TextureManager cannonBallTexture;
 	cannonBall balls[BALL_COUNT];

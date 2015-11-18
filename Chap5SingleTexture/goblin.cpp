@@ -22,6 +22,7 @@ Goblin::Goblin() : Entity()
 	active = false;  
 	collisionType = entityNS::BOX;
 	attackedThisLoop = false;
+	isBoss = false;
 }
 
 void Goblin::update(float frameTime){
@@ -29,10 +30,18 @@ void Goblin::update(float frameTime){
 	spriteData.x += velocity.x * frameTime;
 
 	// confusing but leave them
-	edge.bottom = spriteData.y + (spriteData.height * GOBLIN_IMAGE_SCALE) - 19;
-	edge.top = spriteData.y + 19;
-	edge.right = spriteData.x + (spriteData.width * GOBLIN_IMAGE_SCALE) - (spriteData.width * GOBLIN_IMAGE_SCALE) / 2 - 5;
-	edge.left = spriteData.x + (spriteData.width * GOBLIN_IMAGE_SCALE) / 2 + 5;	
+	if (isBoss){
+		edge.bottom = spriteData.y + (spriteData.height * BOSS_IMAGE_SCALE) - 19;
+		edge.top = spriteData.y + 19;
+		edge.right = spriteData.x + (spriteData.width * BOSS_IMAGE_SCALE) - (spriteData.width * BOSS_IMAGE_SCALE) / 2 - 5;
+		edge.left = spriteData.x + (spriteData.width * BOSS_IMAGE_SCALE) / 2 + 5;	
+	}
+	else{
+		edge.bottom = spriteData.y + (spriteData.height * GOBLIN_IMAGE_SCALE) - 19;
+		edge.top = spriteData.y + 19;
+		edge.right = spriteData.x + (spriteData.width * GOBLIN_IMAGE_SCALE) - (spriteData.width * GOBLIN_IMAGE_SCALE) / 2 - 5;
+		edge.left = spriteData.x + (spriteData.width * GOBLIN_IMAGE_SCALE) / 2 + 5;	
+	}
 }
 
 int Goblin::getDistance(int currentCastleWidth) {

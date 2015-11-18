@@ -136,6 +136,19 @@ void Spacewar::initialize(HWND hwnd)
 		goblins[i].setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY);
 	}
 
+	if (!boss.initialize(this, goblinNS::WIDTH, goblinNS::HEIGHT, goblinNS::TEXTURE_COLS, &goblinTexture))
+			throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing jpo"));
+	boss.setScale(BOSS_IMAGE_SCALE);
+	boss.setVisible(false);
+	boss.setActive(false);
+	boss.setX(GAME_WIDTH);
+	boss.setVelocity(VECTOR2(-goblinNS::BOSS_SPEED,0));
+	boss.setY(133);
+	boss.setFrames(goblinNS::WALK_START_FRAME, goblinNS::WALK_END_FRAME);
+	boss.setCurrentFrame(goblinNS::WALK_START_FRAME);
+	boss.setFrameDelay(goblinNS::BOSS_ANIMATION_DELAY);
+	boss.isBoss = true;
+
 	if (!cannonBallTexture.initialize(graphics,CANNONBALL_SHEET))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing jpo texture"));
 
@@ -235,6 +248,7 @@ void createParticleEffect(VECTOR2 pos, VECTOR2 vel, int numParticles){
 }
 void Spacewar::gameStateUpdate()
 {
+	//gameStates = bossFight;
 	if (gameStates == startMenu && mainMenu -> getSelectedItem() == 0){
 		resetGame();
 		gameStates = gamePlay;
@@ -416,6 +430,95 @@ void Spacewar::update()
 		//cannon.setRadians(atan(tower.getHeight() * TOWER_IMAGE_SCALE / goblins[0].getDistance(tower.getWidth() + backTower.getWidth())));
 		break;
 
+	case bossFight:
+		//aim cannon 
+		if(input->isKeyDown(VK_UP)){
+			cannon.setRadians(cannon.getRadians() - ROATATION_SPEED);
+		}
+		else if(input->isKeyDown(VK_DOWN)){
+			cannon.setRadians(cannon.getRadians() + ROATATION_SPEED);
+		}
+
+		//set radian restraints on cannon
+		if(cannon.getRadians() > 1){
+			cannon.setRadians(1);
+		}
+		if(cannon.getRadians() < -1){
+			cannon.setRadians(-1);
+		}
+
+		currentShotX = cannon.getCenterX() + cannonRadius * cos(cannon.getRadians()) - (balls[0].getWidth()*BALL_IMAGE_SCALE)/2;
+		currentShotY = cannon.getCenterY() + cannonRadius * sin(cannon.getRadians()) - (balls[0].getWidth()*BALL_IMAGE_SCALE)/2;
+
+		cannonVector.x = currentShotX - cannon.getCenterX();
+		cannonVector.y = cannon.getCenterY() - currentShotY;
+
+		// particle stuff
+		particleVector.x = currentShotX + 10;
+		particleVector.y = currentShotY + 5;
+		particleSpeed = VECTOR2(cannonVector.x,-cannonVector.y);
+
+		D3DXVec3Normalize(&cannonVector , &cannonVector);
+
+		//shoot 
+		if (ballsShot >= BALL_COUNT){
+				ballsShot = 0;
+		}
+		reloadTimer += frameTime;
+		if(input -> wasKeyPressed(VK_SPACE) && reloadTimer >= RELOAD_TIME && ballsShot < BALL_COUNT){
+			audio->playCue(FIRE); 
+			pm.rotateImage(cannon.getRadians());
+			balls[ballsShot].setActive(true);
+			balls[ballsShot].setVisible(true);
+			balls[ballsShot].setX(currentShotX);
+			balls[ballsShot].setY(currentShotY);
+			createParticleEffect(particleVector, particleSpeed, 50);
+			ballsShot++;
+			reloadTimer = 0;
+		}
+
+		//update balls position
+		//v = v-initial + g * t 
+
+		// update projectiles and goblins
+		for(int i = 0; i < BALL_COUNT; i++){
+			if (balls[i].setBallMovement(cannonVector, frameTime)){
+				displayBoom(balls[i].getX() - 40, balls[i].getY() - 60);
+			}	
+			booms[i].update(frameTime);
+		}
+		
+		boss.setActive(true);
+		boss.setVisible(true);
+		boss.update(frameTime);
+
+		if(boss.getX() < 330){
+			boss.setVelocity(VECTOR2(0,0));
+			boss.setFrames(goblinNS::ATTACK_START_FRAME, goblinNS::ATTACK_END_FRAME);
+		}
+
+		//particle update
+		pm.update(frameTime);
+
+	
+		if(tower.getHealth() <= FULL_HEALTH * 0.2) tower.setTextureManager(&tower20Texture);
+		else if(tower.getHealth() <= FULL_HEALTH * 0.4) tower.setTextureManager(&tower40Texture);
+		else if(tower.getHealth() <= FULL_HEALTH * 0.6) tower.setTextureManager(&tower60Texture);
+		else if(tower.getHealth() <= FULL_HEALTH * 0.8) tower.setTextureManager(&tower80Texture);
+		else tower.setTextureManager(&tower100Texture);
+
+		if(pointsToLose > 0 && negPointsTimer >= SCORE_POPUP_TIME) {
+			score -= pointsToLose;
+			pointsJustLost = pointsToLose;
+			pointsToLose = 0;
+			negPointsTimer = 0;
+		}
+		if(score < 0){
+			score = 0;
+		}
+		negPointsTimer += frameTime;
+
+		break;
 	case store:
 
 		storeMenu -> update();
@@ -522,6 +625,16 @@ void Spacewar::collisions()
 			}
 		}
 	}
+	for(int i = 0; i < BALL_COUNT; i++){
+		if(balls[i].collidesWith(boss, collisionVector)){
+      			scorePopups[0].x = boss.getX();
+				scorePopups[0].timer = frameTime;
+				score += boss.getX() / SCORE_DIVIDER;
+				displayBoom(balls[i].getX(), balls[i].getY());
+				balls[i].setActive(false);
+				balls[i].setVisible(false);
+		}
+	}
 
 
 }
@@ -601,7 +714,35 @@ void Spacewar::render()
 		highlightFont->print("Press ENTER to buy, ESCAPE to continue.", 230, 485);
 		
 		break;
+	case bossFight:
+		tower.draw();
+		smallFont->print("Level: BOSS", 1150, 10);
+		pole.draw();
+		backTower.draw();
+		cannon.draw();
+		boss.draw();
 
+		if(scorePopups[0].timer > 0 && scorePopups[0].timer < SCORE_POPUP_TIME) {
+			scorePopupFont->print("$" + std::to_string(scorePopups[0].x / SCORE_DIVIDER), scorePopups[0].x + 20, 500 - scorePopups[0].timer * 100);
+			scorePopups[0].timer += frameTime;
+		}
+		if(negPointsTimer < SCORE_POPUP_TIME) negPointsFont->print("-$" + std::to_string(pointsJustLost), 410, 500 - negPointsTimer * 100);
+		
+		nuke.draw();
+		for(int i = 0; i < BALL_COUNT; i++){
+			balls[i].draw();
+			booms[i].draw();
+		}
+		pm.draw();
+
+		smallFont->setFontColor(graphicsNS::GREEN);
+		smallFont->print("$" + std::to_string(score), 10, 10);
+		smallFont->setFontColor(graphicsNS::WHITE);
+
+		for(int i = 0; i < reloadTimer / RELOAD_TIME * RELOADING_IMAGE_COUNT && i < RELOADING_IMAGE_COUNT; i++) {
+			reloading[i].draw();
+		}
+		break;
 	case end:
 		if (lastMenu->getSelectedItem() < 0) lastMenu -> displayMenu();
 		else if (lastMenu->getSelectedItem() == 0){

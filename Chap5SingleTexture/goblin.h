@@ -19,11 +19,13 @@ namespace goblinNS
     const int   Y = 495;
     const float MASS = 1.0e14f;         // mass
 	const float SPEED = 140;	
+	const float BOSS_SPEED = 50;
     const int   TEXTURE_COLS = 17;       // texture has 2 columns
     const int   WALK_START_FRAME = 57;        // starts at frame 1
     const int   WALK_END_FRAME = 51;          // no animation
 	const int   ATTACK_START_FRAME = 61;        // starts at frame 1
-    const int   ATTACK_END_FRAME = 67;          // no animation
+    const int   ATTACK_END_FRAME = 67;  
+	const float BOSS_ANIMATION_DELAY = 0.3f;	// no animation
 	const float GOBLIN_ANIMATION_DELAY = 0.12f;
 	const float GOBLIN_ANIMATION_DELAY_1 = 0.115f;
 	const float GOBLIN_ANIMATION_DELAY_2 = 0.110f;
@@ -48,6 +50,7 @@ public:
 
 	bool wasAttackedThisLoop() { return attackedThisLoop; }
 	void setAttackedThisLoop(bool b) { attackedThisLoop = b; }
+	bool isBoss;
 private:
 	bool attackedThisLoop;
 	

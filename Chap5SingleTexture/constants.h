@@ -105,6 +105,7 @@ const UCHAR ENTER_KEY    = VK_RETURN;   // Enter key
 
 #define BKG_IMAGE_SCALE 0.75
 #define GOBLIN_IMAGE_SCALE 1.5
+#define BOSS_IMAGE_SCALE 8
 #define TOWER_IMAGE_SCALE 1.5
 #define TOWER_BACK_SCALE 1.7
 #define CANNON_IMAGE_SCALE 0.33
@@ -117,7 +118,7 @@ const UCHAR ENTER_KEY    = VK_RETURN;   // Enter key
 #define SPLASH_IMAGE_SCALE 0.75
 
 //states
-enum GameStates {startMenu, dirMenu, credMenu, gamePlay, store, end};
+enum GameStates {startMenu, dirMenu, credMenu, gamePlay, store, end, bossFight};
 
 
 
