@@ -352,6 +352,9 @@ void Spacewar::update()
 			pointsToLose = 0;
 			negPointsTimer = 0;
 		}
+		if(score < 0){
+			score = 0;
+		}
 		negPointsTimer += frameTime;
 
 		// NUKE
