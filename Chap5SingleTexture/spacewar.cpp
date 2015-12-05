@@ -53,6 +53,8 @@ Spacewar::Spacewar() {
 	particleYOffset = 0;
 	particleXOffset = 10;
 
+	timeInBetween = 0;
+
 }
 
 //=============================================================================
@@ -269,12 +271,23 @@ void Spacewar::gameStateUpdate()
 			level++;
 		}
 	}
+	if(gameStates == store) {
+		if(input->isKeyDown(VK_ESCAPE)){
+			gameStates = inBetween;
+			timeInBetween = 0;
+		}
+		
+	}
+	if(gameStates == inBetween && timeInBetween > 3){
+		gameStates = gamePlay;
+	}
 	if(gameStates == gamePlay && tower.getHealth() <= 0) {
 		resetGame();
 		level = 1;
 		currentMenu = -1;
 		gameStates = end;
 	}
+
 	
 }
 //=============================================================================
@@ -300,6 +313,8 @@ void Spacewar::update()
 		}
 
 		break;
+	case inBetween:
+
 	case gamePlay:
 
 		//aim cannon 
@@ -712,7 +727,10 @@ void Spacewar::render()
 		}
 
 		break;
-
+	case inBetween:
+		headingFont->print("Level " + std::to_string(level), 550, 275);
+		timeInBetween += frameTime;
+		break;
 	case store:
 		storeMenu->displayMenu();
 		resetGame();

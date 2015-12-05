@@ -124,6 +124,8 @@ private:
 
 	float particleYOffset;
 	float particleXOffset;
+
+	float timeInBetween;
 	
 
 public:

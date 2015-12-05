@@ -118,7 +118,7 @@ const UCHAR ENTER_KEY    = VK_RETURN;   // Enter key
 #define SPLASH_IMAGE_SCALE 0.75
 
 //states
-enum GameStates {startMenu, dirMenu, credMenu, gamePlay, store, end, bossFight};
+enum GameStates {startMenu, dirMenu, credMenu, gamePlay, store, end, bossFight, inBetween};
 
 
 
