@@ -54,6 +54,7 @@ Spacewar::Spacewar() {
 	particleXOffset = 10;
 
 	timeInBetween = 0;
+	inBetweenCount = 0;
 
 }
 
@@ -257,7 +258,7 @@ void Spacewar::gameStateUpdate()
 	//gameStates = bossFight;
 	if (gameStates == startMenu && mainMenu -> getSelectedItem() == 0){
 		resetGame();
-		gameStates = gamePlay;
+		gameStates = inBetween;
 	}
 	if (killCount >= GOBLIN_COUNT) { // reset everything
 		resetGame();
@@ -266,20 +267,27 @@ void Spacewar::gameStateUpdate()
 			gameStates = end;
 		}
 		else {
-			gameStates = store;
+			gameStates = inBetween;
+			inBetweenCount++;
+			timeInBetween = 0;
 			killCount = 0;
-			level++;
 		}
 	}
 	if(gameStates == store) {
 		if(input->isKeyDown(VK_ESCAPE)){
+			level++;
 			gameStates = inBetween;
+			inBetweenCount++;
 			timeInBetween = 0;
 		}
 		
 	}
-	if(gameStates == inBetween && timeInBetween > 3){
+	if(gameStates == inBetween && timeInBetween > 3 && inBetweenCount % 2 != 0){
+		gameStates = store;
+	}
+	if(gameStates == inBetween && timeInBetween > 3 && inBetweenCount % 2 == 0){
 		gameStates = gamePlay;
+		tower.setHealth(FULL_HEALTH);
 	}
 	if(gameStates == gamePlay && tower.getHealth() <= 0) {
 		resetGame();
@@ -315,8 +323,8 @@ void Spacewar::update()
 		break;
 	case inBetween:
 
+		break;
 	case gamePlay:
-
 		//aim cannon 
 		if(input->isKeyDown(VK_UP)){
 			cannon.setRadians(cannon.getRadians() - ROATATION_SPEED);
@@ -331,8 +339,6 @@ void Spacewar::update()
 				cannon.setRadians(1);
 			}
 		}
-
-
 
 		currentShotX = cannon.getCenterX() + cannonRadius * cos(cannon.getRadians()) - (balls[0].getWidth()*BALL_IMAGE_SCALE)/2;
 		currentShotY = cannon.getCenterY() + cannonRadius * sin(cannon.getRadians()) - (balls[0].getWidth()*BALL_IMAGE_SCALE)/2;
@@ -566,7 +572,7 @@ void Spacewar::update()
 		case 2:
 			if(score >= PRICE) {
 				score -= PRICE;
-				for(int i = 0; i < GOBLIN_COUNT; i++) booms[i].setBoomRadiusOffset(booms[i].getBoomRadiusOffset() - 10);
+				for(int i = 0; i < BALL_COUNT; i++) booms[i].setBoomRadiusOffset(booms[i].getBoomRadiusOffset() - 10);
 			}
 			break;
 
@@ -728,7 +734,15 @@ void Spacewar::render()
 
 		break;
 	case inBetween:
-		headingFont->print("Level " + std::to_string(level), 550, 275);
+		if (inBetweenCount == 0) headingFont->print("Level " + std::to_string(level), 550, 275);
+		if (inBetweenCount == 1) headingFont->print("Level " + std::to_string(level) + " Cleared", 450, 275);
+		if (inBetweenCount == 2) headingFont->print("Level " + std::to_string(level), 550, 275);
+		if (inBetweenCount == 3) headingFont->print("Level " + std::to_string(level) + " Cleared", 450, 275);
+		if (inBetweenCount == 4) headingFont->print("Level " + std::to_string(level), 550, 275);
+		if (inBetweenCount == 5) headingFont->print("Level " + std::to_string(level) + " Cleared", 450, 275);
+		if (inBetweenCount == 6) headingFont->print("Boss Level", 550, 275);
+		if (inBetweenCount == 7) headingFont->print("Boss Level Cleared", 450, 275);
+		
 		timeInBetween += frameTime;
 		break;
 	case store:

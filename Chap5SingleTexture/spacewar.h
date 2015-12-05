@@ -126,6 +126,7 @@ private:
 	float particleXOffset;
 
 	float timeInBetween;
+	int inBetweenCount;
 	
 
 public:
