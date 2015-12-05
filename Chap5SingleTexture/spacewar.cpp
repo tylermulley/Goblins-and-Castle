@@ -49,6 +49,10 @@ Spacewar::Spacewar() {
 	killCount = 0;
 
 	nuking = false;
+
+	particleYOffset = 0;
+	particleXOffset = 10;
+
 }
 
 //=============================================================================
@@ -195,8 +199,8 @@ void Spacewar::initialize(HWND hwnd)
 	for (int i = 0; i < RELOADING_IMAGE_COUNT; i++) {
 		if (!reloading[i].initialize(graphics, 0, 0, 0, &reloadingTexture))
 			throw(GameError(gameErrorNS::FATAL_ERROR, "Health texture initialization failed"));
-		reloading[i].setX(110 + i);
-		reloading[i].setY(290);
+		reloading[i].setX(158 + i);
+		reloading[i].setY(240);
 		reloading[i].setScale(RELOADING_IMAGE_SCALE);
 	}
 
@@ -240,7 +244,7 @@ void Spacewar::initialize(HWND hwnd)
     return;
 }
 void createParticleEffect(VECTOR2 pos, VECTOR2 vel, int numParticles){
-
+	
 	pm.setPosition(pos);
 	pm.setVelocity(vel);
 	pm.setVisibleNParticles(numParticles);
@@ -301,18 +305,19 @@ void Spacewar::update()
 		//aim cannon 
 		if(input->isKeyDown(VK_UP)){
 			cannon.setRadians(cannon.getRadians() - ROATATION_SPEED);
+			if(cannon.getRadians() < -1){
+				cannon.setRadians(-1);
+			}
+
 		}
 		else if(input->isKeyDown(VK_DOWN)){
 			cannon.setRadians(cannon.getRadians() + ROATATION_SPEED);
+			if(cannon.getRadians() > 1){
+				cannon.setRadians(1);
+			}
 		}
 
-		//set radian restraints on cannon
-		if(cannon.getRadians() > 1){
-			cannon.setRadians(1);
-		}
-		if(cannon.getRadians() < -1){
-			cannon.setRadians(-1);
-		}
+
 
 		currentShotX = cannon.getCenterX() + cannonRadius * cos(cannon.getRadians()) - (balls[0].getWidth()*BALL_IMAGE_SCALE)/2;
 		currentShotY = cannon.getCenterY() + cannonRadius * sin(cannon.getRadians()) - (balls[0].getWidth()*BALL_IMAGE_SCALE)/2;
@@ -321,8 +326,8 @@ void Spacewar::update()
 		cannonVector.y = cannon.getCenterY() - currentShotY;
 
 		// particle stuff
-		particleVector.x = currentShotX + 10;
-		particleVector.y = currentShotY + 5;
+		particleVector.x = currentShotX + particleXOffset;
+		particleVector.y = currentShotY + particleYOffset;
 		particleSpeed = VECTOR2(cannonVector.x,-cannonVector.y);
 
 		D3DXVec3Normalize(&cannonVector , &cannonVector);
@@ -426,6 +431,9 @@ void Spacewar::update()
 			}
 		}
 
+		
+		
+
 		// arctan(cannonHeightFromGround / gobDistToCastle)
 		//cannon.setRadians(atan(tower.getHeight() * TOWER_IMAGE_SCALE / goblins[0].getDistance(tower.getWidth() + backTower.getWidth())));
 		break;
@@ -454,8 +462,8 @@ void Spacewar::update()
 		cannonVector.y = cannon.getCenterY() - currentShotY;
 
 		// particle stuff
-		particleVector.x = currentShotX + 10;
-		particleVector.y = currentShotY + 5;
+		particleVector.x = currentShotX + particleXOffset;
+		particleVector.y = currentShotY + particleYOffset;
 		particleSpeed = VECTOR2(cannonVector.x,-cannonVector.y);
 
 		D3DXVec3Normalize(&cannonVector , &cannonVector);

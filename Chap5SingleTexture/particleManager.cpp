@@ -58,7 +58,7 @@ bool ParticleManager::initialize(Graphics *g)
 			throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing dust"));
 		particles[i].setActive(false);
 		particles[i].setVisible(false);
-		particles[i].setScale(0.3f);
+		particles[i].setScale(0.125f);
 		//particles[i].setRotationValue(0.05f);
 	}
 	return true;

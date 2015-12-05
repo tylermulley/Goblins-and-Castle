@@ -61,7 +61,7 @@ const char BOOM_SHEET[] = "pictures\\boom_sheet.png";
 const char RELOADING_IMAGE[] = "pictures\\health.png";
 const char NUKE_IMAGE[] = "pictures\\bomb_2.png";
 const char SPLASH_IMAGE[] = "pictures\\poster.png";
-const char FLAMES_IMAGE[] = "pictures\\gunfire.png";
+const char FLAMES_IMAGE[] = "pictures\\flames.png";
 
    // time between frames of ship animation
 

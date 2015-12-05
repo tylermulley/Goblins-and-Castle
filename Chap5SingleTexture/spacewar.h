@@ -121,6 +121,9 @@ private:
 	VECTOR2 particleSpeed;
 
 	GameStates gameStates;
+
+	float particleYOffset;
+	float particleXOffset;
 	
 
 public:
