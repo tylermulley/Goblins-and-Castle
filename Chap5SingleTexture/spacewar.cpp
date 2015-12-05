@@ -202,8 +202,8 @@ void Spacewar::initialize(HWND hwnd)
 	for (int i = 0; i < RELOADING_IMAGE_COUNT; i++) {
 		if (!reloading[i].initialize(graphics, 0, 0, 0, &reloadingTexture))
 			throw(GameError(gameErrorNS::FATAL_ERROR, "Health texture initialization failed"));
-		reloading[i].setX(158 + i);
-		reloading[i].setY(240);
+		reloading[i].setX(RELOADING_IMAGE_STARTING_X + i);
+		reloading[i].setY(RELOADING_IMAGE_STARTING_Y);
 		reloading[i].setScale(RELOADING_IMAGE_SCALE);
 	}
 
@@ -338,6 +338,15 @@ void Spacewar::update()
 			if(cannon.getRadians() > 1){
 				cannon.setRadians(1);
 			}
+		}
+
+		// set reload bar angles
+		// int rotationPoint = RELOADING_IMAGE_COUNT - 5;
+		for(int i = 0; i < RELOADING_IMAGE_COUNT; i++) {
+			reloading[i].setRadians(cannon.getRadians());
+			// 
+			reloading[i].setY(RELOADING_IMAGE_STARTING_Y - (45 - i) * sin(cannon.getRadians()));
+			reloading[i].setX(RELOADING_IMAGE_STARTING_X + RELOADING_IMAGE_COUNT - (45 - i) * cos(cannon.getRadians()));
 		}
 
 		currentShotX = cannon.getCenterX() + cannonRadius * cos(cannon.getRadians()) - (balls[0].getWidth()*BALL_IMAGE_SCALE)/2;

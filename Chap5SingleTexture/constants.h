@@ -41,6 +41,9 @@ const int ARMOR_UPGRADE = 40;
 const int BLAST_UPGRADE = 2;
 const int RELOADING_IMAGE_COUNT = 50;
 
+const int RELOADING_IMAGE_STARTING_X = 158;
+const int RELOADING_IMAGE_STARTING_Y = 240;
+
 //particle stuff
 const float MAX_PARTICLE_LIFETIME = .25f;
 const int MAX_NUMBER_PARTICLES = 500;
