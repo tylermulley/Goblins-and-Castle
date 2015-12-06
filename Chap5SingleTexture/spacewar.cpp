@@ -155,6 +155,7 @@ void Spacewar::initialize(HWND hwnd)
 	boss.setCurrentFrame(goblinNS::WALK_START_FRAME);
 	boss.setFrameDelay(goblinNS::BOSS_ANIMATION_DELAY);
 	boss.isBoss = true;
+	boss.setHealth(BOSS_HP);
 
 	if (!cannonBallTexture.initialize(graphics,CANNONBALL_SHEET))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing jpo texture"));
@@ -263,8 +264,10 @@ void Spacewar::gameStateUpdate()
 	if (killCount >= GOBLIN_COUNT) { // reset everything
 		resetGame();
 		if (level == 3) {
-			level = 1;
-			gameStates = end;
+			gameStates = inBetween;
+			inBetweenCount++;
+			timeInBetween = 0;
+			killCount = 0;
 		}
 		else {
 			gameStates = inBetween;
@@ -280,21 +283,31 @@ void Spacewar::gameStateUpdate()
 			inBetweenCount++;
 			timeInBetween = 0;
 		}
-		
 	}
-	if(gameStates == inBetween && timeInBetween > 3 && inBetweenCount % 2 != 0){
+
+	if(gameStates == inBetween && timeInBetween > 3 && inBetweenCount % 2 == 0 && level == 4){
+		gameStates = bossFight;
+		tower.setHealth(FULL_HEALTH);
+	}
+	else if(gameStates == inBetween && timeInBetween > 3 && inBetweenCount % 2 != 0){
 		gameStates = store;
 	}
-	if(gameStates == inBetween && timeInBetween > 3 && inBetweenCount % 2 == 0){
+	else if(gameStates == inBetween && timeInBetween > 3 && inBetweenCount % 2 == 0){
 		gameStates = gamePlay;
 		tower.setHealth(FULL_HEALTH);
 	}
+
 	if(gameStates == gamePlay && tower.getHealth() <= 0) {
 		resetGame();
 		level = 1;
 		currentMenu = -1;
 		gameStates = end;
 	}
+	if(gameStates == bossFight && boss.getHealth() <= 0){
+		level = 1;
+		gameStates = end;
+	}
+	
 
 	
 }
@@ -472,17 +485,23 @@ void Spacewar::update()
 		//aim cannon 
 		if(input->isKeyDown(VK_UP)){
 			cannon.setRadians(cannon.getRadians() - ROATATION_SPEED);
+			if(cannon.getRadians() < -1){
+				cannon.setRadians(-1);
+			}
+
 		}
 		else if(input->isKeyDown(VK_DOWN)){
 			cannon.setRadians(cannon.getRadians() + ROATATION_SPEED);
+			if(cannon.getRadians() > 1){
+				cannon.setRadians(1);
+			}
 		}
 
-		//set radian restraints on cannon
-		if(cannon.getRadians() > 1){
-			cannon.setRadians(1);
-		}
-		if(cannon.getRadians() < -1){
-			cannon.setRadians(-1);
+		for(int i = 0; i < RELOADING_IMAGE_COUNT; i++) {
+			reloading[i].setRadians(cannon.getRadians());
+			// 
+			reloading[i].setY(RELOADING_IMAGE_STARTING_Y - (45 - i) * sin(cannon.getRadians()));
+			reloading[i].setX(RELOADING_IMAGE_STARTING_X + RELOADING_IMAGE_COUNT - (45 - i) * cos(cannon.getRadians()));
 		}
 
 		currentShotX = cannon.getCenterX() + cannonRadius * cos(cannon.getRadians()) - (balls[0].getWidth()*BALL_IMAGE_SCALE)/2;
@@ -526,8 +545,14 @@ void Spacewar::update()
 			booms[i].update(frameTime);
 		}
 		
-		boss.setActive(true);
-		boss.setVisible(true);
+		if(boss.getHealth() > 0){
+			boss.setActive(true);
+			boss.setVisible(true);
+		}
+		if(boss.getHealth() <= 0){
+			boss.setActive(false);
+			boss.setVisible(false);
+		}
 		boss.update(frameTime);
 
 		if(boss.getX() < 330){
@@ -625,7 +650,6 @@ void Spacewar::collisions()
 {
 	VECTOR2 collisionVector;
 	for(int i = 0; i < GOBLIN_COUNT; i++){
-
 		// not technically a collision, but remove castle health once per goblin attack loop
 		if(goblins[i].getActive() && goblins[i].getX() < GAME_WIDTH && goblins[i].getCurrentFrame() == 64) {
 			if (!goblins[i].wasAttackedThisLoop()) {
@@ -635,6 +659,18 @@ void Spacewar::collisions()
 			}
 		}
 		else goblins[i].setAttackedThisLoop(false);
+	}
+
+	for(int i = 0; i < GOBLIN_COUNT; i++){
+		// not technically a collision, but remove castle health once per goblin attack loop
+		if(boss.getActive() && boss.getX() < GAME_WIDTH && boss.getCurrentFrame() == 64) {
+			if (!boss.wasAttackedThisLoop()) {
+ 				tower.setHealth(tower.getHealth() - 20);
+				pointsToLose += 50;
+				boss.setAttackedThisLoop(true);
+			}
+		}
+		else boss.setAttackedThisLoop(false);
 	}
 
 	for(int i = 0; i < BALL_COUNT; i++){
@@ -665,12 +701,13 @@ void Spacewar::collisions()
 	}
 	for(int i = 0; i < BALL_COUNT; i++){
 		if(balls[i].collidesWith(boss, collisionVector)){
-      			scorePopups[0].x = boss.getX();
-				scorePopups[0].timer = frameTime;
-				score += boss.getX() / SCORE_DIVIDER;
-				displayBoom(balls[i].getX(), balls[i].getY());
-				balls[i].setActive(false);
-				balls[i].setVisible(false);
+			scorePopups[0].x = boss.getX() + (boss.getWidth() * BOSS_IMAGE_SCALE) / 2;
+			scorePopups[0].timer = frameTime;
+			score += boss.getX() / SCORE_DIVIDER;
+			displayBoom(balls[i].getX(), balls[i].getY());
+			boss.setHealth(boss.getHealth() - 10);
+			balls[i].setActive(false);
+			balls[i].setVisible(false);
 		}
 	}
 
@@ -772,7 +809,7 @@ void Spacewar::render()
 		boss.draw();
 
 		if(scorePopups[0].timer > 0 && scorePopups[0].timer < SCORE_POPUP_TIME) {
-			scorePopupFont->print("$" + std::to_string(scorePopups[0].x / SCORE_DIVIDER), scorePopups[0].x + 20, 500 - scorePopups[0].timer * 100);
+			scorePopupFont->print("$" + std::to_string(scorePopups[0].x / SCORE_DIVIDER), scorePopups[0].x + 20, 200 - scorePopups[0].timer * 100);
 			scorePopups[0].timer += frameTime;
 		}
 		if(negPointsTimer < SCORE_POPUP_TIME) negPointsFont->print("-$" + std::to_string(pointsJustLost), 410, 500 - negPointsTimer * 100);

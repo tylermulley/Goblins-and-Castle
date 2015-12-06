@@ -40,6 +40,7 @@ const float RELOAD_UPGRADE = 0.06;
 const int ARMOR_UPGRADE = 40;
 const int BLAST_UPGRADE = 2;
 const int RELOADING_IMAGE_COUNT = 50;
+const int BOSS_HP = 100;
 
 const int RELOADING_IMAGE_STARTING_X = 158;
 const int RELOADING_IMAGE_STARTING_Y = 240;
