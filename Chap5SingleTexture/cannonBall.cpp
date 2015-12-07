@@ -48,7 +48,7 @@ bool cannonBall::setBallMovement(D3DXVECTOR3 vec, float frameTime){
 			firstShot = false;
 		}
 
-		// number is gravity
+		// explicit number is gravity
 		velocity.y = (velocity.y + (1000 * frameTime));
 
 		if(spriteData.y + getHeight() * BALL_IMAGE_SCALE <= 610){

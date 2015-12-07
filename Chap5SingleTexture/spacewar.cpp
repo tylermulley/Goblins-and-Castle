@@ -26,8 +26,8 @@ Spacewar::Spacewar() {
 
 	splashTimer = 0;
 
-	RELOAD_TIME = 1.4;
-	//RELOAD_TIME = .05;
+	//RELOAD_TIME = 1.4;
+	RELOAD_TIME = .05;
 	FULL_HEALTH = 100;
 
 	spawnCount = 0;
@@ -340,16 +340,14 @@ void Spacewar::update()
 	case gamePlay:
 		//aim cannon 
 		if(input->isKeyDown(VK_UP)){
-			cannon.setRadians(cannon.getRadians() - ROATATION_SPEED);
-			if(cannon.getRadians() < -1){
-				cannon.setRadians(-1);
+			if(cannon.getRadians() > -1){
+				cannon.setRadians(cannon.getRadians() - ROATATION_SPEED);
 			}
 
 		}
 		else if(input->isKeyDown(VK_DOWN)){
-			cannon.setRadians(cannon.getRadians() + ROATATION_SPEED);
-			if(cannon.getRadians() > 1){
-				cannon.setRadians(1);
+			if(cannon.getRadians() < 1){
+				cannon.setRadians(cannon.getRadians() + ROATATION_SPEED);
 			}
 		}
 
@@ -380,7 +378,7 @@ void Spacewar::update()
 				ballsShot = 0;
 		}
 		reloadTimer += frameTime;
-		if(input -> wasKeyPressed(VK_SPACE) && reloadTimer >= RELOAD_TIME && ballsShot < BALL_COUNT){
+		if(input -> wasKeyPressed(VK_SPACE) && reloadTimer >= RELOAD_TIME && ballsShot < BALL_COUNT && balls[ballsShot].getActive() == false){
 			audio->playCue(FIRE); 
 			pm.rotateImage(cannon.getRadians());
 			balls[ballsShot].setActive(true);
@@ -484,16 +482,14 @@ void Spacewar::update()
 	case bossFight:
 		//aim cannon 
 		if(input->isKeyDown(VK_UP)){
-			cannon.setRadians(cannon.getRadians() - ROATATION_SPEED);
-			if(cannon.getRadians() < -1){
-				cannon.setRadians(-1);
+			if(cannon.getRadians() > -1){
+				cannon.setRadians(cannon.getRadians() - ROATATION_SPEED);
 			}
 
 		}
 		else if(input->isKeyDown(VK_DOWN)){
-			cannon.setRadians(cannon.getRadians() + ROATATION_SPEED);
-			if(cannon.getRadians() > 1){
-				cannon.setRadians(1);
+			if(cannon.getRadians() < 1){
+				cannon.setRadians(cannon.getRadians() + ROATATION_SPEED);
 			}
 		}
 
@@ -522,7 +518,7 @@ void Spacewar::update()
 				ballsShot = 0;
 		}
 		reloadTimer += frameTime;
-		if(input -> wasKeyPressed(VK_SPACE) && reloadTimer >= RELOAD_TIME && ballsShot < BALL_COUNT){
+		if(input -> wasKeyPressed(VK_SPACE) && reloadTimer >= RELOAD_TIME && ballsShot < BALL_COUNT && balls[ballsShot].getActive() == false){
 			audio->playCue(FIRE); 
 			pm.rotateImage(cannon.getRadians());
 			balls[ballsShot].setActive(true);
@@ -673,41 +669,45 @@ void Spacewar::collisions()
 		else boss.setAttackedThisLoop(false);
 	}
 
-	for(int i = 0; i < BALL_COUNT; i++){
-		for(int j = 0; j < GOBLIN_COUNT; j++){
- 			if(balls[i].collidesWith(goblins[j], collisionVector)){
- 				goblins[j].setActive(false);
- 				goblins[j].setVisible(false);
-				killCount++;
-				scorePopups[j].x = goblins[j].getX();
-				scorePopups[j].timer = frameTime;
-				score += goblins[j].getX() / SCORE_DIVIDER;
+	if(gameStates == gamePlay){
+		for(int i = 0; i < BALL_COUNT; i++){
+			for(int j = 0; j < GOBLIN_COUNT; j++){
+ 				if(balls[i].collidesWith(goblins[j], collisionVector)){
+ 					goblins[j].setActive(false);
+ 					goblins[j].setVisible(false);
+					killCount++;
+					scorePopups[j].x = goblins[j].getX();
+					scorePopups[j].timer = frameTime;
+					score += goblins[j].getX() / SCORE_DIVIDER;
+				}
 			}
 		}
-	}
 
-	// boom collisions for area damage
-	for(int i = 0; i < BALL_COUNT; i++){
- 		for(int j = 0; j < GOBLIN_COUNT; j++){
-			if(booms[i].timeOnScreen < BOOM_TIME / 2 && booms[i].collidesWith(goblins[j], collisionVector)){
-      			goblins[j].setActive(false);
- 				goblins[j].setVisible(false);
-				killCount++;
-				scorePopups[j].x = goblins[j].getX();
-				scorePopups[j].timer = frameTime;
-				score += goblins[j].getX() / SCORE_DIVIDER;
+		// boom collisions for area damage
+		for(int i = 0; i < BALL_COUNT; i++){
+ 			for(int j = 0; j < GOBLIN_COUNT; j++){
+				if(booms[i].timeOnScreen < BOOM_TIME / 2 && booms[i].collidesWith(goblins[j], collisionVector)){
+      				goblins[j].setActive(false);
+ 					goblins[j].setVisible(false);
+					killCount++;
+					scorePopups[j].x = goblins[j].getX();
+					scorePopups[j].timer = frameTime;
+					score += goblins[j].getX() / SCORE_DIVIDER;
+				}
 			}
 		}
 	}
-	for(int i = 0; i < BALL_COUNT; i++){
-		if(balls[i].collidesWith(boss, collisionVector)){
-			scorePopups[0].x = boss.getX() + (boss.getWidth() * BOSS_IMAGE_SCALE) / 2;
-			scorePopups[0].timer = frameTime;
-			score += boss.getX() / SCORE_DIVIDER;
-			displayBoom(balls[i].getX(), balls[i].getY());
-			boss.setHealth(boss.getHealth() - 10);
-			balls[i].setActive(false);
-			balls[i].setVisible(false);
+	if(gameStates == bossFight){
+		for(int i = 0; i < BALL_COUNT; i++){
+			if(balls[i].collidesWith(boss, collisionVector)){
+				scorePopups[0].x = boss.getX() + (boss.getWidth() * BOSS_IMAGE_SCALE) / 2;
+				scorePopups[0].timer = frameTime;
+				score += boss.getX() / SCORE_DIVIDER;
+				displayBoom(balls[i].getX(), balls[i].getY());
+				boss.setHealth(boss.getHealth() - 10);
+				balls[i].setActive(false);
+				balls[i].setVisible(false);
+			}
 		}
 	}
 
