@@ -356,6 +356,10 @@ void Spacewar::update()
 			if(cannon.getRadians() > -1){
 				cannon.setRadians(cannon.getRadians() - ROATATION_SPEED);
 				bar.setRadians(cannon.getRadians());
+
+				bar.setX(160 + 10 * (1 - cos(bar.getRadians() + (PI / 4))));
+				bar.setY(240 + 7 * sin(bar.getRadians()));
+
 				//if(bar.getRadians() > 0) bar.setY(bar.getY() - (bar.getRadians()));
 				//else bar.setY(bar.getY() + (bar.getRadians()));
 				//if(bar.getRadians() < 0) bar.setX(bar.getX() - bar.getRadians());
@@ -368,6 +372,10 @@ void Spacewar::update()
 			if(cannon.getRadians() < 1){
 				cannon.setRadians(cannon.getRadians() + ROATATION_SPEED);
 				bar.setRadians(cannon.getRadians());
+
+				bar.setX(160 + 10 * (1 - cos(bar.getRadians() + (PI / 4))));
+				bar.setY(240 + 7 * sin(bar.getRadians()));
+
 				//if(bar.getRadians() > 0) bar.setY(bar.getY() + (bar.getRadians()));
 				//else bar.setY(bar.getY() - (bar.getRadians()));
 				//if(bar.getRadians() < 0) bar.setX(bar.getX() - bar.getRadians());
