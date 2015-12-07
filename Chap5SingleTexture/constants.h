@@ -79,6 +79,7 @@ const char WAVE_BANK[]  = "audio\\Win\\Wave Bank.xwb";
 const char SOUND_BANK[] = "audio\\Win\\Sound Bank.xsb";
 
 // audio cues
+const char GROWL[] = "growl";
 const char BOOM[] = "boom";
 const char FIRE[] = "Tank";
 const char BEEP[] = "beep1";

@@ -257,6 +257,7 @@ void Spacewar::gameStateUpdate()
 		gameStates = inBetween;
 	}
 	if (killCount >= GOBLIN_COUNT) { // reset everything
+		audio->playCue(BOOM);
 		resetGame();
 		if (level == 3) {
 			gameStates = inBetween;
@@ -451,6 +452,7 @@ void Spacewar::update()
 				for(int i = 0; i < GOBLIN_COUNT; i++) {
 					goblins[i].setActive(false);
  					goblins[i].setVisible(false);
+					audio->playCue(GROWL);
 					killCount++;
 					audio->playCue(BOOM);
 				}
@@ -686,6 +688,7 @@ void Spacewar::collisions()
  				if(balls[i].collidesWith(goblins[j], collisionVector)){
  					goblins[j].setActive(false);
  					goblins[j].setVisible(false);
+					audio->playCue(GROWL);
 					killCount++;
 					scorePopups[j].x = goblins[j].getX();
 					scorePopups[j].timer = frameTime;
@@ -700,6 +703,7 @@ void Spacewar::collisions()
 				if(booms[i].timeOnScreen < BOOM_TIME / 2 && booms[i].collidesWith(goblins[j], collisionVector)){
       				goblins[j].setActive(false);
  					goblins[j].setVisible(false);
+					audio->playCue(GROWL);
 					killCount++;
 					scorePopups[j].x = goblins[j].getX();
 					scorePopups[j].timer = frameTime;
@@ -707,6 +711,7 @@ void Spacewar::collisions()
 				}
 			}
 			if(balls[i].getY() + balls[i].getHeight() * BALL_IMAGE_SCALE >= 610 && balls[i].getActive()){
+				audio->playCue(BOOM);
 				displayBoom(balls[i].getX() - 30, balls[i].getY() - 40);
 				balls[i].setActive(false);
 				balls[i].setVisible(false);
@@ -725,6 +730,7 @@ void Spacewar::collisions()
 				balls[i].setVisible(false);
 			} 
 			if(balls[i].getY() + balls[i].getHeight() * BALL_IMAGE_SCALE >= 610 && balls[i].getActive()){
+				audio->playCue(BOOM);
 				displayBoom(balls[i].getX() - 30, balls[i].getY() - 40);
 				balls[i].setActive(false);
 				balls[i].setVisible(false);
