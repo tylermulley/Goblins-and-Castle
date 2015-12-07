@@ -63,6 +63,7 @@ const char POLE_IMAGE[] = "pictures\\pole.png";
 const char CANNONBALL_SHEET[] = "pictures\\cannonball.png";
 const char BOOM_SHEET[] = "pictures\\boom_sheet.png";
 const char RELOADING_IMAGE[] = "pictures\\health.png";
+const char RELOADING_SHEET[] = "pictures\\reload_bar.png";
 const char NUKE_IMAGE[] = "pictures\\bomb_2.png";
 const char SPLASH_IMAGE[] = "pictures\\poster.png";
 const char FLAMES_IMAGE[] = "pictures\\flames.png";

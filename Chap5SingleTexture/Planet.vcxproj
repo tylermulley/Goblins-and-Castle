@@ -100,6 +100,7 @@
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="particleManager.cpp" />
+    <ClCompile Include="reloadBar.cpp" />
     <ClCompile Include="spacewar.cpp" />
     <ClCompile Include="storeMenu.cpp" />
     <ClCompile Include="textDX.cpp" />
@@ -122,6 +123,7 @@
     <ClInclude Include="menu.h" />
     <ClInclude Include="particle.h" />
     <ClInclude Include="particleManager.h" />
+    <ClInclude Include="reloadBar.h" />
     <ClInclude Include="spacewar.h" />
     <ClInclude Include="storeMenu.h" />
     <ClInclude Include="textDX.h" />

@@ -21,6 +21,7 @@
 #include <string>
 #include "endMenu.h"
 #include "cannonBall.h"
+#include "reloadBar.h"
 
 struct ScorePopup {
 	int x;
@@ -84,6 +85,9 @@ private:
 
 	TextureManager nukeTexture;
 	Image nuke;
+
+	TextureManager reloadBarTexture;
+	ReloadBar bar;
 
 	float splashTimer;
 
