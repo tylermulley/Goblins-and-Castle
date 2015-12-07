@@ -26,8 +26,8 @@ Spacewar::Spacewar() {
 
 	splashTimer = 0;
 
-	//RELOAD_TIME = 1.4;
-	RELOAD_TIME = .05;
+	RELOAD_TIME = 1.4;
+	//RELOAD_TIME = .05;
 	FULL_HEALTH = 100;
 
 	spawnCount = 0;
@@ -603,6 +603,9 @@ void Spacewar::update()
 			if(score >= PRICE) {
 				score -= PRICE;
 				for(int i = 0; i < BALL_COUNT; i++) booms[i].setBoomRadiusOffset(booms[i].getBoomRadiusOffset() - 10);
+			}
+			for(int i = 0; i < BALL_COUNT; i++){
+				booms[i].setScale(booms[i].getScale() +.01);
 			}
 			break;
 
