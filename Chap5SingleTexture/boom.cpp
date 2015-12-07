@@ -31,9 +31,11 @@ void Boom::update(float frameTime)
 {
 	Entity::update(frameTime);
 
-	if(active) timeOnScreen += frameTime;
+	if(active) {
+		timeOnScreen += frameTime;
+	}
 
-	if (timeOnScreen > BOOM_TIME){
+ 	if (timeOnScreen > BOOM_TIME){
 		setActive(false);
 		setVisible(false);
 		setX(-2*GAME_WIDTH);

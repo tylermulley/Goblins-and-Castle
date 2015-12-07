@@ -99,7 +99,8 @@ void Goblin::senseDistance(int wallX, int level){
 		setFrames(goblinNS::ATTACK_START_FRAME, goblinNS::ATTACK_END_FRAME);		
 		setFrameDelay(goblinNS::GOBLIN_ANIMATION_DELAY);
 	}
-	velocity.x *= level * 0.85;
+	//velocity.x *= level * 0.85;
+	velocity.x *= .85;
 	setFrameDelay(getFrameDelay() / level);
 }
 

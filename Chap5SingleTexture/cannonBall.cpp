@@ -29,45 +29,65 @@ cannonBall::cannonBall() : Entity()
 
 void cannonBall::update(float frameTime){
 	Entity::update(frameTime);
+
+	if(active){
+		edge.bottom = spriteData.y + (spriteData.height * BALL_IMAGE_SCALE);
+		edge.top = spriteData.y;
+		edge.right = spriteData.x + (spriteData.width * BALL_IMAGE_SCALE);
+		edge.left = spriteData.x;
+
+		velocity.y = (velocity.y + (900 * frameTime));
+
+		spriteData.x += velocity.x * frameTime;
+		spriteData.y += velocity.y * frameTime;
+			
+		
+	}
+
 	
 }
 
-bool cannonBall::setBallMovement(D3DXVECTOR3 vec, float frameTime){
-	Entity::update(frameTime);
-
-	edge.bottom = spriteData.y + (spriteData.height * BALL_IMAGE_SCALE);
-	edge.top = spriteData.y;
-	edge.right = spriteData.x + (spriteData.width * BALL_IMAGE_SCALE);
-	edge.left = spriteData.x;
-
-	if(active){
-		
-		if(firstShot){
-			velocity.x = velocity.x * vec.x;
-			velocity.y = velocity.y * vec.y;
-			firstShot = false;
-		}
-
-		// explicit number is gravity
-		velocity.y = (velocity.y + (1000 * frameTime));
-
-		if(spriteData.y + getHeight() * BALL_IMAGE_SCALE <= 610){
-			spriteData.x += velocity.x * frameTime;
-			spriteData.y += velocity.y * frameTime;
-			
-		}
-		else{
-			audio->playCue(BOOM);
-			setActive(false);
-			setVisible(false);
-			
-			firstShot = true;
-			velocity.x = cannonBallNS::SPEED;                           // velocity X 
-			velocity.y = -cannonBallNS::SPEED;
-			return 1;
-		}
-		
-	}
-	return 0;
-
-}
+//void cannonBall::setBallMovement(D3DXVECTOR3 vec, float frameTime){
+//	Entity::update(frameTime);
+//
+//	edge.bottom = spriteData.y + (spriteData.height * BALL_IMAGE_SCALE);
+//	edge.top = spriteData.y;
+//	edge.right = spriteData.x + (spriteData.width * BALL_IMAGE_SCALE);
+//
+//
+//	edge.left = spriteData.x;
+//
+//	//if(active){
+//	//	
+//	//	if(firstShot){
+//	//		velocity.x = velocity.x * vec.x;
+//	//		velocity.y = velocity.y * vec.y;
+//	//		firstShot = false;
+//	//	}
+//	//	
+//	//	if (velocity.y > 0 && velocity.x < 798){
+//	//		int myint = 0;
+//	//	}
+//
+//	//	// explicit number is gravity
+//	//	velocity.y = (velocity.y + (1050 * frameTime));
+//
+//	//	if(spriteData.y + getHeight() * BALL_IMAGE_SCALE <= 610){
+//	//		spriteData.x += velocity.x * frameTime;
+//	//		spriteData.y += velocity.y * frameTime;
+//	//		
+//	//	}
+//	//	else{
+//	//		audio->playCue(BOOM);
+//	//		setActive(false);
+//	//		setVisible(false);
+//	//		firstShot = true;
+//	//		velocity.x = cannonBallNS::SPEED;                           // velocity X 
+//	//		velocity.y = -cannonBallNS::SPEED;
+//	//		return 1;
+//	//	}
+//	//	
+//	//}
+//	return 0;
+//
+//}

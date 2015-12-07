@@ -26,8 +26,8 @@ Spacewar::Spacewar() {
 
 	splashTimer = 0;
 
-	RELOAD_TIME = 1.4;
-	//RELOAD_TIME = .05;
+	//RELOAD_TIME = 1.4;
+	RELOAD_TIME = .05;
 	FULL_HEALTH = 100;
 
 	spawnCount = 0;
@@ -360,12 +360,7 @@ void Spacewar::update()
 				bar.setX(160 + 10 * (1 - cos(bar.getRadians() + (PI / 4))));
 				bar.setY(240 + 7 * sin(bar.getRadians()));
 
-				//if(bar.getRadians() > 0) bar.setY(bar.getY() - (bar.getRadians()));
-				//else bar.setY(bar.getY() + (bar.getRadians()));
-				//if(bar.getRadians() < 0) bar.setX(bar.getX() - bar.getRadians());
-				//else bar.setX(bar.getX() + bar.getRadians());
 			}
-			
 
 		}
 		else if(input->isKeyDown(VK_DOWN)){
@@ -375,11 +370,7 @@ void Spacewar::update()
 
 				bar.setX(160 + 10 * (1 - cos(bar.getRadians() + (PI / 4))));
 				bar.setY(240 + 7 * sin(bar.getRadians()));
-
-				//if(bar.getRadians() > 0) bar.setY(bar.getY() + (bar.getRadians()));
-				//else bar.setY(bar.getY() - (bar.getRadians()));
-				//if(bar.getRadians() < 0) bar.setX(bar.getX() - bar.getRadians());
-				//else bar.setX(bar.getX() + bar.getRadians());
+				
 			}
 
 		}
@@ -393,48 +384,48 @@ void Spacewar::update()
 			reloading[i].setX(RELOADING_IMAGE_STARTING_X + RELOADING_IMAGE_COUNT - (45 - i) * cos(cannon.getRadians()));
 		}
 
-		currentShotX = cannon.getCenterX() + cannonRadius * cos(cannon.getRadians()) - (balls[0].getWidth()*BALL_IMAGE_SCALE)/2;
-		currentShotY = cannon.getCenterY() + cannonRadius * sin(cannon.getRadians()) - (balls[0].getWidth()*BALL_IMAGE_SCALE)/2;
-
-		cannonVector.x = currentShotX - cannon.getCenterX();
-		cannonVector.y = cannon.getCenterY() - currentShotY;
-
-		// particle stuff
-		particleVector.x = currentShotX + particleXOffset;
-		particleVector.y = currentShotY + particleYOffset;
-		particleSpeed = VECTOR2(cannonVector.x,-cannonVector.y);
-
-		D3DXVec3Normalize(&cannonVector , &cannonVector);
-
-		//shoot 
+		// reset balls shot if all balls shot
 		if (ballsShot >= BALL_COUNT){
 				ballsShot = 0;
-		}
+		} 
+
+		//shoot 
 		reloadTimer += frameTime;
 		if(input -> wasKeyPressed(VK_SPACE) && reloadTimer >= RELOAD_TIME && ballsShot < BALL_COUNT && balls[ballsShot].getActive() == false){
+
+			//starting ball position
+			currentShotX = cannon.getCenterX() + cannonRadius * cos(cannon.getRadians()) - (balls[0].getWidth()*BALL_IMAGE_SCALE)/2;
+			currentShotY = cannon.getCenterY() + cannonRadius * sin(cannon.getRadians()) - (balls[0].getWidth()*BALL_IMAGE_SCALE)/2;
+			//angle of the shot
+			cannonVector.x = cos(cannon.getRadians());
+			cannonVector.y = sin(cannon.getRadians()) * 1.25;
+			D3DXVec2Normalize(&cannonVector , &cannonVector);
+
+			// particle stuff
+			particleVector.x = currentShotX + particleXOffset;
+			particleVector.y = currentShotY + particleYOffset;
+			particleSpeed = VECTOR2(cannonVector.x * 300, cannonVector.y * 300);
+
 			audio->playCue(FIRE); 
 			pm.rotateImage(cannon.getRadians());
 			balls[ballsShot].setActive(true);
 			balls[ballsShot].setVisible(true);
 			balls[ballsShot].setX(currentShotX);
 			balls[ballsShot].setY(currentShotY);
+			balls[ballsShot].setVelocity(cannonVector * cannonBallNS::SPEED);
 			createParticleEffect(particleVector, particleSpeed, 50);
 			ballsShot++;
-			reloadTimer = 0;
+ 			reloadTimer = 0;
 			bar.setFrames(reloadBarNS::START_FRAME, reloadBarNS::END_FRAME);
 			bar.setCurrentFrame(reloadBarNS::START_FRAME);
 		}
 
-		//update balls position
-		//v = v-initial + g * t 
-
 		// update projectiles and goblins
 		for(int i = 0; i < BALL_COUNT; i++){
-			if (balls[i].setBallMovement(cannonVector, frameTime)){
-				displayBoom(balls[i].getX() - 40, balls[i].getY() - 60);
-			}	
+			balls[i].update(frameTime);
 			booms[i].update(frameTime);
 		}
+
 		
 		bar.update(frameTime);
 
@@ -509,10 +500,7 @@ void Spacewar::update()
 		}
 
 		
-		
-
-		// arctan(cannonHeightFromGround / gobDistToCastle)
-		//cannon.setRadians(atan(tower.getHeight() * TOWER_IMAGE_SCALE / goblins[0].getDistance(tower.getWidth() + backTower.getWidth())));
+	
 		break;
 
 	case bossFight:
@@ -539,15 +527,15 @@ void Spacewar::update()
 		currentShotX = cannon.getCenterX() + cannonRadius * cos(cannon.getRadians()) - (balls[0].getWidth()*BALL_IMAGE_SCALE)/2;
 		currentShotY = cannon.getCenterY() + cannonRadius * sin(cannon.getRadians()) - (balls[0].getWidth()*BALL_IMAGE_SCALE)/2;
 
-		cannonVector.x = currentShotX - cannon.getCenterX();
-		cannonVector.y = cannon.getCenterY() - currentShotY;
+		cannonVector.x = cos(cannon.getRadians());
+		cannonVector.y = -sin(cannon.getRadians()) * 1.25;
 
 		// particle stuff
 		particleVector.x = currentShotX + particleXOffset;
 		particleVector.y = currentShotY + particleYOffset;
-		particleSpeed = VECTOR2(cannonVector.x,-cannonVector.y);
+		particleSpeed = VECTOR2(cannonVector.x * 300,-cannonVector.y * 300);
 
-		D3DXVec3Normalize(&cannonVector , &cannonVector);
+		D3DXVec2Normalize(&cannonVector , &cannonVector);
 
 		//shoot 
 		if (ballsShot >= BALL_COUNT){
@@ -555,25 +543,42 @@ void Spacewar::update()
 		}
 		reloadTimer += frameTime;
 		if(input -> wasKeyPressed(VK_SPACE) && reloadTimer >= RELOAD_TIME && ballsShot < BALL_COUNT && balls[ballsShot].getActive() == false){
+
+			//starting ball position
+			currentShotX = cannon.getCenterX() + cannonRadius * cos(cannon.getRadians()) - (balls[0].getWidth()*BALL_IMAGE_SCALE)/2;
+			currentShotY = cannon.getCenterY() + cannonRadius * sin(cannon.getRadians()) - (balls[0].getWidth()*BALL_IMAGE_SCALE)/2;
+			//angle of the shot
+			cannonVector.x = cos(cannon.getRadians());
+			cannonVector.y = -sin(cannon.getRadians()) * 1.25;
+			D3DXVec2Normalize(&cannonVector , &cannonVector);
+
+			// particle stuff
+			particleVector.x = currentShotX + particleXOffset;
+			particleVector.y = currentShotY + particleYOffset;
+			particleSpeed = VECTOR2(cannonVector.x * 300,-cannonVector.y * 300);
+
 			audio->playCue(FIRE); 
 			pm.rotateImage(cannon.getRadians());
 			balls[ballsShot].setActive(true);
 			balls[ballsShot].setVisible(true);
 			balls[ballsShot].setX(currentShotX);
 			balls[ballsShot].setY(currentShotY);
+			balls[ballsShot].setVelocity(cannonVector);
 			createParticleEffect(particleVector, particleSpeed, 50);
 			ballsShot++;
-			reloadTimer = 0;
+ 			reloadTimer = 0;
+			bar.setFrames(reloadBarNS::START_FRAME, reloadBarNS::END_FRAME);
+			bar.setCurrentFrame(reloadBarNS::START_FRAME);
 		}
 
 		//update balls position
 		//v = v-initial + g * t 
 
+	
+
 		// update projectiles and goblins
 		for(int i = 0; i < BALL_COUNT; i++){
-			if (balls[i].setBallMovement(cannonVector, frameTime)){
-				displayBoom(balls[i].getX() - 40, balls[i].getY() - 60);
-			}	
+			balls[i].update(frameTime);
 			booms[i].update(frameTime);
 		}
 
@@ -737,6 +742,11 @@ void Spacewar::collisions()
 					score += goblins[j].getX() / SCORE_DIVIDER;
 				}
 			}
+			if(balls[i].getY() + balls[i].getHeight() * BALL_IMAGE_SCALE >= 610 && balls[i].getActive()){
+				displayBoom(balls[i].getX() - 30, balls[i].getY() - 40);
+				balls[i].setActive(false);
+				balls[i].setVisible(false);
+			}
 		}
 	}
 	if(gameStates == bossFight){
@@ -747,6 +757,11 @@ void Spacewar::collisions()
 				score += boss.getX() / SCORE_DIVIDER;
 				displayBoom(balls[i].getX(), balls[i].getY());
 				boss.setHealth(boss.getHealth() - 10);
+				balls[i].setActive(false);
+				balls[i].setVisible(false);
+			} 
+			if(balls[i].getY() + balls[i].getHeight() * BALL_IMAGE_SCALE >= 610 && balls[i].getActive()){
+				displayBoom(balls[i].getX() - 30, balls[i].getY() - 40);
 				balls[i].setActive(false);
 				balls[i].setVisible(false);
 			}

@@ -18,7 +18,7 @@ namespace cannonBallNS
     const int   X = 300; // location on screen
     const int   Y = 300;
     const float MASS = 1.0e14f;         // mass
-	const float SPEED = 875;	
+	const float SPEED = 800;	
     const int   TEXTURE_COLS = 2;       // texture has 2 columns
 	const float BALL_ANIMATION_DELAY = 0.075f;
 	const int   START_FRAME = 0;        // starts at frame 1
