@@ -56,6 +56,9 @@ Spacewar::Spacewar() {
 	timeInBetween = 0;
 	inBetweenCount = 0;
 
+	upgrade1 = 0;
+	upgrade2 = 0;
+	upgrade3 = 0;
 }
 
 //=============================================================================
@@ -199,33 +202,6 @@ void Spacewar::initialize(HWND hwnd)
 	cannon.setScale(CANNON_IMAGE_SCALE);
 	cannonRadius = cannon.getCenterX() - cannon.getX();
 
-	/*
-
-	if (!reloadingTexture.initialize(graphics, RELOADING_IMAGE))
-        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing game textures"));
-
-	for (int i = 0; i < RELOADING_IMAGE_COUNT; i++) {
-		if (!reloading[i].initialize(graphics, 0, 0, 0, &reloadingTexture))
-			throw(GameError(gameErrorNS::FATAL_ERROR, "Health texture initialization failed"));
-		reloading[i].setX(RELOADING_IMAGE_STARTING_X + i);
-		reloading[i].setY(RELOADING_IMAGE_STARTING_Y);
-		reloading[i].setScale(RELOADING_IMAGE_SCALE);
-	}
-
-	if (!reloadBarTexture.initialize(graphics, RELOADING_SHEET))
-        throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing game textures"));
-
-	if (!bar.initialize(this, reloadBarNS::WIDTH, reloadBarNS::HEIGHT, reloadBarNS::TEXTURE_COLS, &reloadBarTexture))
-			throw(GameError(gameErrorNS::FATAL_ERROR, "Health texture initialization failed"));
-	bar.setX(160);
-	bar.setY(240);
-	bar.setScale(RELOADING_IMAGE_SCALE);
-	bar.setFrames(reloadBarNS::END_FRAME, reloadBarNS::END_FRAME);
-	bar.setCurrentFrame(reloadBarNS::END_FRAME);
-	bar.setFrameDelay(RELOAD_TIME/10);
-	*/
-
-
 	if (!poleTexture.initialize(graphics, POLE_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Cannon texture initialization failed"));
 	if (!pole.initialize(graphics, 0,0,0, &poleTexture))
@@ -275,6 +251,7 @@ void createParticleEffect(VECTOR2 pos, VECTOR2 vel, int numParticles){
 void Spacewar::gameStateUpdate()
 {
 	//gameStates = bossFight;
+	//gameStates = store;
 	if (gameStates == startMenu && mainMenu -> getSelectedItem() == 0){
 		resetGame();
 		gameStates = inBetween;
@@ -326,7 +303,6 @@ void Spacewar::gameStateUpdate()
 		gameStates = end;
 	}
 	
-
 	
 }
 //=============================================================================
@@ -369,17 +345,6 @@ void Spacewar::update()
 			}
 
 		}
-
-		// set reload bar angles
-		// int rotationPoint = RELOADING_IMAGE_COUNT - 5;
-		/*
-		for(int i = 0; i < RELOADING_IMAGE_COUNT; i++) {
-			reloading[i].setRadians(cannon.getRadians());
-			// 
-			reloading[i].setY(RELOADING_IMAGE_STARTING_Y - (45 - i) * sin(cannon.getRadians()));
-			reloading[i].setX(RELOADING_IMAGE_STARTING_X + RELOADING_IMAGE_COUNT - (45 - i) * cos(cannon.getRadians()));
-		}
-		*/
 
 		// reset balls shot if all balls shot
 		if (ballsShot >= BALL_COUNT){
@@ -548,13 +513,13 @@ void Spacewar::update()
 			currentShotY = cannon.getCenterY() + cannonRadius * sin(cannon.getRadians()) - (balls[0].getWidth()*BALL_IMAGE_SCALE)/2;
 			//angle of the shot
 			cannonVector.x = cos(cannon.getRadians());
-			cannonVector.y = -sin(cannon.getRadians()) * 1.25;
+			cannonVector.y = sin(cannon.getRadians()) * 1.25;
 			D3DXVec2Normalize(&cannonVector , &cannonVector);
 
 			// particle stuff
 			particleVector.x = currentShotX + particleXOffset;
 			particleVector.y = currentShotY + particleYOffset;
-			particleSpeed = VECTOR2(cannonVector.x * 300,-cannonVector.y * 300);
+			particleSpeed = VECTOR2(cannonVector.x * 300, cannonVector.y * 300);
 
 			audio->playCue(FIRE); 
 			pm.rotateImage(cannon.getRadians());
@@ -562,12 +527,12 @@ void Spacewar::update()
 			balls[ballsShot].setVisible(true);
 			balls[ballsShot].setX(currentShotX);
 			balls[ballsShot].setY(currentShotY);
-			balls[ballsShot].setVelocity(cannonVector);
+			balls[ballsShot].setVelocity(cannonVector * cannonBallNS::SPEED);
 			createParticleEffect(particleVector, particleSpeed, 50);
 			ballsShot++;
 
-			reloadTimer = 0;
-			cannon.setFrames(0, 19);
+ 			reloadTimer = 0;
+ 			cannon.setFrames(0, 19);
 			cannon.setCurrentFrame(0);
 		}	
 
@@ -628,6 +593,7 @@ void Spacewar::update()
 				score -= PRICE;
 				RELOAD_TIME -= RELOAD_UPGRADE;
 				cannon.setFrameDelay(RELOAD_TIME/20);
+				upgrade1++;
 			}
 			break;
 	
@@ -636,6 +602,7 @@ void Spacewar::update()
 				score -= PRICE;
 				FULL_HEALTH += 10;
 				tower.setHealth(FULL_HEALTH);
+				upgrade2++;
 			}
 			break;
 	
@@ -643,9 +610,10 @@ void Spacewar::update()
 			if(score >= PRICE) {
 				score -= PRICE;
 				for(int i = 0; i < BALL_COUNT; i++) booms[i].setBoomRadiusOffset(booms[i].getBoomRadiusOffset() - 10);
-			}
-			for(int i = 0; i < BALL_COUNT; i++){
-				booms[i].setScale(booms[i].getScale() +.01);
+				for(int i = 0; i < BALL_COUNT; i++){
+					booms[i].setScale(booms[i].getScale() +.01);
+				}
+				upgrade3++;
 			}
 			break;
 
@@ -847,7 +815,10 @@ void Spacewar::render()
 		smallFont->print("$" + std::to_string(score), 10, 10);
 		smallFont->setFontColor(graphicsNS::WHITE);
 		highlightFont->print("Press ENTER to buy, ESCAPE to continue.", 230, 485);
-		
+		smallFont->print("[ " + std::to_string(upgrade1) + " ]", 1050, 190);
+		smallFont->print("[ " + std::to_string(upgrade2) + " ]", 1050, 280);
+		smallFont->print("[ " + std::to_string(upgrade3) + " ]", 1050, 370);
+
 		break;
 	case bossFight:
 		tower.draw();
@@ -983,24 +954,3 @@ void Spacewar::resetGame() {
 
 	negPointsTimer = SCORE_POPUP_TIME;
 }
-
-//void Spacewar::lose() {
-//	if (!gameOverTexture.initialize(graphics, GAME_OVER_IMAGE))
-//		throw(GameError(gameErrorNS::FATAL_ERROR, "Game over texture initialization failed"));
-//	if (!gameOver.initialize(graphics, 0,0,0, &gameOverTexture))
-//		throw(GameError(gameErrorNS::FATAL_ERROR, "Error init game over"));
-//	gameOver.setX(0);
-//	gameOver.setY(0);
-//	gameOver.setScale(GAME_OVER_IMAGE_SCALE);
-//}
-//
-//void Spacewar::win() {
-//	if (!winTexture.initialize(graphics, WIN_IMAGE))
-//		throw(GameError(gameErrorNS::FATAL_ERROR, "Game over texture initialization failed"));
-//	if (!winScreen.initialize(graphics, 0,0,0, &winTexture))
-//		throw(GameError(gameErrorNS::FATAL_ERROR, "Error init game over"));
-//	winScreen.setX(0);
-//	winScreen.setY(0);
-//	winScreen.setScale(GAME_OVER_IMAGE_SCALE);
-//	score += boat.getHealth() * 250;
-//}

@@ -131,6 +131,10 @@ private:
 
 	float timeInBetween;
 	int inBetweenCount;
+
+	int upgrade1;
+	int upgrade2;
+	int upgrade3;
 	
 
 public:
