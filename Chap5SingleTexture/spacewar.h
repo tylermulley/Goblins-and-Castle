@@ -136,6 +136,8 @@ private:
 	int upgrade2;
 	int upgrade3;
 	
+	int boomOffSetX;
+	int boomOffSetY;
 
 public:
     // Constructor
