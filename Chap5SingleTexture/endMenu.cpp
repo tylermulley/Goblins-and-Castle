@@ -12,7 +12,7 @@ endMenu::endMenu()
 
 void endMenu::initialize(Graphics *g, Input *i)
 {
-	menuHeading ="GAME OVER";
+	menuHeading ="YOU WIN!";
 	menuItem1 = "Play Again";
 	menuItem2 = "Quit";
 	highlightColor = graphicsNS::RED;
@@ -73,7 +73,7 @@ void endMenu::update()
 
 void endMenu::displayMenu()
 {
-	menuHeadingFont->print(menuHeading, menuAnchor.x + 100, menuAnchor.y);
+	menuHeadingFont->print(menuHeading, menuAnchor.x + 150, menuAnchor.y);
 	int foo = 2*verticalOffset;
 
 	if (linePtr==0)

@@ -726,6 +726,7 @@ void Spacewar::collisions()
 	if(gameStates == bossFight){
 		for(int i = 0; i < BALL_COUNT; i++){
 			if(balls[i].collidesWith(boss, collisionVector)){
+				audio->playCue(BOOM);
 				scorePopups[0].x = boss.getX() + (boss.getWidth() * BOSS_IMAGE_SCALE) / 2;
 				scorePopups[0].timer = frameTime;
 				score += boss.getX() / SCORE_DIVIDER;
