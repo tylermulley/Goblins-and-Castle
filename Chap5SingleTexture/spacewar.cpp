@@ -59,6 +59,9 @@ Spacewar::Spacewar() {
 	upgrade1 = 0;
 	upgrade2 = 0;
 	upgrade3 = 0;
+
+	boomOffSetX = 0;
+	boomOffSetY = 0;
 }
 
 //=============================================================================
@@ -613,9 +616,11 @@ void Spacewar::update()
 				score -= PRICE;
 				for(int i = 0; i < BALL_COUNT; i++) booms[i].setBoomRadiusOffset(booms[i].getBoomRadiusOffset() - 10);
 				for(int i = 0; i < BALL_COUNT; i++){
-					booms[i].setScale(booms[i].getScale() +.01);
+					booms[i].setScale(booms[i].getScale() +.015);
 				}
 				upgrade3++;
+				boomOffSetX -= 4;
+				boomOffSetY -= 4;
 			}
 			break;
 
@@ -920,8 +925,8 @@ void Spacewar::resetAll()
 }
 
 void Spacewar::displayBoom(int x, int y){
-	booms[boomsUsed].setX(x);
-	booms[boomsUsed].setY(y);
+	booms[boomsUsed].setX(x + boomOffSetX - 10);
+	booms[boomsUsed].setY(y + boomOffSetY - 20);
 	booms[boomsUsed].setActive(true);
 	booms[boomsUsed].setVisible(true);
 	boomsUsed++;
