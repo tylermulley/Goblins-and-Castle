@@ -1,89 +1,71 @@
-﻿Build started 12/7/2015 2:43:07 PM.
-     1>Project "C:\Users\MulleyTG1\Documents\GitHub\Goblins-and-Castle\Chap5SingleTexture\Planet.vcxproj" on node 2 (Build target(s)).
-     1>InitializeBuildStatus:
-         Creating "Debug\Planet.unsuccessfulbuild" because "AlwaysCreate" was specified.
-       ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\Include" /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt cannonBall.cpp spacewar.cpp
+﻿Build started 12/7/2015 3:46:48 PM.
+     1>Project "C:\Users\brownde1\Documents\Games 1\Goblins and Castle\Goblins-and-Castle\Chap5SingleTexture\Planet.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\Include" /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt spacewar.cpp
          spacewar.cpp
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\constants.h(33): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\constants.h(34): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\constants.h(35): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\constants.h(39): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(30): warning C4305: '=' : truncation from 'double' to 'float'
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(89): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(130): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(151): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(158): warning C4244: 'argument' : conversion from 'const int' to 'float', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(166): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(187): warning C4308: negative integral constant converted to unsigned type
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(187): warning C4307: '*' : integral constant overflow
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(187): warning C4305: 'argument' : truncation from 'const UINT' to 'float'
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(188): warning C4308: negative integral constant converted to unsigned type
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(188): warning C4307: '*' : integral constant overflow
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(197): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(198): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(206): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(207): warning C4244: 'argument' : conversion from 'const int' to 'float', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(208): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(218): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(230): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(236): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(237): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(303): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(310): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(360): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(371): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(397): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(398): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(401): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(413): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(414): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(434): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(446): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(479): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(483): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(494): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(495): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(527): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(528): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(531): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(548): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(549): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(552): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(564): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(565): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(642): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(652): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(661): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(726): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(728): warning C4244: '+=' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(740): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(742): warning C4244: '+=' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(746): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(755): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(757): warning C4244: '+=' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(758): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(764): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(817): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(822): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(867): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(870): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(891): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(892): warning C4305: '=' : truncation from 'double' to 'float'
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(952): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\spacewar.cpp(953): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-         cannonBall.cpp
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\constants.h(33): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\constants.h(34): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\constants.h(35): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\constants.h(39): warning C4305: 'initializing' : truncation from 'double' to 'const float'
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\cannonball.cpp(34): warning C4244: '=' : conversion from 'double' to 'LONG', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\cannonball.cpp(35): warning C4244: '=' : conversion from 'float' to 'LONG', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\cannonball.cpp(36): warning C4244: '=' : conversion from 'double' to 'LONG', possible loss of data
-     1>c:\users\mulleytg1\documents\github\goblins-and-castle\chap5singletexture\cannonball.cpp(37): warning C4244: '=' : conversion from 'float' to 'LONG', possible loss of data
-         Generating Code...
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\constants.h(33): warning C4305: 'initializing' : truncation from 'double' to 'const float'
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\constants.h(34): warning C4305: 'initializing' : truncation from 'double' to 'const float'
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\constants.h(35): warning C4305: 'initializing' : truncation from 'double' to 'const float'
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\constants.h(39): warning C4305: 'initializing' : truncation from 'double' to 'const float'
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(29): warning C4305: '=' : truncation from 'double' to 'float'
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(89): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(130): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(151): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(158): warning C4244: 'argument' : conversion from 'const int' to 'float', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(166): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(187): warning C4308: negative integral constant converted to unsigned type
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(187): warning C4307: '*' : integral constant overflow
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(187): warning C4305: 'argument' : truncation from 'const UINT' to 'float'
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(188): warning C4308: negative integral constant converted to unsigned type
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(188): warning C4307: '*' : integral constant overflow
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(199): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(200): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(235): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(241): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(242): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(308): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(315): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(394): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(395): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(398): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(410): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(411): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(429): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(445): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(478): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(482): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(493): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(494): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(526): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(527): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(530): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(547): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(548): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(551): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(563): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(564): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(638): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(648): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(657): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(722): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(724): warning C4244: '+=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(736): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(738): warning C4244: '+=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(742): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(751): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(753): warning C4244: '+=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(754): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(760): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(812): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(817): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(861): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(864): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(885): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(886): warning C4305: '=' : truncation from 'double' to 'float'
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(946): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\brownde1\documents\games 1\goblins and castle\goblins-and-castle\chap5singletexture\spacewar.cpp(947): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\MulleyTG1\Documents\GitHub\Goblins-and-Castle\Chap5SingleTexture\Debug\Planet.exe" /NOLOGO /LIBPATH:"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\Lib\x86" d3d9.lib d3dx9.lib winmm.lib xinput.lib xinput.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\MulleyTG1\Documents\GitHub\Goblins-and-Castle\Chap5SingleTexture\Debug\Planet.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\MulleyTG1\Documents\GitHub\Goblins-and-Castle\Chap5SingleTexture\Debug\Planet.lib" /MACHINE:X86 /SAFESEH Debug\audio.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\brownde1\Documents\Games 1\Goblins and Castle\Goblins-and-Castle\Chap5SingleTexture\Debug\Planet.exe" /NOLOGO /LIBPATH:"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\Lib\x86" d3d9.lib d3dx9.lib winmm.lib xinput.lib xinput.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\brownde1\Documents\Games 1\Goblins and Castle\Goblins-and-Castle\Chap5SingleTexture\Debug\Planet.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\brownde1\Documents\Games 1\Goblins and Castle\Goblins-and-Castle\Chap5SingleTexture\Debug\Planet.lib" /MACHINE:X86 /SAFESEH Debug\audio.obj
          Debug\cannonBall.obj
          Debug\endMenu.obj
          Debug\game.obj
@@ -103,12 +85,9 @@
          Debug\textureManager.obj
          Debug\tower.obj
          Debug\winmain.obj
-         Planet.vcxproj -> C:\Users\MulleyTG1\Documents\GitHub\Goblins-and-Castle\Chap5SingleTexture\Debug\Planet.exe
-       FinalizeBuildStatus:
-         Deleting file "Debug\Planet.unsuccessfulbuild".
-         Touching "Debug\Planet.lastbuildstate".
-     1>Done Building Project "C:\Users\MulleyTG1\Documents\GitHub\Goblins-and-Castle\Chap5SingleTexture\Planet.vcxproj" (Build target(s)).
+         Planet.vcxproj -> C:\Users\brownde1\Documents\Games 1\Goblins and Castle\Goblins-and-Castle\Chap5SingleTexture\Debug\Planet.exe
+     1>Done Building Project "C:\Users\brownde1\Documents\Games 1\Goblins and Castle\Goblins-and-Castle\Chap5SingleTexture\Planet.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.67
+Time Elapsed 00:00:02.21

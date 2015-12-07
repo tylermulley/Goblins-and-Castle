@@ -86,8 +86,8 @@ private:
 	TextureManager nukeTexture;
 	Image nuke;
 
-	TextureManager reloadBarTexture;
-	ReloadBar bar;
+	//TextureManager reloadBarTexture;
+	//ReloadBar bar;
 
 	float splashTimer;
 

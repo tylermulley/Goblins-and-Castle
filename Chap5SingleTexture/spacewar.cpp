@@ -26,8 +26,8 @@ Spacewar::Spacewar() {
 
 	splashTimer = 0;
 
-	//RELOAD_TIME = 1.4;
-	RELOAD_TIME = .05;
+	RELOAD_TIME = 1.4;
+	//RELOAD_TIME = .05;
 	FULL_HEALTH = 100;
 
 	spawnCount = 0;
@@ -190,12 +190,16 @@ void Spacewar::initialize(HWND hwnd)
 
 	if (!cannonTexture.initialize(graphics, CANNON_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Cannon texture initialization failed"));
-	if (!cannon.initialize(graphics, 0,0,0, &cannonTexture))
+	if (!cannon.initialize(graphics, 670, 151, 1, &cannonTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error init bkg"));
+	cannon.setCurrentFrame(19);
+	cannon.setFrameDelay(RELOAD_TIME / 20);
 	cannon.setX(90);
 	cannon.setY(230);
 	cannon.setScale(CANNON_IMAGE_SCALE);
 	cannonRadius = cannon.getCenterX() - cannon.getX();
+
+	/*
 
 	if (!reloadingTexture.initialize(graphics, RELOADING_IMAGE))
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing game textures"));
@@ -219,6 +223,7 @@ void Spacewar::initialize(HWND hwnd)
 	bar.setFrames(reloadBarNS::END_FRAME, reloadBarNS::END_FRAME);
 	bar.setCurrentFrame(reloadBarNS::END_FRAME);
 	bar.setFrameDelay(RELOAD_TIME/10);
+	*/
 
 
 	if (!poleTexture.initialize(graphics, POLE_IMAGE))
@@ -355,34 +360,26 @@ void Spacewar::update()
 		if(input->isKeyDown(VK_UP)){
 			if(cannon.getRadians() > -1){
 				cannon.setRadians(cannon.getRadians() - ROATATION_SPEED);
-				bar.setRadians(cannon.getRadians());
-
-				bar.setX(160 + 10 * (1 - cos(bar.getRadians() + (PI / 4))));
-				bar.setY(240 + 7 * sin(bar.getRadians()));
-
 			}
 
 		}
 		else if(input->isKeyDown(VK_DOWN)){
 			if(cannon.getRadians() < 1){
-				cannon.setRadians(cannon.getRadians() + ROATATION_SPEED);
-				bar.setRadians(cannon.getRadians());
-
-				bar.setX(160 + 10 * (1 - cos(bar.getRadians() + (PI / 4))));
-				bar.setY(240 + 7 * sin(bar.getRadians()));
-				
+				cannon.setRadians(cannon.getRadians() + ROATATION_SPEED);				
 			}
 
 		}
 
 		// set reload bar angles
 		// int rotationPoint = RELOADING_IMAGE_COUNT - 5;
+		/*
 		for(int i = 0; i < RELOADING_IMAGE_COUNT; i++) {
 			reloading[i].setRadians(cannon.getRadians());
 			// 
 			reloading[i].setY(RELOADING_IMAGE_STARTING_Y - (45 - i) * sin(cannon.getRadians()));
 			reloading[i].setX(RELOADING_IMAGE_STARTING_X + RELOADING_IMAGE_COUNT - (45 - i) * cos(cannon.getRadians()));
 		}
+		*/
 
 		// reset balls shot if all balls shot
 		if (ballsShot >= BALL_COUNT){
@@ -415,9 +412,10 @@ void Spacewar::update()
 			balls[ballsShot].setVelocity(cannonVector * cannonBallNS::SPEED);
 			createParticleEffect(particleVector, particleSpeed, 50);
 			ballsShot++;
+
  			reloadTimer = 0;
-			bar.setFrames(reloadBarNS::START_FRAME, reloadBarNS::END_FRAME);
-			bar.setCurrentFrame(reloadBarNS::START_FRAME);
+ 			cannon.setFrames(0, 19);
+			cannon.setCurrentFrame(0);
 		}
 
 		// update projectiles and goblins
@@ -426,15 +424,16 @@ void Spacewar::update()
 			booms[i].update(frameTime);
 		}
 
-		
-		bar.update(frameTime);
-
 		for(int i = 0; i < GOBLIN_COUNT; i++){
 			if (goblins[i].getActive()) {
 				goblins[i].senseDistance(tower.getX() + (tower.getWidth() * TOWER_IMAGE_SCALE), level);
 				goblins[i].update(frameTime);
 			}
 		}
+
+		cannon.update(frameTime);
+
+		if(cannon.getCurrentFrame() == 19) cannon.setFrames(19, 19);
 
 		//particle update
 		pm.update(frameTime);
@@ -566,23 +565,17 @@ void Spacewar::update()
 			balls[ballsShot].setVelocity(cannonVector);
 			createParticleEffect(particleVector, particleSpeed, 50);
 			ballsShot++;
- 			reloadTimer = 0;
-			bar.setFrames(reloadBarNS::START_FRAME, reloadBarNS::END_FRAME);
-			bar.setCurrentFrame(reloadBarNS::START_FRAME);
-		}
 
-		//update balls position
-		//v = v-initial + g * t 
-
-	
+			reloadTimer = 0;
+			cannon.setFrames(0, 19);
+			cannon.setCurrentFrame(0);
+		}	
 
 		// update projectiles and goblins
 		for(int i = 0; i < BALL_COUNT; i++){
 			balls[i].update(frameTime);
 			booms[i].update(frameTime);
 		}
-
-		bar.update(frameTime);
 		
 		if(boss.getHealth() > 0){
 			boss.setActive(true);
@@ -593,6 +586,9 @@ void Spacewar::update()
 			boss.setVisible(false);
 		}
 		boss.update(frameTime);
+
+		cannon.update(frameTime);
+		if(cannon.getCurrentFrame() == 19) cannon.setFrames(19, 19);
 
 		if(boss.getX() < 330){
 			boss.setVelocity(VECTOR2(0,0));
@@ -631,7 +627,7 @@ void Spacewar::update()
 			if(score >= PRICE) {
 				score -= PRICE;
 				RELOAD_TIME -= RELOAD_UPGRADE;
-				bar.setFrameDelay(RELOAD_TIME/10);
+				cannon.setFrameDelay(RELOAD_TIME/20);
 			}
 			break;
 	
@@ -808,7 +804,6 @@ void Spacewar::render()
 		pole.draw();
 		backTower.draw();
 		cannon.draw();
-		bar.draw();
 		
 		for(int i = 0; i < GOBLIN_COUNT; i++){
 			goblins[i].draw();
@@ -861,7 +856,6 @@ void Spacewar::render()
 		backTower.draw();
 		cannon.draw();
 		boss.draw();
-		bar.draw();
 
 		if(scorePopups[0].timer > 0 && scorePopups[0].timer < SCORE_POPUP_TIME) {
 			scorePopupFont->print("$" + std::to_string(scorePopups[0].x / SCORE_DIVIDER), scorePopups[0].x + 20, 200 - scorePopups[0].timer * 100);
