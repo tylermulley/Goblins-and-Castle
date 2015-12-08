@@ -222,6 +222,17 @@ void Spacewar::initialize(HWND hwnd)
 	nuke.setScale(NUKE_IMAGE_SCALE);
 	nuke.setVisible(false);
 
+	if (!bossHealthTexture.initialize(graphics, BOSSHEALTH_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Nuke texture initialization failed"));
+	for(int i = 0; i < HEALTH_IMAGE_COUNT; i++){
+		if(!bossHealth[i].initialize(graphics, 0,0,0, &bossHealthTexture))
+			throw(GameError(gameErrorNS::FATAL_ERROR, "Error init nuke"));
+		bossHealth[i].setX(boss.getX() + i);
+		bossHealth[i].setY(boss.getY() - 10);
+		bossHealth[i].setScale(HEALTH_IMAGE_SCALE);
+	
+	}
+
 	if(headingFont->initialize(graphics, 100, true, false, "Segoe Marker") == false)
         throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
 	if(highlightFont->initialize(graphics, 70, true, false, "Segoe Marker") == false)
@@ -253,59 +264,59 @@ void createParticleEffect(VECTOR2 pos, VECTOR2 vel, int numParticles){
 }
 void Spacewar::gameStateUpdate()
 {
-	//gameStates = bossFight;
+	gameStates = bossFight;
 	//gameStates = store;
-	if (gameStates == startMenu && mainMenu -> getSelectedItem() == 0){
-		resetGame();
-		gameStates = inBetween;
-	}
-	if (killCount >= GOBLIN_COUNT) { // reset everything
-		audio->playCue(BOOM);
-		resetGame();
-		if (level == 3) {
-			gameStates = inBetween;
-			inBetweenCount++;
-			timeInBetween = 0;
-			killCount = 0;
-		}
-		else {
-			gameStates = inBetween;
-			inBetweenCount++;
-			timeInBetween = 0;
-			killCount = 0;
-		}
-	}
-	if(gameStates == store) {
-		if(input->isKeyDown(VK_ESCAPE)){
-			level++;
-			gameStates = inBetween;
-			inBetweenCount++;
-			timeInBetween = 0;
-		}
-	}
+	//if (gameStates == startMenu && mainMenu -> getSelectedItem() == 0){
+	//	resetGame();
+	//	gameStates = inBetween;
+	//}
+	//if (killCount >= GOBLIN_COUNT) { // reset everything
+	//	audio->playCue(BOOM);
+	//	resetGame();
+	//	if (level == 3) {
+	//		gameStates = inBetween;
+	//		inBetweenCount++;
+	//		timeInBetween = 0;
+	//		killCount = 0;
+	//	}
+	//	else {
+	//		gameStates = inBetween;
+	//		inBetweenCount++;
+	//		timeInBetween = 0;
+	//		killCount = 0;
+	//	}
+	//}
+	//if(gameStates == store) {
+	//	if(input->isKeyDown(VK_ESCAPE)){
+	//		level++;
+	//		gameStates = inBetween;
+	//		inBetweenCount++;
+	//		timeInBetween = 0;
+	//	}
+	//}
 
-	if(gameStates == inBetween && timeInBetween > 3 && inBetweenCount % 2 == 0 && level == 4){
-		gameStates = bossFight;
-		tower.setHealth(FULL_HEALTH);
-	}
-	else if(gameStates == inBetween && timeInBetween > 3 && inBetweenCount % 2 != 0){
-		gameStates = store;
-	}
-	else if(gameStates == inBetween && timeInBetween > 3 && inBetweenCount % 2 == 0){
-		gameStates = gamePlay;
-		tower.setHealth(FULL_HEALTH);
-	}
+	//if(gameStates == inBetween && timeInBetween > 3 && inBetweenCount % 2 == 0 && level == 4){
+	//	gameStates = bossFight;
+	//	tower.setHealth(FULL_HEALTH);
+	//}
+	//else if(gameStates == inBetween && timeInBetween > 3 && inBetweenCount % 2 != 0){
+	//	gameStates = store;
+	//}
+	//else if(gameStates == inBetween && timeInBetween > 3 && inBetweenCount % 2 == 0){
+	//	gameStates = gamePlay;
+	//	tower.setHealth(FULL_HEALTH);
+	//}
 
-	if(gameStates == gamePlay && tower.getHealth() <= 0) {
-		resetGame();
-		level = 1;
-		currentMenu = -1;
-		gameStates = end;
-	}
-	if(gameStates == bossFight && boss.getHealth() <= 0){
-		level = 1;
-		gameStates = end;
-	}
+	//if(gameStates == gamePlay && tower.getHealth() <= 0) {
+	//	resetGame();
+	//	level = 1;
+	//	currentMenu = -1;
+	//	gameStates = end;
+	//}
+	//if(gameStates == bossFight && boss.getHealth() <= 0){
+	//	level = 1;
+	//	gameStates = end;
+	//}
 	
 	
 }
@@ -486,12 +497,11 @@ void Spacewar::update()
 			}
 		}
 
-		for(int i = 0; i < RELOADING_IMAGE_COUNT; i++) {
-			reloading[i].setRadians(cannon.getRadians());
-			// 
-			reloading[i].setY(RELOADING_IMAGE_STARTING_Y - (45 - i) * sin(cannon.getRadians()));
-			reloading[i].setX(RELOADING_IMAGE_STARTING_X + RELOADING_IMAGE_COUNT - (45 - i) * cos(cannon.getRadians()));
+		for(int i = 0; i < HEALTH_IMAGE_COUNT; i++){
+			bossHealth[i].setX(boss.getX() + 230 + i);
+			bossHealth[i].setY(boss.getY() + 40);
 		}
+
 
 		currentShotX = cannon.getCenterX() + cannonRadius * cos(cannon.getRadians()) - (balls[0].getWidth()*BALL_IMAGE_SCALE)/2;
 		currentShotY = cannon.getCenterY() + cannonRadius * sin(cannon.getRadians()) - (balls[0].getWidth()*BALL_IMAGE_SCALE)/2;
@@ -731,7 +741,7 @@ void Spacewar::collisions()
 				scorePopups[0].timer = frameTime;
 				score += boss.getX() / SCORE_DIVIDER;
 				displayBoom(balls[i].getX(), balls[i].getY());
-				boss.setHealth(boss.getHealth() - 10);
+				boss.setHealth(boss.getHealth() - 20);
 				balls[i].setActive(false);
 				balls[i].setVisible(false);
 			} 
@@ -839,6 +849,9 @@ void Spacewar::render()
 		backTower.draw();
 		cannon.draw();
 		boss.draw();
+		for(int i = 0; i < boss.getHealth(); i++){
+			bossHealth[i].draw();
+		}
 
 		if(scorePopups[0].timer > 0 && scorePopups[0].timer < SCORE_POPUP_TIME) {
 			scorePopupFont->print("$" + std::to_string(scorePopups[0].x / SCORE_DIVIDER), scorePopups[0].x + 20, 200 - scorePopups[0].timer * 100);

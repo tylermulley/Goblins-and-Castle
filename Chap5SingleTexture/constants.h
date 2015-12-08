@@ -39,8 +39,8 @@ const int PRICE = 150;
 const float RELOAD_UPGRADE = 0.06;
 const int ARMOR_UPGRADE = 40;
 const int BLAST_UPGRADE = 2;
-const int RELOADING_IMAGE_COUNT = 50;
-const int BOSS_HP = 100;
+const int HEALTH_IMAGE_COUNT = 200;
+const int BOSS_HP = 200;
 
 const int RELOADING_IMAGE_STARTING_X = 158;
 const int RELOADING_IMAGE_STARTING_Y = 240;
@@ -62,7 +62,7 @@ const char CANNON_IMAGE[] = "pictures\\launcher2anim.png";
 const char POLE_IMAGE[] = "pictures\\pole.png";
 const char CANNONBALL_SHEET[] = "pictures\\cannonball.png";
 const char BOOM_SHEET[] = "pictures\\boom_sheet.png";
-// const char RELOADING_IMAGE[] = "pictures\\health.png";
+const char BOSSHEALTH_IMAGE[] = "pictures\\health.png";
 // const char RELOADING_SHEET[] = "pictures\\reload_bar.png";
 const char NUKE_IMAGE[] = "pictures\\bomb_2.png";
 const char SPLASH_IMAGE[] = "pictures\\poster.png";
@@ -115,7 +115,7 @@ const UCHAR ENTER_KEY    = VK_RETURN;   // Enter key
 #define TOWER_IMAGE_SCALE 1.5
 #define TOWER_BACK_SCALE 1.7
 #define CANNON_IMAGE_SCALE 0.33
-#define RELOADING_IMAGE_SCALE 0.33
+#define HEALTH_IMAGE_SCALE 0.5
 #define POLE_IMAGE_SCALE 0.6
 #define BALL_IMAGE_SCALE .15
 #define BOOM_IMAGE_SCALE .25

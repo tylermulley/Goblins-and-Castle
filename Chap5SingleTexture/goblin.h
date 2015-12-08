@@ -19,7 +19,7 @@ namespace goblinNS
     const int   Y = 495;
     const float MASS = 1.0e14f;         // mass
 	const float SPEED = 140;	
-	const float BOSS_SPEED = 40;
+	const float BOSS_SPEED = 100;
     const int   TEXTURE_COLS = 17;       // texture has 2 columns
     const int   WALK_START_FRAME = 57;        // starts at frame 1
     const int   WALK_END_FRAME = 51;          // no animation

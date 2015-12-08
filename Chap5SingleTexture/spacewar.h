@@ -62,8 +62,8 @@ private:
 	TextureManager cannonTexture;
 	Image cannon;
 
-	TextureManager reloadingTexture;
-	Image reloading[50];
+	TextureManager bossHealthTexture;
+	Image bossHealth[HEALTH_IMAGE_COUNT];
 
 	TextureManager tower100Texture;
 	TextureManager tower80Texture;
