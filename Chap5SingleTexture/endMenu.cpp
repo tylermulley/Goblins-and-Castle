@@ -12,7 +12,7 @@ endMenu::endMenu()
 
 void endMenu::initialize(Graphics *g, Input *i)
 {
-	menuHeading ="YOU WIN!";
+	menuHeading ="Game Over";
 	menuItem1 = "Play Again";
 	menuItem2 = "Quit";
 	highlightColor = graphicsNS::RED;
@@ -20,7 +20,7 @@ void endMenu::initialize(Graphics *g, Input *i)
 	menuAnchor = D3DXVECTOR2(360,50);
 	itemsMid = 580;
 	input = i;
-	verticalOffset = 100;
+	verticalOffset = 80;
 	linePtr = 0;
 	selectedItem = -1;
 	graphics = g;

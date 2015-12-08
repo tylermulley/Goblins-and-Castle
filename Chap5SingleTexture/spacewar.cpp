@@ -264,59 +264,60 @@ void createParticleEffect(VECTOR2 pos, VECTOR2 vel, int numParticles){
 }
 void Spacewar::gameStateUpdate()
 {
-	gameStates = bossFight;
+	//gameStates = bossFight;
 	//gameStates = store;
-	//if (gameStates == startMenu && mainMenu -> getSelectedItem() == 0){
-	//	resetGame();
-	//	gameStates = inBetween;
-	//}
-	//if (killCount >= GOBLIN_COUNT) { // reset everything
-	//	audio->playCue(BOOM);
-	//	resetGame();
-	//	if (level == 3) {
-	//		gameStates = inBetween;
-	//		inBetweenCount++;
-	//		timeInBetween = 0;
-	//		killCount = 0;
-	//	}
-	//	else {
-	//		gameStates = inBetween;
-	//		inBetweenCount++;
-	//		timeInBetween = 0;
-	//		killCount = 0;
-	//	}
-	//}
-	//if(gameStates == store) {
-	//	if(input->isKeyDown(VK_ESCAPE)){
-	//		level++;
-	//		gameStates = inBetween;
-	//		inBetweenCount++;
-	//		timeInBetween = 0;
-	//	}
-	//}
+	if (gameStates == startMenu && mainMenu -> getSelectedItem() == 0){
+		resetGame();
+		gameStates = inBetween;
+	}
+	if (gameStates == gamePlay && killCount >= GOBLIN_COUNT) { // reset everything
+		audio->playCue(BOOM);
+		resetGame();
+		if (level == 3) {
+			gameStates = inBetween;
+			inBetweenCount++;
+			timeInBetween = 0;
+			killCount = 0;
+		}
+		else {
+			gameStates = inBetween;
+			inBetweenCount++;
+			timeInBetween = 0;
+			killCount = 0;
+		}
+	}
+	if(gameStates == store) {
+		if(input->isKeyDown(VK_ESCAPE)){
+			level++;
+			gameStates = inBetween;
+			inBetweenCount++;
+			timeInBetween = 0;
+		}
+	}
 
-	//if(gameStates == inBetween && timeInBetween > 3 && inBetweenCount % 2 == 0 && level == 4){
-	//	gameStates = bossFight;
-	//	tower.setHealth(FULL_HEALTH);
-	//}
-	//else if(gameStates == inBetween && timeInBetween > 3 && inBetweenCount % 2 != 0){
-	//	gameStates = store;
-	//}
-	//else if(gameStates == inBetween && timeInBetween > 3 && inBetweenCount % 2 == 0){
-	//	gameStates = gamePlay;
-	//	tower.setHealth(FULL_HEALTH);
-	//}
+	if(gameStates == inBetween && timeInBetween > 3 && inBetweenCount % 2 == 0 && level == 4){
+		gameStates = bossFight;
+		tower.setHealth(FULL_HEALTH);
+	}
+	else if(gameStates == inBetween && timeInBetween > 3 && inBetweenCount % 2 != 0){
+		gameStates = store;
+	}
+	else if(gameStates == inBetween && timeInBetween > 3 && inBetweenCount % 2 == 0){
+		gameStates = gamePlay;
+		tower.setHealth(FULL_HEALTH);
+	}
 
-	//if(gameStates == gamePlay && tower.getHealth() <= 0) {
-	//	resetGame();
-	//	level = 1;
-	//	currentMenu = -1;
-	//	gameStates = end;
-	//}
-	//if(gameStates == bossFight && boss.getHealth() <= 0){
-	//	level = 1;
-	//	gameStates = end;
-	//}
+	if((gameStates == gamePlay || gameStates == bossFight) && tower.getHealth() <= 0) {
+		resetGame();
+		level = 1;
+		currentMenu = -1;
+		gameStates = end;
+	}
+	if(gameStates == bossFight && boss.getHealth() <= 0 && killCount >= GOBLIN_COUNT){
+		resetGame();
+		level = 1;
+		gameStates = end;
+	}
 	
 	
 }
@@ -567,6 +568,13 @@ void Spacewar::update()
 		}
 		boss.update(frameTime);
 
+		for(int i = 0; i < GOBLIN_COUNT; i++){
+			if (goblins[i].getActive()) {
+				goblins[i].senseDistance(tower.getX() + (tower.getWidth() * TOWER_IMAGE_SCALE), level);
+				goblins[i].update(frameTime);
+			}
+		}
+
 		cannon.update(frameTime);
 		if(cannon.getCurrentFrame() == 19) cannon.setFrames(19, 19);
 
@@ -578,6 +586,16 @@ void Spacewar::update()
 		//particle update
 		pm.update(frameTime);
 
+		spawn = rand() % 150;
+
+		goblinTimer += frameTime;
+		if(spawn == 0 && goblinTimer >= MIN_GOBLIN_TIME && spawnCount < GOBLIN_COUNT){
+			goblins[spawnCount].setX(GAME_WIDTH);
+			goblins[spawnCount].setActive(true);
+			goblins[spawnCount].setVisible(true);
+			spawnCount += 1;
+			goblinTimer = 0;
+		}
 	
 		if(tower.getHealth() <= FULL_HEALTH * 0.2) tower.setTextureManager(&tower20Texture);
 		else if(tower.getHealth() <= FULL_HEALTH * 0.4) tower.setTextureManager(&tower40Texture);
@@ -697,7 +715,7 @@ void Spacewar::collisions()
 		else boss.setAttackedThisLoop(false);
 	}
 
-	if(gameStates == gamePlay){
+	if(gameStates == gamePlay || gameStates == bossFight){
 		for(int i = 0; i < BALL_COUNT; i++){
 			for(int j = 0; j < GOBLIN_COUNT; j++){
  				if(balls[i].collidesWith(goblins[j], collisionVector)){
@@ -848,15 +866,21 @@ void Spacewar::render()
 		pole.draw();
 		backTower.draw();
 		cannon.draw();
+
+		for(int i = 0; i < GOBLIN_COUNT; i++){
+			goblins[i].draw();
+
+			if(scorePopups[i].timer > 0 && scorePopups[i].timer < SCORE_POPUP_TIME) {
+				scorePopupFont->print("$" + std::to_string(scorePopups[i].x / SCORE_DIVIDER), scorePopups[i].x + 20, 500 - scorePopups[i].timer * 100);
+				scorePopups[i].timer += frameTime;
+			}
+		}
+
 		boss.draw();
 		for(int i = 0; i < boss.getHealth(); i++){
 			bossHealth[i].draw();
 		}
 
-		if(scorePopups[0].timer > 0 && scorePopups[0].timer < SCORE_POPUP_TIME) {
-			scorePopupFont->print("$" + std::to_string(scorePopups[0].x / SCORE_DIVIDER), scorePopups[0].x + 20, 200 - scorePopups[0].timer * 100);
-			scorePopups[0].timer += frameTime;
-		}
 		if(negPointsTimer < SCORE_POPUP_TIME) negPointsFont->print("-$" + std::to_string(pointsJustLost), 410, 500 - negPointsTimer * 100);
 		
 		nuke.draw();
@@ -888,7 +912,10 @@ void Spacewar::render()
 		}
 
 		if(tower.getHealth() <= 0) headingFont->print("You Died", 560, 450);
-		else headingFont->print("Score: " + std::to_string(score), 525, 450);
+		else {
+			headingFont->print("You Win!!!!", 555, 360);
+			headingFont->print("Score: " + std::to_string(score), 550, 480);
+		}
 		
 		break;
 	}
