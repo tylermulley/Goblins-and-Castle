@@ -106,6 +106,8 @@ void Game::initialize(HWND hw)
     // throws GameError
     graphics->initialize(hwnd, GAME_WIDTH, GAME_HEIGHT, FULLSCREEN);
 
+	ShowCursor(FALSE);
+
     // initialize input, do not capture mouse
     input->initialize(hwnd, false);             // throws GameError
 
