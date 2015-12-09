@@ -104,6 +104,23 @@ void Spacewar::initialize(HWND hwnd)
 	bkg.setY(0);
 	bkg.setScale(BKG_IMAGE_SCALE);
 
+	srand(10);
+	if (!cloudTexture.initialize(graphics, CLOUD_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Bkg texture initialization failed"));
+	for(int i = 0; i < CLOUD_COUNT; i++){
+		if (!clouds[i].initialize(graphics, 0, 0, 0, &cloudTexture))
+			throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing jpo"));
+		clouds[i].setScale(CLOUD_IMAGE_SCALE);
+		int offset = (rand() % 1000);
+		clouds[i].setX(GAME_WIDTH + offset);
+	}
+
+	srand(4);
+	for(int i = 0; i < CLOUD_COUNT; i++){
+		int offset = rand() % 100;
+		clouds[i].setY(150 - offset);
+	}
+
 	if (!splashTexture.initialize(graphics, SPLASH_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Splash texture initialization failed"));
 	if (!splash.initialize(graphics, 0,0,0, &splashTexture))
@@ -399,6 +416,16 @@ void Spacewar::update()
 			cannon.setCurrentFrame(0);
 		}
 
+		for(int i = 0; i < CLOUD_COUNT; i++){
+			clouds[i].setX(clouds[i].getX() - .5);
+			if (clouds[i].getX() < -(clouds[i].getWidth() * CLOUD_IMAGE_SCALE)){
+				int offset = (rand() % 1000);
+				int offset2 = (rand() % 100);
+				clouds[i].setX(GAME_WIDTH + offset);
+				clouds[i].setY(150 - offset2);
+			}
+		}
+
 		// update projectiles and goblins
 		for(int i = 0; i < BALL_COUNT; i++){
 			balls[i].update(frameTime);
@@ -551,6 +578,16 @@ void Spacewar::update()
  			cannon.setFrames(0, 19);
 			cannon.setCurrentFrame(0);
 		}	
+
+		for(int i = 0; i < CLOUD_COUNT; i++){
+			clouds[i].setX(clouds[i].getX() - .5);
+			if (clouds[i].getX() < -(clouds[i].getWidth() * CLOUD_IMAGE_SCALE)){
+				int offset = (rand() % 1000);
+				int offset2 = (rand() % 100);
+				clouds[i].setX(GAME_WIDTH + offset);
+				clouds[i].setY(150 - offset2);
+			}
+		}
 
 		// update projectiles and goblins
 		for(int i = 0; i < BALL_COUNT; i++){
@@ -782,7 +819,7 @@ void Spacewar::render()
 {
 	graphics->spriteBegin(); 
 	bkg.draw();
-
+	
 	switch(gameStates){
 	case startMenu:
 		if (currentMenu < 0) mainMenu -> displayMenu();
@@ -807,6 +844,9 @@ void Spacewar::render()
 		}
 		break;
 	case gamePlay:
+		for(int i = 0; i < CLOUD_COUNT; i++){
+			clouds[i].draw();
+		}
 		tower.draw();
 		smallFont->print("Level: "  + std::to_string(level), 1200, 10);
 		pole.draw();
@@ -861,6 +901,9 @@ void Spacewar::render()
 
 		break;
 	case bossFight:
+		for(int i = 0; i < CLOUD_COUNT; i++){
+			clouds[i].draw();
+		}
 		tower.draw();
 		smallFont->print("Level: BOSS", 1150, 10);
 		pole.draw();

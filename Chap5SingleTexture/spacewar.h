@@ -53,6 +53,9 @@ private:
 	TextureManager bkgTexture;
 	Image bkg;
 
+	TextureManager cloudTexture;
+	Image clouds[CLOUD_COUNT];
+
 	TextureManager splashTexture;
 	Image splash;
 

@@ -41,6 +41,7 @@ const int ARMOR_UPGRADE = 40;
 const int BLAST_UPGRADE = 2;
 const int HEALTH_IMAGE_COUNT = 200;
 const int BOSS_HP = 200;
+const int CLOUD_COUNT = 10;
 
 const int RELOADING_IMAGE_STARTING_X = 158;
 const int RELOADING_IMAGE_STARTING_Y = 240;
@@ -67,6 +68,8 @@ const char BOSSHEALTH_IMAGE[] = "pictures\\health.png";
 const char NUKE_IMAGE[] = "pictures\\bomb_2.png";
 const char SPLASH_IMAGE[] = "pictures\\poster.png";
 const char FLAMES_IMAGE[] = "pictures\\flames.png";
+const char CLOUD_IMAGE[] = "pictures\\cloud.png";
+
 
    // time between frames of ship animation
 
@@ -122,6 +125,7 @@ const UCHAR ENTER_KEY    = VK_RETURN;   // Enter key
 #define NUKE_IMAGE_SCALE 0.5
 #define NUKE_BOOM_IMAGE_SCALE 1.9
 #define SPLASH_IMAGE_SCALE 0.75
+#define CLOUD_IMAGE_SCALE 0.025
 
 //states
 enum GameStates {startMenu, dirMenu, credMenu, gamePlay, store, end, bossFight, inBetween};
