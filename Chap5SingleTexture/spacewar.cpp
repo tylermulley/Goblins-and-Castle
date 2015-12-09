@@ -900,6 +900,21 @@ void Spacewar::render()
 		if (lastMenu->getSelectedItem() < 0) lastMenu -> displayMenu();
 		else if (lastMenu->getSelectedItem() == 0){
 			resetGame();
+
+			upgrade1 = 0;
+			upgrade2 = 0;
+			upgrade3 = 0;
+			boomOffSetX = 0;
+			boomOffSetY = 0;
+
+			inBetweenCount = 0;
+
+			boss.setX(GAME_WIDTH);
+			boss.setY(133);
+			boss.setFrames(goblinNS::WALK_START_FRAME, goblinNS::WALK_END_FRAME);
+			boss.setCurrentFrame(goblinNS::WALK_START_FRAME);
+			boss.setHealth(BOSS_HP);
+
 			gameStates = gamePlay;
 			score = 0;  // reset this late so we can show score on end screen
 			tower.setHealth(FULL_HEALTH); // same ^^
@@ -1006,10 +1021,5 @@ void Spacewar::resetGame() {
 
 	negPointsTimer = SCORE_POPUP_TIME;
 
-	upgrade1 = 0;
-	upgrade2 = 0;
-	upgrade3 = 0;
-
-	boomOffSetX = 0;
-	boomOffSetY = 0;
+	
 }
