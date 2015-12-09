@@ -1,4 +1,4 @@
-﻿Build started 12/9/2015 10:46:04 AM.
+﻿Build started 12/9/2015 10:48:50 AM.
      1>Project "C:\Users\MulleyTG1\Documents\GitHub\Goblins-and-Castle\Chap5SingleTexture\Planet.vcxproj" on node 2 (Build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\Planet.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -108,4 +108,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.88
+Time Elapsed 00:00:01.79

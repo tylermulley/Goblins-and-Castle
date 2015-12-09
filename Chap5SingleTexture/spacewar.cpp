@@ -877,11 +877,11 @@ void Spacewar::render()
 
 		break;
 	case inBetween:
-		if (inBetweenCount == 0) headingFont->print("Level " + std::to_string(level), 550, 275);
+		if (inBetweenCount == 0) headingFont->print("Level " + std::to_string(level) + " of 4", 500, 275);
 		if (inBetweenCount == 1) headingFont->print("Level " + std::to_string(level) + " Cleared", 450, 275);
-		if (inBetweenCount == 2) headingFont->print("Level " + std::to_string(level), 550, 275);
+		if (inBetweenCount == 2) headingFont->print("Level " + std::to_string(level) + " of 4", 500, 275);
 		if (inBetweenCount == 3) headingFont->print("Level " + std::to_string(level) + " Cleared", 450, 275);
-		if (inBetweenCount == 4) headingFont->print("Level " + std::to_string(level), 550, 275);
+		if (inBetweenCount == 4) headingFont->print("Level " + std::to_string(level) + " of 4", 500, 275);
 		if (inBetweenCount == 5) headingFont->print("Level " + std::to_string(level) + " Cleared", 450, 275);
 		if (inBetweenCount == 6) headingFont->print("Boss Level", 550, 275);
 		if (inBetweenCount == 7) headingFont->print("Boss Level Cleared", 450, 275);
