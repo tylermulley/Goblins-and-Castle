@@ -26,7 +26,6 @@ private:
    Input   *input;         // pointer to the input system
    Graphics *graphics;
    int selectedItem;
-   std::string menuHeading;
    std::string menuItem1;
    std::string menuItem2;
    std::string menuItem3;
@@ -49,6 +48,7 @@ public:
 	int getSelectedItem() {return selectedItem;}
 	void setSelectedItem(int s) {selectedItem = s;}
 	void displayMenu();
+	std::string menuHeading;
 	
 };
 #endif

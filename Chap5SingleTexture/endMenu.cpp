@@ -77,14 +77,15 @@ void endMenu::displayMenu()
 	int foo = 2*verticalOffset;
 
 	if (linePtr==0)
-		menuItemFontHighlight->print(menuItem1, itemsMid + 10, menuAnchor.y + foo - 10);
+		menuItemFontHighlight->print(menuItem1, itemsMid, menuAnchor.y + foo + 10);
 	else
-		menuItemFont->print(menuItem1, itemsMid + 40, menuAnchor.y+foo);
+		menuItemFont->print(menuItem1, itemsMid + 30, menuAnchor.y+foo + 20);
 	foo = 3*verticalOffset;
 	if (linePtr==1)
-		menuItemFontHighlight->print(menuItem2, itemsMid + 70, menuAnchor.y+foo - 15);
+		menuItemFontHighlight->print(menuItem2, itemsMid + 60, menuAnchor.y+foo + 40);
 	else
-		menuItemFont->print(menuItem2, itemsMid + 80, menuAnchor.y+foo);
+		menuItemFont->print(menuItem2, itemsMid + 70, menuAnchor.y+foo + 50);
 	
 }
+
 

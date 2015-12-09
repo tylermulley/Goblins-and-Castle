@@ -265,7 +265,7 @@ void createParticleEffect(VECTOR2 pos, VECTOR2 vel, int numParticles){
 void Spacewar::gameStateUpdate()
 {
 	//gameStates = bossFight;
-	//gameStates = store;
+	//gameStates = end;
 	if (gameStates == startMenu && mainMenu -> getSelectedItem() == 0){
 		resetGame();
 		gameStates = inBetween;
@@ -911,10 +911,10 @@ void Spacewar::render()
 			PostQuitMessage(0);
 		}
 
-		if(tower.getHealth() <= 0) headingFont->print("You Died", 560, 450);
+		if(tower.getHealth() <= 0) lastMenu -> menuHeading = "You Died!";
 		else {
-			headingFont->print("You Win!!!!", 555, 360);
-			headingFont->print("Score: " + std::to_string(score), 550, 480);
+			lastMenu -> menuHeading = "You Win!";
+			headingFont->print("Score: " + std::to_string(score), 520, 450);
 		}
 		
 		break;
