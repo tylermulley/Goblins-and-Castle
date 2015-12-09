@@ -327,7 +327,7 @@ void Spacewar::gameStateUpdate()
 
 	if((gameStates == gamePlay || gameStates == bossFight) && tower.getHealth() <= 0) {
 		resetGame();
-		audio->playCue(FAILURE);
+  		audio->playCue(FAILURE);
 		level = 1;
 		currentMenu = -1;
 		gameStates = end;
@@ -601,7 +601,7 @@ void Spacewar::update()
 		}
 
 		// update projectiles and goblins
-		for(int i = 0; i < BALL_COUNT; i++){
+ 		for(int i = 0; i < BALL_COUNT; i++){
 			balls[i].update(frameTime);
 			booms[i].update(frameTime);
 		}
@@ -978,6 +978,7 @@ void Spacewar::render()
 			boss.setFrames(goblinNS::WALK_START_FRAME, goblinNS::WALK_END_FRAME);
 			boss.setCurrentFrame(goblinNS::WALK_START_FRAME);
 			boss.setHealth(BOSS_HP);
+			boss.setVelocity(VECTOR2(-goblinNS::BOSS_SPEED,0));
 
 			gameStates = gamePlay;
 			score = 0;  // reset this late so we can show score on end screen
