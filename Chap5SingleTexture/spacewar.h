@@ -103,6 +103,7 @@ private:
 	int boomsUsed;
 
 	float reloadTimer;
+	bool reloadSoundPlayed;
 	float goblinTimer;
 
 	ScorePopup scorePopups[GOBLIN_COUNT];

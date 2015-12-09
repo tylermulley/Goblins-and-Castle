@@ -82,6 +82,11 @@ const char WAVE_BANK[]  = "audio\\Win\\Wave Bank.xwb";
 const char SOUND_BANK[] = "audio\\Win\\Sound Bank.xsb";
 
 // audio cues
+const char VICTORY[] = "victory";
+const char FAILURE[] = "failure";
+const char SWORD1[] = "sword1";
+const char SWORD2[] = "sword2";
+const char RELOAD[] = "reload";
 const char GROWL[] = "growl";
 const char BOOM[] = "boom";
 const char FIRE[] = "Tank";

@@ -38,6 +38,7 @@ Spacewar::Spacewar() {
 	cannonRadius = 0;
 	boomsUsed = 0;
 	reloadTimer = RELOAD_TIME;
+	reloadSoundPlayed = false;
 	goblinTimer = MIN_GOBLIN_TIME;
 
 	score = 0;
@@ -326,11 +327,13 @@ void Spacewar::gameStateUpdate()
 
 	if((gameStates == gamePlay || gameStates == bossFight) && tower.getHealth() <= 0) {
 		resetGame();
+		audio->playCue(FAILURE);
 		level = 1;
 		currentMenu = -1;
 		gameStates = end;
 	}
 	if(gameStates == bossFight && boss.getHealth() <= 0 && killCount >= GOBLIN_COUNT){
+		audio->playCue(VICTORY);
 		resetGame();
 		level = 1;
 		gameStates = end;
@@ -414,6 +417,7 @@ void Spacewar::update()
  			reloadTimer = 0;
  			cannon.setFrames(0, 19);
 			cannon.setCurrentFrame(0);
+			reloadSoundPlayed = false;
 		}
 
 		for(int i = 0; i < CLOUD_COUNT; i++){
@@ -440,6 +444,11 @@ void Spacewar::update()
 		}
 
 		cannon.update(frameTime);
+
+		if(cannon.getCurrentFrame() == 15 && !reloadSoundPlayed) {
+			audio->playCue(RELOAD);
+			reloadSoundPlayed = true;
+		}
 
 		if(cannon.getCurrentFrame() == 19) cannon.setFrames(19, 19);
 
@@ -577,6 +586,8 @@ void Spacewar::update()
  			reloadTimer = 0;
  			cannon.setFrames(0, 19);
 			cannon.setCurrentFrame(0);
+
+			reloadSoundPlayed = false;
 		}	
 
 		for(int i = 0; i < CLOUD_COUNT; i++){
@@ -613,6 +624,12 @@ void Spacewar::update()
 		}
 
 		cannon.update(frameTime);
+
+		if(cannon.getCurrentFrame() == 15 && !reloadSoundPlayed) {
+			audio->playCue(RELOAD);
+			reloadSoundPlayed = true;
+		}
+
 		if(cannon.getCurrentFrame() == 19) cannon.setFrames(19, 19);
 
 		if(boss.getX() < 330){
@@ -732,6 +749,8 @@ void Spacewar::collisions()
 		// not technically a collision, but remove castle health once per goblin attack loop
 		if(goblins[i].getActive() && goblins[i].getX() < GAME_WIDTH && goblins[i].getCurrentFrame() == 64) {
 			if (!goblins[i].wasAttackedThisLoop()) {
+				if(rand() % 2) audio->playCue(SWORD1);
+				else audio->playCue(SWORD2);
  				tower.setHealth(tower.getHealth() - 5);
 				pointsToLose += 10;
 				goblins[i].setAttackedThisLoop(true);
@@ -944,6 +963,8 @@ void Spacewar::render()
 		else if (lastMenu->getSelectedItem() == 0){
 			resetGame();
 
+			audio->stopCue(VICTORY);
+
 			upgrade1 = 0;
 			upgrade2 = 0;
 			upgrade3 = 0;
@@ -969,7 +990,9 @@ void Spacewar::render()
 			PostQuitMessage(0);
 		}
 
-		if(tower.getHealth() <= 0) lastMenu -> menuHeading = "You Died!";
+		if(tower.getHealth() <= 0) {
+			lastMenu -> menuHeading = "You Died!";
+		}
 		else {
 			lastMenu -> menuHeading = "You Win!";
 			headingFont->print("Score: " + std::to_string(score), 520, 450);
