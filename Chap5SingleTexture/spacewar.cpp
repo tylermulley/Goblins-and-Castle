@@ -848,7 +848,7 @@ void Spacewar::render()
 			clouds[i].draw();
 		}
 		tower.draw();
-		smallFont->print("Level: "  + std::to_string(level), 1200, 10);
+		smallFont->print("Level: "  + std::to_string(level) + " of 4", 1150, 10);
 		pole.draw();
 		backTower.draw();
 		cannon.draw();
