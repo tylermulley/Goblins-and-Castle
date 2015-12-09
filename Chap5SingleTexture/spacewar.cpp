@@ -1005,4 +1005,11 @@ void Spacewar::resetGame() {
 	cannon.setDegrees(0);
 
 	negPointsTimer = SCORE_POPUP_TIME;
+
+	upgrade1 = 0;
+	upgrade2 = 0;
+	upgrade3 = 0;
+
+	boomOffSetX = 0;
+	boomOffSetY = 0;
 }

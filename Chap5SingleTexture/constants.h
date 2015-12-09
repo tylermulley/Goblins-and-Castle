@@ -86,8 +86,8 @@ const char BEEP[] = "beep1";
 const char BKG_MUSIC[] = "bkg";
 
 // window
-const char CLASS_NAME[] = "Spacewar";
-const char GAME_TITLE[] = "Spacewar";
+const char CLASS_NAME[] = "BOMBIN' GOBLINS";
+const char GAME_TITLE[] = "BOMBIN' GOBLINS";
 const bool FULLSCREEN = false;              // windowed or fullscreen
 const UINT GAME_WIDTH =  1366;               // width of game in pixels
 const UINT GAME_HEIGHT = 768;               // height of game in pixels
